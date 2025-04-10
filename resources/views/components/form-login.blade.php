@@ -1,4 +1,4 @@
- <div class="flex flex-col justify-center px-6 py-12 lg:px-8 bg-white w-1/3 rounded-xl shadow-lg">
+ <div class="flex flex-col justify-center px-6 py-12 lg:px-8 bg-white  w-5/6 sm:w-1/2 md:w-2/3 lg:w-1/3 rounded-xl shadow-lg">
      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
          <img class="mx-auto h-24 w-auto" src={{ asset('images/logo-lldikti.jpg') }} alt="Your Company">
          <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
