@@ -9,15 +9,15 @@
     @vite('resources/js/app.js')
 </head>
 
-<body class="h-full bg-[#D9EAFD] flex items-center justify-center">
-    <div class="flex flex-row">
-        <div class="flex justify-start">
-            @include('components.nav')
+<body class="h-full bg-[#D9EAFD]">
 
-        </div>
-        @yield('content')
+    <div class="position-fixed top-0 left-0">
+        @include('components.nav')
 
     </div>
+    @yield('content')
+
+
 </body>
 
 </html>
