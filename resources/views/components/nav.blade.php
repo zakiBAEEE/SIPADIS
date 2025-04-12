@@ -1,5 +1,6 @@
 <div class="w-full rounded-lg border shadow-sm bg-white border-slate-200 shadow-slate-950/5 max-w-[280px] h-screen">
-    <div class="rounded m-2 mx-4 mt-3 h-max mb-7">
+    <div class="rounded m-2 mx-4 mt-4 h-max mb-4 flex flex-row gap-5 items-center">
+        <img src={{ asset('images/logo-lldikti.jpg') }} alt="" class="h-10 w-auto">
         <p class="font-sans antialiased text-current text-2xl font-semibold">SIPADIS</p>
     </div>
     <hr class="-mx-3 border-slate-200" />
@@ -36,7 +37,7 @@
                                 stroke-linejoin="round"></path>
                         </g>
                     </svg>
-                </span>Cetak Agenda
+                </span>Arsip
             </li>
 
             <li href="#"
@@ -51,7 +52,7 @@
                             d="M3 12H2.6C2.26863 12 2 12.2686 2 12.6V21.4C2 21.7314 2.26863 22 2.6 22H21.4C21.7314 22 22 21.7314 22 21.4V12.6C22 12.2686 21.7314 12 21.4 12H21M3 12V2.6C3 2.26863 3.26863 2 3.6 2H20.4C20.7314 2 21 2.26863 21 2.6V12M3 12H21"
                             stroke="currentColor"></path>
                     </svg>
-                </span>Archive
+                </span>Cetak Agenda
             </li>
             <li href="#"
                 class="flex items-center py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in aria-disabled:opacity-50 aria-disabled:pointer-events-none bg-transparent text-slate-600 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800 dark:focus:text-white dark:data-[selected=true]:text-white dark:bg-opacity-70">
@@ -63,7 +64,7 @@
                             stroke="currentColor"></path>
                         <path d="M3 5C5.57143 7.66666 18.4286 7.66662 21 5" stroke="currentColor"></path>
                     </svg>
-                </span>Trash
+                </span>Sampah
             </li>
             <hr class="-mx-3 my-3 border-slate-200" />
             <li>
