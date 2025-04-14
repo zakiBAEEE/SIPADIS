@@ -9,13 +9,17 @@
     @vite('resources/js/app.js')
 </head>
 
-<body class="h-full bg-[#D9EAFD]">
+<body class="h-full bg-[#D9EAFD] flex box-border">
 
-    <div class="position-fixed top-0 left-0">
+    <!-- Sidebar -->
+    <div class="">
         @include('components.nav')
     </div>
-    @yield('content')
 
+    <!-- Konten utama -->
+    <div class="p-[1.9rem]">
+        @yield('content')
+    </div>
 </body>
 
 </html>
