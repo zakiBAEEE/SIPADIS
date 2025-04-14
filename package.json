@@ -14,6 +14,8 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
-        "@material-tailwind/html": "^3.0.0-beta.7"
+        "@material-tailwind/html": "^3.0.0-beta.7",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0"
     }
 }
