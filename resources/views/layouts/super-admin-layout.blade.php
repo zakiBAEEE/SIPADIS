@@ -13,10 +13,8 @@
 
     <div class="position-fixed top-0 left-0">
         @include('components.nav')
-
     </div>
     @yield('content')
-
 
 </body>
 

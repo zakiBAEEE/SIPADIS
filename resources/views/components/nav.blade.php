@@ -11,20 +11,37 @@
     <hr class="-mx-3 mt-3 border-slate-200" />
     <div class="w-full h-max rounded p-3">
         <ul class="flex flex-col gap-0.5 min-w-60">
-            <li href="#"
-                class="flex items-center py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in aria-disabled:opacity-50 aria-disabled:pointer-events-none bg-transparent text-slate-600 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800 dark:focus:text-white dark:data-[selected=true]:text-white dark:bg-opacity-70">
-                <span class="grid place-items-center shrink-0 me-2.5"><svg width="1.5em" height="1.5em"
-                        stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        color="currentColor" class="h-[18px] w-[18px]">
-                        <path d="M7 9L12 12.5L17 9" stroke="currentColor" stroke-linecap="round"
-                            stroke-linejoin="round"></path>
-                        <path
-                            d="M2 17V7C2 5.89543 2.89543 5 4 5H20C21.1046 5 22 5.89543 22 7V17C22 18.1046 21.1046 19 20 19H4C2.89543 19 2 18.1046 2 17Z"
-                            stroke="currentColor"></path>
-                    </svg>
-                </span>Surat Masuk
-            </li>
+            <li>
+                <a href="/home"
+                    class="flex items-center py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in aria-disabled:opacity-50 aria-disabled:pointer-events-none bg-transparent text-slate-600 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800 dark:focus:text-white dark:data-[selected=true]:text-white dark:bg-opacity-70">
+                    <span class="grid place-items-center shrink-0 me-2.5">
+                        <svg width="1.5em" height="1.5em" stroke-width="1.5" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" color="currentColor" class="h-[18px] w-[18px]">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 9.75L12 3l9 6.75M4.5 10.5v8.25a.75.75 0 00.75.75h4.5v-5.25a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V19.5h4.5a.75.75 0 00.75-.75V10.5"
+                                stroke="currentColor" />
+                        </svg>
+                    </span>
+                    Home
+                </a>
 
+            </li>
+            <li>
+                <a href="/surat-masuk"
+                    class="flex items-center py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in aria-disabled:opacity-50 aria-disabled:pointer-events-none bg-transparent text-slate-600 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800 dark:focus:text-white dark:data-[selected=true]:text-white dark:bg-opacity-70">
+                    <span class="grid place-items-center shrink-0 me-2.5"><svg width="1.5em" height="1.5em"
+                            stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            color="currentColor" class="h-[18px] w-[18px]">
+                            <path d="M7 9L12 12.5L17 9" stroke="currentColor" stroke-linecap="round"
+                                stroke-linejoin="round"></path>
+                            <path
+                                d="M2 17V7C2 5.89543 2.89543 5 4 5H20C21.1046 5 22 5.89543 22 7V17C22 18.1046 21.1046 19 20 19H4C2.89543 19 2 18.1046 2 17Z"
+                                stroke="currentColor"></path>
+                        </svg>
+                    </span>Surat Masuk
+                </a>
+
+            </li>
             <li href="#"
                 class="flex items-center py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in aria-disabled:opacity-50 aria-disabled:pointer-events-none bg-transparent text-slate-600 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800 dark:focus:text-white dark:data-[selected=true]:text-white dark:bg-opacity-70">
                 <span class="grid place-items-center shrink-0 me-2.5"><svg width="1.5em" height="1.5em"
