@@ -11,16 +11,10 @@
             </div>
             <div class="flex flex-row gap-2">
                 @include('components.button-filter')
-                @include('components.button-tambah')
+                @include('components.modal-tambah-surat')
             </div>
         </div>
         <hr class="w-full border-t border-gray-300 my-4" />
-        <div class="flex flex-row mb-6 gap-6">
-            @include('components.input-filter-surat', ['label' => 'Pengirim'])
-            @include('components.input-filter-surat', ['label' => 'Nomor Agenda'])
-            @include('components.input-filter-surat', ['label' => 'Nomor Surat'])
-            @include('components.input-filter-surat', ['label' => 'Perihal'])
-        </div>
         @include('components.table')
     </div>
 @endsection
