@@ -1,26 +1,18 @@
-<div data-toggle="collapse" data-target="#collapseList" aria-expanded="false" aria-controls="collapseList"
-    class="flex items-center justify-between min-w-60 cursor-pointer py-1.5 px-2.5 rounded-md align-middle transition-all duration-300 ease-in text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 focus:bg-slate-200 dark:focus:bg-slate-700 focus:text-slate-800 dark:focus:text-white">
-    {{ $label }}
-    <span data-icon class="grid place-items-center shrink-0">
-        <svg width="1.5em" height="1.5em" stroke-width="1.5" viewBox="0 0 24 24" fill="none"
-            xmlns="http://www.w3.org/2000/svg" color="currentColor" class="h-5 w-5 stroke-[1.5] dark:stroke-slate-300">
-            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg>
-    </span>
-</div>
-<div class="overflow-hidden transition-[max-height] duration-300 ease-in-out max-h-0" id="collapseList">
-    <ul class="flex flex-col gap-0.5 min-w-60">
-        <li
-            class="flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 focus:bg-slate-200 dark:focus:bg-slate-700 focus:text-slate-800 dark:focus:text-white">
-            Inbox
-        </li>
-        <li
-            class="flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 focus:bg-slate-200 dark:focus:bg-slate-700 focus:text-slate-800 dark:focus:text-white">
-            Trash
-        </li>
-        <li
-            class="flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 focus:bg-slate-200 dark:focus:bg-slate-700 focus:text-slate-800 dark:focus:text-white">
-            Settings
-        </li>
-    </ul>
+<div class=" space-y-1.5 w-1/2">
+    <label for="email" class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">Klasifikasi</label>
+    <div class="w-full max-w-sm min-w-[200px]">
+        <div class="relative">
+            <select
+                class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 ring ring-transparent hover:ring-slate-800/10 focus:ring-slate-800/10 hover:border-slate-800 shadow-sm focus:shadow cursor-pointer appearance-none">
+                <option value="1">Umum</option>
+                <option value="2">Pengaduan</option>
+                <option value="3">Permintaan Informasi</option>
+            </select>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2"
+                stroke="currentColor" class="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-700">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+            </svg>
+        </div>
+    </div>
 </div>
