@@ -36,12 +36,14 @@
                         @include('components.datepicker', [
                             'label' => 'Tanggal Surat',
                             'placeholder' => 'Pilih Tanggal Surat',
+                            'id' => 'tanggal_surat',
                         ])
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
                         @include('components.datepicker', [
                             'label' => 'Tanggal Terima',
                             'placeholder' => 'Pilih Tanggal Terima',
+                            'id' => 'tanggal_terima',
                         ])
                     </div>
                 </div>
