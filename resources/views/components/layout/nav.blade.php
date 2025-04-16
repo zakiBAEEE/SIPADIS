@@ -6,7 +6,7 @@
     <hr class="-mx-3 border-slate-200" />
 
     <div>
-        @include('components.user')
+        @include('components.layout.user')
     </div>
     <hr class="-mx-3 mt-3 border-slate-200" />
     <div class="w-full h-max rounded p-3">

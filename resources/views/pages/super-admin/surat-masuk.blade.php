@@ -10,11 +10,11 @@
                 </h6>
             </div>
             <div class="flex flex-row gap-2">
-                @include('components.button-filter')
-                @include('components.modal-tambah-surat')
+                @include('components.base.button-filter')
+                @include('components.form.modal-tambah-surat')
             </div>
         </div>
         <hr class="w-full border-t border-gray-300 my-4" />
-        @include('components.table')
+        @include('components.table.table')
     </div>
 @endsection

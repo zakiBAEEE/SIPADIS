@@ -13,7 +13,7 @@
 
     <!-- Sidebar -->
     <div class="">
-        @include('components.nav')
+        @include('components.layout.nav')
     </div>
 
     <!-- Konten utama -->

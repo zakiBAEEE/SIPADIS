@@ -27,20 +27,20 @@
             <div class="p-4">
                 <div class="flex flex-row gap-3">
                     <div class="mb-4 space-y-1.5 w-1/2">
-                        @include('components.input-surat', [
+                        @include('components.base.input-surat', [
                             'label' => 'Nomor Surat',
                             'placeholder' => 'Masukkan Nomor Surat',
                         ])
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.datepicker', [
+                        @include('components.base.datepicker', [
                             'label' => 'Tanggal Surat',
                             'placeholder' => 'Pilih Tanggal Surat',
                             'id' => 'tanggal_surat',
                         ])
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.datepicker', [
+                        @include('components.base.datepicker', [
                             'label' => 'Tanggal Terima',
                             'placeholder' => 'Pilih Tanggal Terima',
                             'id' => 'tanggal_terima',
@@ -49,39 +49,39 @@
                 </div>
                 <div class="flex flex-row gap-3 items-center">
                     <div class="mb-4 space-y-1.5 w-1/2">
-                        @include('components.input-surat', [
+                        @include('components.base.input-surat', [
                             'label' => 'Pengirim',
                             'placeholder' => 'Masukkan Pengirim Surat',
                         ])
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.collapse', [
+                        @include('components.base.collapse', [
                             'label' => 'Klasifikasi',
                             'value' => ['Umum', 'Pengaduan', 'Permintaan Informasi'],
                         ])
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.collapse', [
+                        @include('components.base.collapse', [
                             'label' => 'Sifat',
                             'value' => ['Rahasia', 'Penting', 'Segera', 'Rutin'],
                         ])
                     </div>
                 </div>
                 <div class="space-y-1.5 mb-4">
-                    @include('components.textarea-surat', [
+                    @include('components.base.textarea-surat', [
                         'label' => 'Perihal',
                         'placeholder' => 'Masukkan Perihal Surat',
                     ])
                 </div>
                 <div class="space-y-1.5">
-                    @include('components.file-picker', [
+                    @include('components.base.file-picker', [
                         'label' => 'Pilih Dokumen Surat',
                         'placeholder' => 'Pilih Dokumen',
                     ])
                 </div>
             </div>
             <div class=" px-4 pb-4 flex  justify-end gap-2">
-                @include('components.tombol-simpan-surat')
+                @include('components.base.tombol-simpan-surat')
             </div>
         </div>
     </div>
