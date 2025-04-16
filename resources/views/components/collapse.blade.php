@@ -1,4 +1,4 @@
-<div class="space-y-1.5 w-1/2">
+<div>
     <label for="sifat"
         class="font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">{{ $label }}</label>
     <div class="w-full max-w-sm min-w-[200px]">
