@@ -67,14 +67,17 @@
                         ])
                     </div>
                 </div>
-                <div class="space-y-1.5">
+                <div class="space-y-1.5 mb-4">
                     @include('components.textarea-surat', [
                         'label' => 'Perihal',
                         'placeholder' => 'Masukkan Perihal Surat',
                     ])
                 </div>
                 <div class="space-y-1.5">
-                    <input type="file" name="dokumen" class="filepond" />
+                    @include('components.file-picker', [
+                        'label' => 'Pilih Dokumen Surat',
+                        'placeholder' => 'Pilih Dokumen',
+                    ])
                 </div>
             </div>
             <div class=" px-4 pb-4 flex  justify-end gap-2">
