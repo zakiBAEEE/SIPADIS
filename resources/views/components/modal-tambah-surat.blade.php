@@ -73,6 +73,9 @@
                         'placeholder' => 'Masukkan Perihal Surat',
                     ])
                 </div>
+                <div class="space-y-1.5">
+                    <input type="file" name="dokumen" class="filepond" />
+                </div>
             </div>
             <div class=" px-4 pb-4 flex  justify-end gap-2">
                 @include('components.tombol-simpan-surat')
