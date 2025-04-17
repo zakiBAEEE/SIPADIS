@@ -1,5 +1,5 @@
 <div
-    class="relative flex flex-col w-full max-h-[400px] overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border ">
+    class="relative flex flex-col w-full max-h-[400px] overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
     <table class="w-full text-left table-auto text-slate-800 min-w-0 ">
         <thead>
             <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
@@ -41,156 +41,46 @@
             </tr>
         </thead>
         <tbody>
-            @include('components.layout.detail-surat-masuk')
-            <tr class="hover:bg-slate-50">
-                <td class="p-4">
-                    <p class="text-sm font-bold">
-                        122
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        0346/TU/2025
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        1 Maret 2025
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        Universitas Multi Data Palembang
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        19 Oktober 1945
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        0139/R/UMDP/2027
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        Permohonan Beasiswa
-                    </p>
-                </td>
-            </tr>
-            <tr class="hover:bg-slate-50">
-                <td class="p-4">
-                    <p class="text-sm font-bold">
-                        122
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        0346/TU/2025
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        1 Maret 2025
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        Universitas Multi Data Palembang
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        19 Oktober 1945
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        0139/R/UMDP/2027
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        Permohonan Beasiswa
-                    </p>
-                </td>
-            </tr>
-            <tr class="hover:bg-slate-50">
-                <td class="p-4">
-                    <p class="text-sm font-bold">
-                        122
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        0346/TU/2025
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        1 Maret 2025
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        Universitas Multi Data Palembang
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        19 Oktober 1945
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        0139/R/UMDP/2027
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        Permohonan Beasiswa
-                    </p>
-                </td>
-            </tr>
-            <tr class="hover:bg-slate-50">
-                <td class="p-4">
-                    <p class="text-sm font-bold">
-                        122
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        0346/TU/2025
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        1 Maret 2025
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        Universitas Multi Data Palembang
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        19 Oktober 1945
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        0139/R/UMDP/2027
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        Permohonan Beasiswa
-                    </p>
-                </td>
-            </tr>
-
+            {{-- @include('components.layout.detail-surat-masuk') --}}
+            @foreach ($surats as $surat)
+                <tr class="hover:bg-slate-50">
+                    <td class="p-4">
+                        <p class="text-sm font-bold">
+                            {{ $surat->kode }}
+                        </p>
+                    </td>
+                    <td class="p-4">
+                        <p class="text-sm">
+                            {{ $surat->nomor_agenda }}
+                        </p>
+                    </td>
+                    <td class="p-4">
+                        <p class="text-sm">
+                            {{ $surat->tgl_terima }}
+                        </p>
+                    </td>
+                    <td class="p-4">
+                        <p class="text-sm">
+                            {{ $surat->pengirim }}
+                        </p>
+                    </td>
+                    <td class="p-4">
+                        <p class="text-sm">
+                            {{ $surat->tgl_surat }}
+                        </p>
+                    </td>
+                    <td class="p-4">
+                        <p class="text-sm">
+                            {{ $surat->nomor_surat }}
+                        </p>
+                    </td>
+                    <td class="p-4">
+                        <p class="text-sm">
+                            {{ $surat->perihal }}
+                        </p>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

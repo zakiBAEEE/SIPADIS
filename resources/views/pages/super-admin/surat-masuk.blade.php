@@ -21,7 +21,7 @@
         <div>
             @include('components.layout.collapse-filter')
         </div>
-        @include('components.table.table')
+        @include('components.table.table', ['surats' => $surats])
         <div class="mt-4 flex flex-row justify-end">
             @include('components.base.pagination')
         </div>
