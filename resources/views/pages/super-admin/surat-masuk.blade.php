@@ -10,7 +10,7 @@
                 </h6>
             </div>
             <div class="flex flex-row gap-2">
-                @include('components.base.button-filter')
+                @include('components.form.modal-filter-surat')
                 @include('components.form.modal-tambah-surat')
             </div>
         </div>

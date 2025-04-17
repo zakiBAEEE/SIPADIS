@@ -41,43 +41,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="hover:bg-slate-50">
-                <td class="p-4">
-                    <p class="text-sm font-bold">
-                        122
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        0346/TU/2025
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        1 Maret 2025
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        Universitas Multi Data Palembang
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        19 Oktober 1945
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        0139/R/UMDP/2027
-                    </p>
-                </td>
-                <td class="p-4">
-                    <p class="text-sm">
-                        Permohonan Beasiswa
-                    </p>
-                </td>
-            </tr>
+            @include('components.layout.detail-surat-masuk')
             <tr class="hover:bg-slate-50">
                 <td class="p-4">
                     <p class="text-sm font-bold">

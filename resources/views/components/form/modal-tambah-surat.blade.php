@@ -1,10 +1,10 @@
 <div class="flex justify-center">
-    <button type="button" data-toggle="modal" data-target="#exampleModalForm"
+    <button type="button" data-toggle="modal" data-target="#modalTambahSurat"
         class="inline-flex border font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-1 px-2 shadow-sm hover:shadow bg-green-500 border-slate-300 text-slate-50 hover:bg-green-700 hover:border-slate-700">
         Tambah</button>
 
     <div class="fixed antialiased inset-0 bg-slate-950/50 flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300 ease-out z-[9999]"
-        id="exampleModalForm" aria-hidden="true">
+        id="modalTambahSurat" aria-hidden="true">
 
         <div class="bg-white rounded-lg w-10/12 lg:w-8/12 transition-transform duration-300 ease-out scale-100">
             <div class="pt-4 px-4 flex justify-between items-start">
@@ -79,6 +79,7 @@
                         'placeholder' => 'Pilih Dokumen',
                     ])
                 </div>
+
             </div>
             <div class=" px-4 pb-4 flex  justify-end gap-2">
                 @include('components.base.tombol-simpan-surat')

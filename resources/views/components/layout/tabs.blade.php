@@ -1,30 +1,22 @@
-<div class="flex justify-center">
-    @include('components.base.button-filter', [
-        'dataToggle' => 'modal',
-        'dataTarget' => '#modalFilterSurat',
-    ])
+<div class="relative tab-group">
+    <div class="flex border-b border-slate-200 relative" role="tablist">
+        <div
+            class="absolute bottom-0 h-0.5 bg-slate-800 transition-transform duration-300 transform scale-x-0 translate-x-0 tab-indicator">
+        </div>
 
-    <div class="fixed antialiased inset-0 bg-slate-950/50 flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300 ease-out z-[9999]"
-        id="modalFilterSurat" aria-hidden="true">
-
-        <div class="bg-white rounded-lg w-10/12 lg:w-8/12 transition-transform duration-300 ease-out scale-100">
-            <div class="pt-4 px-4 flex justify-between items-start">
-                <div class="flex flex-col gap-2 w-full">
-                    <div class="flex flex-col">
-                        <h1 class="text-xl text-gray-600 font-bold">Entry Surat Masuk</h1>
-                    </div>
-                    <hr class="w-full border-t border-gray-300" />
-                </div>
-                <button type="button" data-dismiss="modal" aria-label="Close"
-                    class="inline-grid place-items-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none data-[shape=circular]:rounded-full text-sm min-w-[34px] min-h-[34px] rounded-full bg-transparent border-transparent text-slate-200-foreground hover:bg-slate-200/10 hover:border-slate-200/10 shadow-none hover:shadow-none outline-none absolute right-2 top-2">
-                    <svg width="1.5em" height="1.5em" stroke-width="1.5" viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg" color="currentColor" class="h-5 w-5">
-                        <path
-                            d="M6.75827 17.2426L12.0009 12M17.2435 6.75736L12.0009 12M12.0009 12L6.75827 6.75736M12.0009 12L17.2435 17.2426"
-                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
-                </button>
-            </div>
+        <a href="#"
+            class="tab-link text-sm active inline-block py-2 px-4 text-slate-800 transition-colors duration-300 mr-1"
+            data-tab-target="tab1-group4">
+            Metadata
+        </a>
+        <a href="#"
+            class="tab-link text-sm inline-block py-2 px-4 text-slate-800 transition-colors duration-300 mr-1"
+            data-tab-target="tab2-group4">
+            Disposisi
+        </a>
+    </div>
+    <div class="mt-4 tab-content-container">
+        <div id="tab1-group4" class="tab-content text-slate-800 block">
             <div class="p-4">
                 <div class="flex flex-row gap-3">
                     <div class="mb-4 space-y-1.5 w-1/2">
@@ -74,10 +66,18 @@
                         'placeholder' => 'Masukkan Perihal Surat',
                     ])
                 </div>
+                <div class="space-y-1.5">
+                    @include('components.base.file-picker', [
+                        'label' => 'Pilih Dokumen Surat',
+                        'placeholder' => 'Pilih Dokumen',
+                    ])
+                </div>
+
             </div>
-            <div class=" px-4 pb-4 flex  justify-end gap-2">
-                @include('components.base.tombol-simpan-surat')
-            </div>
+        </div>
+        <div id="tab2-group4" class="tab-content text-slate-800 hidden">
+            <p>We're not always in the position that we want to be at. We're constantly growing. We're constantly making
+                mistakes. We're constantly trying to express ourselves and actualize our dreams.</p>
         </div>
     </div>
 </div>
