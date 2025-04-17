@@ -20,44 +20,72 @@
             <div class="p-4">
                 <div class="flex flex-row gap-3">
                     <div class="mb-4 space-y-1.5 w-1/2">
-                        @include('components.base.input-surat', [
-                            'label' => 'Nomor Surat',
-                            'placeholder' => 'Masukkan Nomor Surat',
-                        ])
+                        <div>
+                            <label for="email"
+                                class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Nomor
+                                Surat</label>
+                            <div class="relative w-full">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                    0139/R/UMDP/2027 </h6>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.base.datepicker', [
-                            'label' => 'Tanggal Surat',
-                            'placeholder' => 'Pilih Tanggal Surat',
-                            'id' => 'tanggal_surat',
-                        ])
+                        <div>
+                            <label for="email"
+                                class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Tanggal
+                                Surat</label>
+                            <div class="relative w-full">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                    19 Oktober 2027 </h6>
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.base.datepicker', [
-                            'label' => 'Tanggal Terima',
-                            'placeholder' => 'Pilih Tanggal Terima',
-                            'id' => 'tanggal_terima',
-                        ])
+                        <div>
+                            <label for="email"
+                                class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Tanggal
+                                Terima</label>
+                            <div class="relative w-full">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                    1 Maret 2027 </h6>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="flex flex-row gap-3 items-center">
                     <div class="mb-4 space-y-1.5 w-1/2">
-                        @include('components.base.input-surat', [
-                            'label' => 'Pengirim',
-                            'placeholder' => 'Masukkan Pengirim Surat',
-                        ])
+                        <div>
+                            <label for="email"
+                                class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
+                                Pengirim</label>
+                            <div class="relative w-full">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                    Universitas Multi Data Palembang </h6>
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.base.collapse', [
-                            'label' => 'Klasifikasi',
-                            'value' => ['Umum', 'Pengaduan', 'Permintaan Informasi'],
-                        ])
+                        <div>
+                            <label for="email"
+                                class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
+                                Klasifikasi</label>
+                            <div class="relative w-full">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                    Umum </h6>
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.base.collapse', [
-                            'label' => 'Sifat',
-                            'value' => ['Rahasia', 'Penting', 'Segera', 'Rutin'],
-                        ])
+                        <div>
+                            <label for="email"
+                                class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Sifat</label>
+                            <div class="relative w-full">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                    Rahasia </h6>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="space-y-1.5 mb-4">

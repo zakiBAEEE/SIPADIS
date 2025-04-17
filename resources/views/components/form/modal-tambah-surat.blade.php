@@ -55,13 +55,13 @@
                         ])
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.base.collapse', [
+                        @include('components.base.dropdown', [
                             'label' => 'Klasifikasi',
                             'value' => ['Umum', 'Pengaduan', 'Permintaan Informasi'],
                         ])
                     </div>
                     <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.base.collapse', [
+                        @include('components.base.dropdown', [
                             'label' => 'Sifat',
                             'value' => ['Rahasia', 'Penting', 'Segera', 'Rutin'],
                         ])
