@@ -89,10 +89,10 @@
                     </div>
                 </div>
                 <div class="space-y-1.5 mb-4">
-                    @include('components.base.textarea-surat', [
+                    {{-- @include('components.base.textarea-surat', [
                         'label' => 'Perihal',
                         'placeholder' => 'Masukkan Perihal Surat',
-                    ])
+                    ]) --}}
                 </div>
                 <div class="space-y-1.5">
                     @include('components.base.file-picker', [
