@@ -136,9 +136,7 @@
                     </div>
                 </div>
                 <div id="tab2-group4" class="tab-content text-slate-800 hidden">
-                    <p>We're not always in the position that we want to be at. We're constantly growing. We're constantly
-                        making
-                        mistakes. We're constantly trying to express ourselves and actualize our dreams.</p>
+                    @include('components.table.table-disposisi')
                 </div>
             </div>
         </div>
