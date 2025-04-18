@@ -27,7 +27,7 @@ class SuratMasuks
         'perihal' => 'Permohonan Beasiswa',
         'klasifikasi' => 'Umum',
         'sifat' => 'Rahasia',
-        'file_path' => "C:\Users\Zaki Raihan\Downloads",
+        'file_path' => "Laporan Akhir Komputer dan Masyakarat Kelompok 8.pdf",
     ],
     (object)[
         'id' => 2,
