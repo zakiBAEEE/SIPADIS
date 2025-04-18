@@ -4,7 +4,9 @@
 @section('content')
     <div class="bg-white min-w-full h-full rounded-xl shadow-neutral-400 shadow-lg overflow-scroll p-4">
         <div class="flex flex-col gap-4">
-            <h4 class="font-sans text-xl font-bold antialiased md:text-2xl lg:text-3xl text-gray-600">Detail Surat</h4>
+            <div class="flex flex-row justify-between">
+                <h4 class="font-sans text-xl font-bold antialiased md:text-2xl lg:text-3xl text-gray-600">Detail Surat</h4>
+            </div>
             <hr class="w-full border-t border-gray-300 my-2" />
         </div>
         <div class="relative tab-group">
@@ -136,7 +138,15 @@
                     </div>
                 </div>
                 <div id="tab2-group4" class="tab-content text-slate-800 hidden">
-                    @include('components.table.table-disposisi')
+                    <div class="flex justify-end">
+                        <div class="flex flex-row gap-2">
+                            @include('components.base.tombol-print-disposisi')
+                            @include('components.base.tombol-tambah-disposisi')
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        @include('components.table.table-disposisi')
+                    </div>
                 </div>
             </div>
         </div>
