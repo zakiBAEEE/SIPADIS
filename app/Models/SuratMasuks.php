@@ -15,7 +15,7 @@ class SuratMasuks
     // Simulasi data dummy
     protected static function dummyData(): Collection
     {
-        return collect([
+       return collect([
     (object)[
         'id' => 1,
         'kode' => '001',
@@ -27,6 +27,7 @@ class SuratMasuks
         'perihal' => 'Permohonan Beasiswa',
         'klasifikasi' => 'Umum',
         'sifat' => 'Rahasia',
+        'file_path' => "C:\Users\Zaki Raihan\Downloads",
     ],
     (object)[
         'id' => 2,
@@ -39,6 +40,7 @@ class SuratMasuks
         'perihal' => 'Undangan Seminar',
         'klasifikasi' => 'Pengaduan',
         'sifat' => 'Penting',
+        'file_path' => null,
     ],
     (object)[
         'id' => 3,
@@ -51,6 +53,7 @@ class SuratMasuks
         'perihal' => 'Permintaan Data Alumni',
         'klasifikasi' => 'Permintaan Informasi',
         'sifat' => 'Segera',
+        'file_path' => null,
     ],
     (object)[
         'id' => 4,
@@ -63,6 +66,7 @@ class SuratMasuks
         'perihal' => 'Kerja Sama Penelitian',
         'klasifikasi' => 'Umum',
         'sifat' => 'Rutin',
+        'file_path' => null,
     ],
     (object)[
         'id' => 5,
@@ -75,6 +79,7 @@ class SuratMasuks
         'perihal' => 'Laporan Kegiatan Kampus Merdeka',
         'klasifikasi' => 'Pengaduan',
         'sifat' => 'Segera',
+        'file_path' => null,
     ],
 ]);
 

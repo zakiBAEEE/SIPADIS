@@ -117,10 +117,20 @@
                             </div>
                         </div>
                         <div class="space-y-1.5">
-                            @include('components.base.file-picker', [
-                                'label' => 'Pilih Dokumen Surat',
-                                'placeholder' => 'Pilih Dokumen',
-                            ])
+                            <p class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">Preview Dokumen:</p>
+                            @if ($surat->file_path)
+                                <div class="mt-4">
+                                    @if (Str::endsWith($surat->file_path, '.pdf'))
+                                        <iframe src="{{ asset('storage/' . $surat->file_path) }}" class="w-full h-[500px]"
+                                            frameborder="0"></iframe>
+                                    @else
+                                        <img src="{{ asset('storage/' . $surat->file_path) }}" alt="Preview Dokumen"
+                                            class="max-w-full h-auto">
+                                    @endif
+                                </div>
+                            @else
+                                <p class="text-sm text-slate-600">Tidak ada dokumen terlampir.</p>
+                            @endif
                         </div>
 
                     </div>
