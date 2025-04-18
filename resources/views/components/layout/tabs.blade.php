@@ -25,7 +25,8 @@
                                 class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Nomor
                                 Surat</label>
                             <div class="relative w-full">
-                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
+                                    id="modal_nomor_surat">
                                     0139/R/UMDP/2027 </h6>
                             </div>
                         </div>
@@ -37,7 +38,8 @@
                                 class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Tanggal
                                 Surat</label>
                             <div class="relative w-full">
-                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
+                                    id="modal_tgl_surat">
                                     19 Oktober 2027 </h6>
                             </div>
                         </div>
@@ -48,7 +50,8 @@
                                 class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Tanggal
                                 Terima</label>
                             <div class="relative w-full">
-                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
+                                    id="modal_tgl_terima">
                                     1 Maret 2027 </h6>
                             </div>
                         </div>
@@ -61,7 +64,8 @@
                                 class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
                                 Pengirim</label>
                             <div class="relative w-full">
-                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
+                                    id="modal_pengirim">
                                     Universitas Multi Data Palembang </h6>
                             </div>
                         </div>
@@ -72,7 +76,8 @@
                                 class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
                                 Klasifikasi</label>
                             <div class="relative w-full">
-                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
+                                    id="modal_klasifikasi">
                                     Umum </h6>
                             </div>
                         </div>
@@ -82,17 +87,23 @@
                             <label for="email"
                                 class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Sifat</label>
                             <div class="relative w-full">
-                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl">
+                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
+                                    id="modal_sifat">
                                     Rahasia </h6>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="space-y-1.5 mb-4">
-                    {{-- @include('components.base.textarea-surat', [
-                        'label' => 'Perihal',
-                        'placeholder' => 'Masukkan Perihal Surat',
-                    ]) --}}
+                <div class="mb-4 space-y-1.5 w-1/3">
+                    <div>
+                        <label for="email" class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
+                            Perihal</label>
+                        <div class="relative w-full">
+                            <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
+                                id="modal_perihal">
+                                Permintaan Beasiswa </h6>
+                        </div>
+                    </div>
                 </div>
                 <div class="space-y-1.5">
                     @include('components.base.file-picker', [

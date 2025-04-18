@@ -38,49 +38,40 @@
                         Perihal
                     </p>
                 </th>
+                <th class="p-3">
+                    <p class="text-sm leading-none font-normal">
+                        Aksi
+                    </p>
+                </th>
             </tr>
         </thead>
         <tbody>
-            {{-- @include('components.layout.detail-surat-masuk') --}}
             @foreach ($surats as $surat)
-                <tr class="hover:bg-slate-50">
-                    <td class="p-4">
-                        <p class="text-sm font-bold">
-                            {{ $surat->kode }}
-                        </p>
+                <tr class="hover:bg-slate-50 cursor-pointer">
+                    <td class="p-3">
+                        <p class="text-sm font-bold">{{ $surat->kode }}</p>
                     </td>
-                    <td class="p-4">
-                        <p class="text-sm">
-                            {{ $surat->nomor_agenda }}
-                        </p>
+                    <td class="p-3">
+                        <p class="text-sm">{{ $surat->nomor_agenda }}</p>
                     </td>
-                    <td class="p-4">
-                        <p class="text-sm">
-                            {{ $surat->tgl_terima }}
-                        </p>
+                    <td class="p-3">
+                        <p class="text-sm">{{ $surat->tgl_terima }}</p>
                     </td>
-                    <td class="p-4">
-                        <p class="text-sm">
-                            {{ $surat->pengirim }}
-                        </p>
+                    <td class="p-3">
+                        <p class="text-sm">{{ $surat->pengirim }}</p>
                     </td>
-                    <td class="p-4">
-                        <p class="text-sm">
-                            {{ $surat->tgl_surat }}
-                        </p>
+                    <td class="p-3">
+                        <p class="text-sm">{{ $surat->tgl_surat }}</p>
                     </td>
-                    <td class="p-4">
-                        <p class="text-sm">
-                            {{ $surat->nomor_surat }}
-                        </p>
+                    <td class="p-3">
+                        <p class="text-sm">{{ $surat->nomor_surat }}</p>
                     </td>
-                    <td class="p-4">
-                        <p class="text-sm">
-                            {{ $surat->perihal }}
-                        </p>
+                    <td class="p-3">
+                        <p class="text-sm">{{ $surat->perihal }}</p>
                     </td>
                 </tr>
             @endforeach
+
         </tbody>
     </table>
 </div>
