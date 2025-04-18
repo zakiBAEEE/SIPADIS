@@ -13,7 +13,7 @@
     <div class="w-[280px] ">
         @include('components.layout.nav')
     </div>
-    <div class=" p-4 min-w-0">
+    <div class=" p-4 min-w-4/5">
         @yield('content')
     </div>
 </body>
