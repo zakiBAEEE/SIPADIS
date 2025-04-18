@@ -47,7 +47,7 @@
         </thead>
         <tbody>
             @foreach ($surats as $surat)
-                <tr class="hover:bg-slate-50 cursor-pointer">
+                <tr class="hover:bg-slate-50">
                     <td class="p-3">
                         <p class="text-sm font-bold">{{ $surat->kode }}</p>
                     </td>
@@ -68,6 +68,14 @@
                     </td>
                     <td class="p-3">
                         <p class="text-sm">{{ $surat->perihal }}</p>
+                    </td>
+                    <td class="p-3">
+                        <div class="flex flex-row gap-x-1">
+                            <a href=""> @include('components.base.ikon-mata')</a>
+                            <a href="">@include('components.base.ikon-edit')</a>
+                            <a href="">@include('components.base.ikon-hapus')</a>
+
+                        </div>
                     </td>
                 </tr>
             @endforeach
