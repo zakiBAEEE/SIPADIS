@@ -71,7 +71,9 @@
                     </td>
                     <td class="p-3">
                         <div class="flex flex-row gap-x-1">
-                            <a href=""> @include('components.base.ikon-mata')</a>
+                            <a href="{{ route('surat.show', ['id' => $surat->id]) }}">
+                                @include('components.base.ikon-mata')
+                            </a>
                             <a href="">@include('components.base.ikon-edit')</a>
                             <a href="">@include('components.base.ikon-hapus')</a>
 

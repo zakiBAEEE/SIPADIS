@@ -13,5 +13,5 @@ Route::get('/surat-masuk', function () {
 
 
 Route::get('/surat-masuk', [SuratController::class, 'index'])->name('surat.index');
-Route::get('/surat-masuk/{id}', [SuratController::class, 'detail'])->name('surat.show');
+Route::get('/surat-masuk/{id}', [SuratController::class, 'show'])->name('surat.show');
 

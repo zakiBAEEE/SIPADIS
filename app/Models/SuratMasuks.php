@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class SuratMasuks extends Model
+class SuratMasuks 
 {
     // Simulasi data dummy
     protected static function dummyData(): Collection
@@ -87,7 +87,7 @@ class SuratMasuks extends Model
     }
 
     // Override method findOrFail($id)
-    public static function findOrFail($id)
+    public static function find($id)
     {
         $surat = static::dummyData()->firstWhere('id', $id);
 
