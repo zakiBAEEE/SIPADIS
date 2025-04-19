@@ -20,7 +20,9 @@
                 @include('components.layout.card-dashboard', ['jenis' => 'total'])
                 @include('components.base.ikon-panah-kanan')
                 <div class="flex flex-row gap-2">
-
+                    @include('components.layout.card-dashboard', ['jenis' => 'umum'])
+                    @include('components.layout.card-dashboard', ['jenis' => 'pengaduan'])
+                    @include('components.layout.card-dashboard', ['jenis' => 'permintaan informasi'])
                 </div>
             </div>
         </div>
