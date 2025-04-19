@@ -6,6 +6,7 @@
         <div class="flex flex-col gap-4">
             <div class="flex flex-row justify-between">
                 <h4 class="font-sans text-xl font-bold antialiased md:text-2xl lg:text-3xl text-gray-600">Detail Surat</h4>
+                @include('components.base.tombol-kembali')
             </div>
             <hr class="w-full border-t border-gray-300 my-2" />
         </div>
