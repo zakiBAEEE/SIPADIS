@@ -1,8 +1,9 @@
 <div class="w-full rounded-lg border shadow-sm bg-white border-slate-200 shadow-slate-950/5 max-w-[280px] h-screen">
-    <div class="rounded m-2 mx-4 mt-4 h-max mb-4 flex flex-row gap-5 items-center">
-        <img src={{ asset('images/logo-lldikti.jpg') }} alt="" class="h-10 w-auto">
+    <a href="{{ route('surat.home') }}" class="rounded m-2 mx-4 mt-4 h-max mb-4 flex flex-row gap-5 items-center">
+        <img src="{{ asset('images/logo-lldikti.jpg') }}" alt="" class="h-10 w-auto">
         <p class="font-sans antialiased text-current text-2xl font-semibold">SIPADIS</p>
-    </div>
+    </a>
+
     <hr class="-mx-3 border-slate-200" />
 
     <div>
@@ -42,21 +43,6 @@
                 </a>
 
             </li>
-            <li href="#"
-                class="flex items-center py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in aria-disabled:opacity-50 aria-disabled:pointer-events-none bg-transparent text-slate-600 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800 dark:focus:text-white dark:data-[selected=true]:text-white dark:bg-opacity-70">
-                <span class="grid place-items-center shrink-0 me-2.5"><svg width="1.5em" height="1.5em"
-                        viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        color="currentColor" class="h-[18px] w-[18px]">
-                        <g clip-path="url(#clip0_2476_13290)">
-                            <path d="M22.1525 3.55321L11.1772 21.0044L9.50686 12.4078L2.00002 7.89795L22.1525 3.55321Z"
-                                stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M9.45557 12.4436L22.1524 3.55321" stroke="currentColor" stroke-linecap="round"
-                                stroke-linejoin="round"></path>
-                        </g>
-                    </svg>
-                </span>Arsip
-            </li>
-
             <li href="#"
                 class="flex items-center py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in aria-disabled:opacity-50 aria-disabled:pointer-events-none bg-transparent text-slate-600 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800 dark:focus:text-white dark:data-[selected=true]:text-white dark:bg-opacity-70">
                 <span class="grid place-items-center shrink-0 me-2.5"><svg width="1.5em" height="1.5em"
