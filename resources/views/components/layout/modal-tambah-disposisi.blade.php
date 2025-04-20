@@ -29,15 +29,50 @@
                     </div>
                     <div class=" w-1/3">
                         @include('components.base.dropdown', [
-                            'label' => 'Disposisi Dari',
-                            'value' => ['Kepala LLDIKTI', 'KBU', 'Katimja'],
+                            'label' => 'Disposisi Kepada',
+                            'value' => [
+                                'Kepala LLDIKTI',
+                                'KBU',
+                                [
+                                    'label' => 'Katimja',
+                                    'children' => [
+                                        'Kelembagaan',
+                                        'Sistem Informasi',
+                                        'Sumber Daya',
+                                        'Belmawa',
+                                        'Riset dan Pengembangan',
+                                    ],
+                                ],
+                                [
+                                    'label' => 'Bagian Umum',
+                                    'children' => ['Perencanaan & Keuangan', 'Kepegawaian', 'Tata Usaha', 'Humas'],
+                                ],
+                            ],
                         ])
                     </div>
                     <div class=" w-1/3">
                         @include('components.base.dropdown', [
                             'label' => 'Disposisi Kepada',
-                            'value' => ['Kepala LLDIKTI', 'KBU', 'Kelembagaan'],
+                            'value' => [
+                                'Kepala LLDIKTI',
+                                'KBU',
+                                [
+                                    'label' => 'Katimja',
+                                    'children' => [
+                                        'Kelembagaan',
+                                        'Sistem Informasi',
+                                        'Sumber Daya',
+                                        'Belmawa',
+                                        'Riset dan Pengembangan',
+                                    ],
+                                ],
+                                [
+                                    'label' => 'Bagian Umum',
+                                    'children' => ['Perencanaan & Keuangan', 'Kepegawaian', 'Tata Usaha', 'Humas'],
+                                ],
+                            ],
                         ])
+
                     </div>
                 </div>
                 <div ">

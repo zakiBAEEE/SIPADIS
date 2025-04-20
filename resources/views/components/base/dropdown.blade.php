@@ -7,7 +7,15 @@
                 class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 ring ring-transparent hover:ring-slate-800/10 focus:ring-slate-800/10 hover:border-slate-800 shadow-sm focus:shadow cursor-pointer appearance-none">
 
                 @foreach ($value as $item)
-                    <option value="{{ $item }}">{{ $item }}</option>
+                    @if (is_array($item) && isset($item['label']) && isset($item['children']))
+                        <optgroup label="{{ $item['label'] }}">
+                            @foreach ($item['children'] as $child)
+                                <option value="{{ $child }}">{{ $child }}</option>
+                            @endforeach
+                        </optgroup>
+                    @else
+                        <option value="{{ $item }}">{{ $item }}</option>
+                    @endif
                 @endforeach
 
             </select>
