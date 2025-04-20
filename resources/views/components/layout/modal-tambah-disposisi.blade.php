@@ -18,12 +18,26 @@
                     </svg>
                 </button>
             </div>
-            <div class="p-4 pt-2 ">
-                @include('components.base.datepicker', [
-                    'id' => 'tgl_disposisi',
-                    'label' => 'Tanggal Disposisi',
-                    'placeholder' => 'Masukkan Tanggal',
-                ])
+            <div class="p-4 flex flex-row gap-2">
+                <div class="p-4 pt-2 w-1/3">
+                    @include('components.base.datepicker', [
+                        'id' => 'tanggal_disposisi',
+                        'label' => 'Tanggal Disposisi',
+                        'placeholder' => 'Masukkan Tanggal',
+                    ])
+                </div>
+                <div class="p-4 pt-2 w-1/3">
+                    @include('components.base.input-surat', [
+                        'label' => 'Disposisi Dari',
+                        'placeholder' => 'Masukkan Disposisi',
+                    ])
+                </div>
+                <div class="p-4 pt-2 w-1/3">
+                    @include('components.base.input-surat', [
+                        'label' => 'Disposisi Kepada',
+                        'placeholder' => 'Masukkan Disposisi',
+                    ])
+                </div>
             </div>
             <div class="p-4 flex justify-end gap-2">
                 <button type="button" data-dismiss="modal"

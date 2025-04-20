@@ -11,3 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
         dateFormat: "Y-m-d", // format tanggal
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    flatpickr("#tanggal_disposisi", {
+        dateFormat: "Y-m-d", // format tanggal
+    });
+});
