@@ -29,3 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
         dateFormat: "Y-m-d", // format tanggal
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    flatpickr("#startDate", {
+        mode: "range",  // Memungkinkan pemilihan rentang tanggal
+        dateFormat: "Y-m-d",  // Format tanggal yang ditampilkan
+    });
+});

@@ -32,17 +32,15 @@
                     Masuk</h5>
                 <hr class="w-full border-t border-gray-300 my-1" />
             </div>
-            <div class="flex flex-row gap-x-2 my-4">
-                @include('components.base.datepicker', [
-                    'label' => 'Dari Tanggal',
-                    'placeholder' => 'Pilih Tanggal',
-                    'id' => 'rekap_dari_tanggal',
-                ])
-                @include('components.base.datepicker', [
-                    'label' => 'Sampe Tanggal',
-                    'placeholder' => 'Pilih Tanggal',
-                    'id' => 'rekap_sampe_tanggal',
-                ])
+            <div class="flex flex-row px-2 gap-x-4 my-1">
+                <div class="">
+                    <label for="startDate" class="block text-gray-700 text-sm font-semibold mb-2">Pilih Rentang
+                        tanggal</label>
+                    <input type="text" id="startDate"
+                        class="flatpickr w-full px-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Select Date Range" />
+
+                </div>
             </div>
             <div class="flex flex-row gap-4 items-center justify-evenly">
                 @include('components.layout.card-dashboard', ['jenis' => 'total'])
