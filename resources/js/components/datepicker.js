@@ -17,3 +17,15 @@ document.addEventListener("DOMContentLoaded", function () {
         dateFormat: "Y-m-d", // format tanggal
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    flatpickr("#rekap_dari_tanggal", {
+        dateFormat: "Y-m-d", // format tanggal
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    flatpickr("#rekap_sampe_tanggal", {
+        dateFormat: "Y-m-d", // format tanggal
+    });
+});

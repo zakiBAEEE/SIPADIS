@@ -32,6 +32,18 @@
                     Masuk</h5>
                 <hr class="w-full border-t border-gray-300 my-1" />
             </div>
+            <div class="flex flex-row gap-x-2 my-4">
+                @include('components.base.datepicker', [
+                    'label' => 'Dari Tanggal',
+                    'placeholder' => 'Pilih Tanggal',
+                    'id' => 'rekap_dari_tanggal',
+                ])
+                @include('components.base.datepicker', [
+                    'label' => 'Sampe Tanggal',
+                    'placeholder' => 'Pilih Tanggal',
+                    'id' => 'rekap_sampe_tanggal',
+                ])
+            </div>
             <div class="flex flex-row gap-4 items-center justify-evenly">
                 @include('components.layout.card-dashboard', ['jenis' => 'total'])
                 @include('components.base.ikon-panah-kanan')
