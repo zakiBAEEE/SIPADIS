@@ -18,24 +18,32 @@
                     </svg>
                 </button>
             </div>
-            <div class="p-4 flex flex-row gap-2">
-                <div class="p-4 pt-2 w-1/3">
-                    @include('components.base.datepicker', [
-                        'id' => 'tanggal_disposisi',
-                        'label' => 'Tanggal Disposisi',
-                        'placeholder' => 'Masukkan Tanggal',
-                    ])
+            <div class="p-4 flex flex-col gap-2">
+                <div class="flex flex-row gap-2 justify-evenly">
+                    <div class=" w-1/3">
+                        @include('components.base.datepicker', [
+                            'id' => 'tanggal_disposisi',
+                            'label' => 'Tanggal Disposisi',
+                            'placeholder' => 'Masukkan Tanggal',
+                        ])
+                    </div>
+                    <div class=" w-1/3">
+                        @include('components.base.dropdown', [
+                            'label' => 'Disposisi Dari',
+                            'value' => ['Kepala LLDIKTI', 'KBU', 'Katimja'],
+                        ])
+                    </div>
+                    <div class=" w-1/3">
+                        @include('components.base.dropdown', [
+                            'label' => 'Disposisi Kepada',
+                            'value' => ['Kepala LLDIKTI', 'KBU', 'Kelembagaan'],
+                        ])
+                    </div>
                 </div>
-                <div class="p-4 pt-2 w-1/3">
+                <div ">
                     @include('components.base.input-surat', [
-                        'label' => 'Disposisi Dari',
-                        'placeholder' => 'Masukkan Disposisi',
-                    ])
-                </div>
-                <div class="p-4 pt-2 w-1/3">
-                    @include('components.base.input-surat', [
-                        'label' => 'Disposisi Kepada',
-                        'placeholder' => 'Masukkan Disposisi',
+                        'label' => 'Instruksi',
+                        'placeholder' => 'Masukkan Instruksi',
                     ])
                 </div>
             </div>
