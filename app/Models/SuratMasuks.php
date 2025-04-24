@@ -27,7 +27,7 @@ class SuratMasuks
         'perihal' => 'Permohonan Beasiswa',
         'klasifikasi' => 'Umum',
         'sifat' => 'Rahasia',
-        'file_path' => "Laporan Akhir Komputer dan Masyakarat Kelompok 8.pdf",
+        'file_path' => "LogHarianMoza_21Maret2025 (1).pdf",
     ],
     (object)[
         'id' => 2,
