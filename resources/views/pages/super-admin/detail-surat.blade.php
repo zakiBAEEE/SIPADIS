@@ -52,7 +52,7 @@
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
                                             id="modal_tgl_surat">
-                                            {{ $surat->tgl_surat }} </h6>
+                                            {{ $surat->tanggal_terima }} </h6>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
                                             id="modal_tgl_terima">
-                                            {{ $surat->tgl_terima }} </h6>
+                                            {{ $surat->tanggal_terima }} </h6>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
                                             id="modal_klasifikasi">
-                                            {{ $surat->klasifikasi }} </h6>
+                                            {{ $surat->klasifikasi_surat }} </h6>
                                     </div>
                                 </div>
                             </div>
