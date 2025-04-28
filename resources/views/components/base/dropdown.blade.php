@@ -3,7 +3,7 @@
         class="font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">{{ $label }}</label>
     <div class="w-full max-w-sm min-w-[200px]">
         <div class="relative">
-            <select name="sifat"
+            <select name={{$name}}
                 class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 ring ring-transparent hover:ring-slate-800/10 focus:ring-slate-800/10 hover:border-slate-800 shadow-sm focus:shadow cursor-pointer appearance-none">
 
                 @foreach ($value as $item)

@@ -22,6 +22,8 @@
                     </svg>
                 </button>
             </div>
+            <form action="{{ route('surat.store') }}" method="POST">
+            @csrf
             @include('components.form.form-surat-masuk')
             <div class=" px-4 pb-2">
                 @include('components.base.file-picker', [
@@ -32,6 +34,8 @@
             <div class=" px-4 pb-4 flex  justify-end gap-2">
                 @include('components.base.tombol-simpan-surat')
             </div>
+            </form>
+         
         </div>
     </div>
 </div>
