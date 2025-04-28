@@ -1,3 +1,11 @@
+@php
+    // Definisikan semua variabel supaya tidak error kalau ada yang lupa kirim
+    $id = $id ?? '';
+    $label = $label ?? '';
+    $placeholder = $placeholder ?? '';
+    $name = $name ?? '';
+@endphp
+
 <div>
     <label for="sifat"
         class="font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">{{ $label }}</label>
