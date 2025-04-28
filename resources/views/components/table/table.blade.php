@@ -1,13 +1,8 @@
 <div
-    class="relative flex flex-col w-full max-h-[400px] overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border">
-    <table class="w-full text-left table-auto text-slate-800 min-w-0 ">
+    class="relative flex flex-col w-full max-h-[400px] overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border h-[400px]">
+    <table class="w-full text-left table-auto text-slate-800 min-w-0">
         <thead>
             <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
-                <th class="p-3">
-                    <p class="text-sm leading-none font-normal">
-                        Kode
-                    </p>
-                </th>
                 <th class="p-3">
                     <p class="text-sm leading-none font-normal">
                         Nomor Agenda
@@ -15,12 +10,12 @@
                 </th>
                 <th class="p-3">
                     <p class="text-sm leading-none font-normal">
-                        Tgl Terima
+                        Pengirim
                     </p>
                 </th>
                 <th class="p-3">
                     <p class="text-sm leading-none font-normal">
-                        Pengirim
+                        Tgl Terima
                     </p>
                 </th>
                 <th class="p-3">
