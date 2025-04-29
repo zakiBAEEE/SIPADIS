@@ -54,10 +54,10 @@
                         <p class="text-sm">{{ $surat->pengirim }}</p>
                     </td>
                     <td class="p-3">
-                        <p class="text-sm">{{ $surat->tanggal_terima }}</p>
+                        <p class="text-sm">  {{ \Carbon\Carbon::parse($surat->tanggal_terima)->translatedFormat('d F Y') }}</p>
                     </td>
                     <td class="p-3">
-                        <p class="text-sm">{{ $surat->tanggal_surat }}</p>
+                        <p class="text-sm">  {{ \Carbon\Carbon::parse($surat->tanggal_surat)->translatedFormat('d F Y') }}</p>
                     </td>
                     <td class="p-3">
                         <p class="text-sm">{{ $surat->perihal }}</p>
