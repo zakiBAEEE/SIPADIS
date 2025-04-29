@@ -35,6 +35,7 @@ class SuratMasukController extends Controller
 
         $surat = SuratMasuk::create($validated);
         
+        return redirect()->route('surat.index')->with('success', 'Surat berhasil ditambahkan!');
     }
 
     public function show($id)
