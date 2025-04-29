@@ -52,7 +52,8 @@
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
                                             id="modal_tgl_surat">
-                                            {{ $surat->tanggal_terima }} </h6>
+                                            {{ \Carbon\Carbon::parse($surat->tanggal_surat)->translatedFormat('d F Y') }}
+ </h6>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +65,7 @@
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
                                             id="modal_tgl_terima">
-                                            {{ $surat->tanggal_terima }} </h6>
+                                            {{ \Carbon\Carbon::parse($surat->tanggal_terima)->translatedFormat('d F Y') }} </h6>
                                     </div>
                                 </div>
                             </div>
