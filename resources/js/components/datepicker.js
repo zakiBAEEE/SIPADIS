@@ -3,7 +3,7 @@ import "flatpickr/dist/flatpickr.min.css";
 
 document.addEventListener("DOMContentLoaded", function () {
     flatpickr("#tanggal_surat", {
-        dateFormat: "Y-m-d", // format tanggal
+        dateFormat: "Y-m-d", 
     });
 });
 document.addEventListener("DOMContentLoaded", function () {
@@ -36,3 +36,4 @@ document.addEventListener('DOMContentLoaded', function () {
         dateFormat: "Y-m-d",  // Format tanggal yang ditampilkan
     });
 });
+

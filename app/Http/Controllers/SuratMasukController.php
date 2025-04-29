@@ -30,8 +30,13 @@ class SuratMasukController extends Controller
             'perihal' => 'required|string',
             'klasifikasi_surat' => 'nullable|string',
             'sifat' => 'nullable|string',
-            'file_path' => 'nullable|string',
+            'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
         ]);
+
+        if ($request->hasFile('file_path')) {
+            $path = $request->file('file_path')->store('surat', 'public');
+            $validated['file_path'] = $path; // ini yang disimpan ke DB
+        }
 
         $surat = SuratMasuk::create($validated);
 
@@ -46,16 +51,16 @@ class SuratMasukController extends Controller
     
     public function edit(SuratMasuk $suratMasuk)
     {
-        //
+        
     }
 
     public function update(Request $request, SuratMasuk $suratMasuk)
     {
-        //
+        
     }
 
     public function destroy(SuratMasuk $suratMasuk)
     {
-        //
+        
     }
 }

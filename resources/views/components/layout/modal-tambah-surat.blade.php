@@ -22,20 +22,20 @@
                     </svg>
                 </button>
             </div>
-            <form action="{{ route('surat.store') }}" method="POST">
+            <form action="{{ route('surat.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @include('components.form.form-surat-masuk')
             <div class=" px-4 pb-2">
                 @include('components.base.file-picker', [
                     'label' => 'Pilih Dokumen Surat',
                     'placeholder' => 'Pilih Dokumen',
+                    'name' => 'file_path'
                 ])
             </div>
-            <div class=" px-4 pb-4 flex  justify-end gap-2">
+            <div class=" px-4 pb-4 flex justify-end gap-2">
                 @include('components.base.tombol-simpan-surat')
             </div>
             </form>
-         
         </div>
     </div>
 </div>

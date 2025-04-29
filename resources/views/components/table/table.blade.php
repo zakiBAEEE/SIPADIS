@@ -69,7 +69,6 @@
                             </a>
                             <a href="">@include('components.base.ikon-edit')</a>
                             <a href="">@include('components.base.ikon-hapus')</a>
-
                         </div>
                     </td>
                 </tr>

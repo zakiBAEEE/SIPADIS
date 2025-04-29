@@ -125,7 +125,7 @@
                             @if ($surat->file_path)
                                 <div class="mt-4">
                                     @if (Str::endsWith($surat->file_path, '.pdf'))
-                                        <iframe src="{{ asset('storage/' . $surat->file_path) }}" class="w-full h-[500px]"
+                                        <iframe src="{{ asset($surat->file_path) }}" class="w-full h-[500px]"
                                             frameborder="0"></iframe>
                                     @else
                                         <img src="m" alt="Preview Dokumen"
