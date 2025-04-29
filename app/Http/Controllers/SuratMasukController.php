@@ -10,7 +10,7 @@ class SuratMasukController extends Controller
 {
     public function index()
     {
-        $surats = SuratMasuk::all();
+        $surats = SuratMasuk::orderBy('created_at', 'desc')->get();;
         return view('pages.super-admin.surat-masuk', compact('surats'));
     }
 
@@ -34,7 +34,7 @@ class SuratMasukController extends Controller
         ]);
 
         $surat = SuratMasuk::create($validated);
-        
+
         return redirect()->route('surat.index')->with('success', 'Surat berhasil ditambahkan!');
     }
 
