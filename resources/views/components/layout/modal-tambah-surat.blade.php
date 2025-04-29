@@ -25,19 +25,18 @@
             <form action="{{ route('surat.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @include('components.form.form-surat-masuk')
-            <div class=" px-4 pb-2">
-                {{-- @include('components.base.file-picker', [
+            {{-- <div class=" px-4 pb-2">
+                @include('components.base.file-picker', [
                     'label' => 'Pilih Dokumen Surat',
                     'placeholder' => 'Pilih Dokumen',
                     'name' => 'file_path'
-                ]) --}}
-                <div>
-                    <label class="font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">Upload Surat</label>
-                    <div class="relative w-full">
-                        <input type="file" name="file_path" />
-                    </div>
+                ])
+            </div> --}}
+            <div>
+                <label class="font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">Upload Surat</label>
+                <div class="relative w-full">
+                    <input type="file" name="file_path" />
                 </div>
-                
             </div>
             <div class=" px-4 pb-4 flex justify-end gap-2">
                 @include('components.base.tombol-simpan-surat')
