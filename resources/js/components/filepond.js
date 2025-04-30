@@ -1,23 +1,37 @@
-import * as FilePond from 'filepond';
-import 'filepond/dist/filepond.min.css';
-
-// Optional plugin
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-
-// Register plugin
-FilePond.registerPlugin(FilePondPluginFileValidateType, FilePondPluginImagePreview);
-
-// Apply ke elemen input[type="file"]
-document.addEventListener("DOMContentLoaded", function () {
-    const inputs = document.querySelectorAll('input[type="file"].filepond');
-    [...inputs].forEach(input => {
-        FilePond.create(input, {
-            acceptedFileTypes: ['image/*', 'application/pdf'],
-            labelIdle: 'Drop file atau <span class="filepond--label-action">Browse</span>',
-        });
+document.addEventListener('DOMContentLoaded', function () {
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('fileInput');
+    const dropText = document.getElementById('drop-text');
+  
+    if (!dropArea || !fileInput || !dropText) return;
+  
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files.length > 0) {
+        dropText.textContent = fileInput.files[0].name;
+      } else {
+        dropText.textContent = 'Klik atau tarik file ke sini';
+      }
     });
-});
-
-
+  
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, e => {
+        e.preventDefault();
+        dropArea.classList.add('border-blue-500', 'bg-blue-50');
+      });
+    });
+  
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, e => {
+        e.preventDefault();
+        dropArea.classList.remove('border-blue-500', 'bg-blue-50');
+      });
+    });
+  
+    dropArea.addEventListener('drop', e => {
+      if (e.dataTransfer.files.length > 0) {
+        fileInput.files = e.dataTransfer.files;
+        dropText.textContent = e.dataTransfer.files[0].name;
+      }
+    });
+  });
+  
