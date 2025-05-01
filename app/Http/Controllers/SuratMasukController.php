@@ -52,9 +52,9 @@ class SuratMasukController extends Controller
     
     public function edit(SuratMasuk $suratMasuk)
     {
-        
+        return view('pages.super-admin.edit-surat', compact('suratMasuk'));
     }
-
+    
     public function update(Request $request, SuratMasuk $suratMasuk)
     {
         
