@@ -25,5 +25,6 @@
         <div class="mt-4 flex flex-row justify-end">
             @include('components.base.pagination')
         </div>
+        {{$surats->links()}}
     </div>
 @endsection
