@@ -23,8 +23,7 @@
         </div>
         @include('components.table.table', ['surats' => $surats])
         <div class="mt-4 flex flex-row justify-end">
-            @include('components.base.pagination')
+            @include('components.base.pagination', ['surats'=>$surats])
         </div>
-        {{$surats->links()}}
     </div>
 @endsection
