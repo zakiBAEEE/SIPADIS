@@ -91,9 +91,6 @@
                                     </div>
                                     <div class="mb-4 space-y-1.5 w-1/3">
                                         <div>
-                                            <label for="email"
-                                                class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
-                                                Klasifikasi</label>
                                             <div class="relative w-full">
                                                 @include('components.base.dropdown', [
                                                     'label' => 'Klasifikasi',
@@ -107,9 +104,6 @@
                                     </div>
                                     <div class="mb-4 space-y-1.5 w-1/3">
                                         <div>
-                                            <label for="email"
-                                                class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
-                                                Sifat</label>
                                             <div class="relative w-full">
                                                 @include('components.base.dropdown', [
                                                     'label' => 'Sifat',
