@@ -1,7 +1,22 @@
-<div>
-    <label for="email"
-        class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">{{ $label }}</label>
-    <div class="relative w-full">
-        <input type="file" class="filepond" name="{{$name}}"/>
+<div class="px-4 pb-4">
+    <label class="block font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">
+        {{ $label }}
+    </label>
+
+    <div id="drop-area"
+        class="group relative w-full flex flex-col items-center justify-center px-4 py-10 border-2 border-dashed rounded-lg cursor-pointer transition-colors
+         border-slate-300 bg-white text-slate-500 hover:border-blue-400 hover:bg-blue-50
+         dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-blue-500 dark:hover:bg-slate-700">
+        <input type="file" name="file_path" id="fileInput" class="absolute inset-0 opacity-0 z-10 cursor-pointer" />
+
+        <div class="flex flex-col items-center pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8 mb-2 text-slate-400 group-hover:text-blue-500 dark:group-hover:text-blue-400"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M4 12l8-8m0 0l8 8m-8-8v12" />
+            </svg>
+            <p id="drop-text" class="text-sm">Klik atau tarik file ke sini</p>
+        </div>
     </div>
 </div>
