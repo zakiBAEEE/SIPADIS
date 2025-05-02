@@ -29,7 +29,7 @@
                 </a>
             </div>
             <div class="mt-4 tab-content-container">
-                <form action="{{ route('surat.update', $surat->id) }}" method="POST">
+                <form action="{{ route('surat.update', $surat->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div id="tab1-group4" class="tab-content text-slate-800 block">
                         <div class="p-4">
