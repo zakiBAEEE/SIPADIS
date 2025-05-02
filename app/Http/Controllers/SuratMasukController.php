@@ -106,7 +106,7 @@ public function update(Request $request, SuratMasuk $surat)
 
     $surat->update($validated);
 
-    return redirect()->route('surat.index')->with('success', 'Surat berhasil diperbarui!');
+    return redirect()->route('surat.show', ['id' => $surat->id])->with('success', 'Surat berhasil diperbarui!');
 }
     public function destroy(SuratMasuk $suratMasuk)
     {

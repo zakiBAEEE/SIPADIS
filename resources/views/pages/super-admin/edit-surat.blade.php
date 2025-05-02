@@ -148,7 +148,6 @@
                                 <label class="block font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">
                                     Upload Ulang Dokumen (opsional)
                                 </label>
-
                                 <div id="drop-area"
                                     class="group relative w-full flex flex-col items-center justify-center px-4 py-10 border-2 border-dashed rounded-lg cursor-pointer transition-colors
          border-slate-300 bg-white text-slate-500 hover:border-blue-400 hover:bg-blue-50
