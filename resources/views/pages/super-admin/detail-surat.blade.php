@@ -42,7 +42,6 @@
                                             {{ $surat->nomor_surat }} </h6>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="mb-4 space-y-1.5 w-1/3">
                                 <div>
@@ -53,7 +52,7 @@
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
                                             id="modal_tgl_surat">
                                             {{ \Carbon\Carbon::parse($surat->tanggal_surat)->translatedFormat('d F Y') }}
- </h6>
+                                        </h6>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +64,8 @@
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
                                             id="modal_tgl_terima">
-                                            {{ \Carbon\Carbon::parse($surat->tanggal_terima)->translatedFormat('d F Y') }} </h6>
+                                            {{ \Carbon\Carbon::parse($surat->tanggal_terima)->translatedFormat('d F Y') }}
+                                        </h6>
                                     </div>
                                 </div>
                             </div>
@@ -128,8 +128,7 @@
                                         <iframe src="{{ asset('storage/' . $surat->file_path) }}" class="w-full h-[500px]"
                                             frameborder="0"></iframe>
                                     @else
-                                        <img src="m" alt="Preview Dokumen"
-                                            class="max-w-full h-auto">
+                                        <img src="m" alt="Preview Dokumen" class="max-w-full h-auto">
                                     @endif
                                 </div>
                             @else

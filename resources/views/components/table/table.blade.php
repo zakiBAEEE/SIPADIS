@@ -3,7 +3,7 @@
     <table class="w-full text-left table-auto text-slate-800 min-w-0">
         <thead>
             <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
-               
+
                 <th class="p-3">
                     <p class="text-sm leading-none font-normal">
                         Nomor Agenda
@@ -54,10 +54,12 @@
                         <p class="text-sm">{{ $surat->pengirim }}</p>
                     </td>
                     <td class="p-3">
-                        <p class="text-sm">  {{ \Carbon\Carbon::parse($surat->tanggal_terima)->translatedFormat('d F Y') }}</p>
+                        <p class="text-sm">
+                            {{ \Carbon\Carbon::parse($surat->tanggal_terima)->translatedFormat('d F Y') }}</p>
                     </td>
                     <td class="p-3">
-                        <p class="text-sm">  {{ \Carbon\Carbon::parse($surat->tanggal_surat)->translatedFormat('d F Y') }}</p>
+                        <p class="text-sm">
+                            {{ \Carbon\Carbon::parse($surat->tanggal_surat)->translatedFormat('d F Y') }}</p>
                     </td>
                     <td class="p-3">
                         <p class="text-sm">{{ $surat->perihal }}</p>
@@ -67,7 +69,9 @@
                             <a href="{{ route('surat.show', ['id' => $surat->id]) }}">
                                 @include('components.base.ikon-mata')
                             </a>
-                            <a href="">@include('components.base.ikon-edit')</a>
+                            <a href="{{ route('surat.edit', ['surat' => $surat->id]) }}">
+                                @include('components.base.ikon-edit')
+                            </a>
                             <a href="">@include('components.base.ikon-hapus')</a>
                         </div>
                     </td>

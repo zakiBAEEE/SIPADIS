@@ -50,15 +50,34 @@ class SuratMasukController extends Controller
         return view('pages.super-admin.detail-surat', compact('surat'));
     }
     
-    public function edit(SuratMasuk $suratMasuk)
+    public function edit(SuratMasuk $surat)
     {
-        return view('pages.super-admin.edit-surat', compact('suratMasuk'));
+        return view('pages.super-admin.edit-surat', compact('surat'));
     }
     
-    public function update(Request $request, SuratMasuk $suratMasuk)
-    {
-        
+    public function update(Request $request, SuratMasuk $surat)
+{
+    $validated = $request->validate([
+        'nomor_agenda' => 'nullable|string',
+        'nomor_surat' => 'required|string',
+        'pengirim' => 'required|string',
+        'tanggal_surat' => 'required|date',
+        'tanggal_terima' => 'required|date',
+        'perihal' => 'required|string',
+        'klasifikasi_surat' => 'nullable|string',
+        'sifat' => 'nullable|string',
+        'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
+    ]);
+
+    if ($request->hasFile('file_path')) {
+        $path = $request->file('file_path')->store('surat', 'public');
+        $validated['file_path'] = $path;
     }
+
+    $surat->update($validated);
+
+    return redirect()->route('surat.index')->with('success', 'Surat berhasil diperbarui!');
+}
 
     public function destroy(SuratMasuk $suratMasuk)
     {
