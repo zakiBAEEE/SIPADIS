@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SuratMasuk;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SuratMasukController extends Controller
 {
@@ -55,21 +56,50 @@ class SuratMasukController extends Controller
         return view('pages.super-admin.edit-surat', compact('surat'));
     }
     
-    public function update(Request $request, SuratMasuk $surat)
+//     public function update(Request $request, SuratMasuk $surat)
+// {
+//     $validated = $request->validate([
+//         'nomor_agenda' => 'nullable|string',
+//         'nomor_surat' => 'required|string',
+//         'pengirim' => 'required|string',
+//         'tanggal_surat' => 'required|date',
+//         'tanggal_terima' => 'required|date',
+//         'perihal' => 'required|string',
+//         'klasifikasi_surat' => 'nullable|string',
+//         'sifat' => 'nullable|string',
+//         'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
+//     ]);
+
+//     if ($request->hasFile('file_path')) {
+//         $path = $request->file('file_path')->store('surat', 'public');
+//         $validated['file_path'] = $path;
+//     }
+
+//     $surat->update($validated);
+
+//     return redirect()->route('surat.index')->with('success', 'Surat berhasil diperbarui!');
+// }
+public function update(Request $request, SuratMasuk $surat)
 {
     $validated = $request->validate([
-        'nomor_agenda' => 'nullable|string',
-        'nomor_surat' => 'required|string',
-        'pengirim' => 'required|string',
-        'tanggal_surat' => 'required|date',
-        'tanggal_terima' => 'required|date',
-        'perihal' => 'required|string',
-        'klasifikasi_surat' => 'nullable|string',
-        'sifat' => 'nullable|string',
-        'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
+        'nomor_agenda'     => 'nullable|string',
+        'nomor_surat'      => 'required|string',
+        'pengirim'         => 'required|string',
+        'tanggal_surat'    => 'required|date',
+        'tanggal_terima'   => 'required|date',
+        'perihal'          => 'required|string',
+        'klasifikasi_surat'=> 'nullable|string',
+        'sifat'            => 'nullable|string',
+        'file_path'        => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
     ]);
 
     if ($request->hasFile('file_path')) {
+        // Hapus file lama jika ada
+        if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
+            Storage::disk('public')->delete($surat->file_path);
+        }
+
+        // Simpan file baru
         $path = $request->file('file_path')->store('surat', 'public');
         $validated['file_path'] = $path;
     }
@@ -78,7 +108,6 @@ class SuratMasukController extends Controller
 
     return redirect()->route('surat.index')->with('success', 'Surat berhasil diperbarui!');
 }
-
     public function destroy(SuratMasuk $suratMasuk)
     {
         

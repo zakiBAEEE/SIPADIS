@@ -125,15 +125,35 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class=" pb-4">
+                            {{-- Preview Dokumen yang Sudah Diunggah --}}
+                            @if ($surat->file_path)
+                                <div class="mb-4">
+                                    <label class="block font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">
+                                        Dokumen Saat Ini:
+                                    </label>
+
+                                    @if (Str::endsWith($surat->file_path, ['.pdf']))
+                                        <iframe src="{{ asset('storage/' . $surat->file_path) }}"
+                                            class="w-full h-[400px] border rounded" frameborder="0">
+                                        </iframe>
+                                    @else
+                                        <img src="{{ asset('storage/' . $surat->file_path) }}" alt="Preview Dokumen"
+                                            class="max-w-full h-auto border rounded">
+                                    @endif
+                                </div>
+                            @endif
+
+                            {{-- File Picker untuk Upload Ulang --}}
+                            <div class="px-4 pb-4">
                                 <label class="block font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">
-                                    Upload Surat
+                                    Upload Ulang Dokumen (opsional)
                                 </label>
 
                                 <div id="drop-area"
                                     class="group relative w-full flex flex-col items-center justify-center px-4 py-10 border-2 border-dashed rounded-lg cursor-pointer transition-colors
-                                     border-slate-300 bg-white text-slate-500 hover:border-blue-400 hover:bg-blue-50
-                                     dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-blue-500 dark:hover:bg-slate-700">
+         border-slate-300 bg-white text-slate-500 hover:border-blue-400 hover:bg-blue-50
+         dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-blue-500 dark:hover:bg-slate-700">
+
                                     <input type="file" name="file_path" id="fileInput"
                                         class="absolute inset-0 opacity-0 z-10 cursor-pointer" />
 
@@ -148,6 +168,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class=" px-4 pb-4 flex justify-end gap-2">
                                 @include('components.base.tombol-simpan-surat')
                             </div>
