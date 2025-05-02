@@ -85,7 +85,7 @@
                                             <div class="relative w-full">
                                                 <input type="text" name="pengirim"
                                                     class="w-full aria-disabled:cursor-not-allowed outline-none focus:outline-none text-slate-800  placeholder:text-slate-600/60 bg-transparent ring-transparent border border-slate-200 transition-all duration-300 ease-in disabled:opacity-50 disabled:pointer-events-none data-[error=true]:border-error data-[success=true]:border-success select-none data-[shape=pill]:rounded-full text-sm rounded-md py-2 px-2.5 ring shadow-sm data-[icon-placement=start]:ps-9 data-[icon-placement=end]:pe-9 hover:border-slate-800 hover:ring-slate-800/10 focus:border-slate-800 focus:ring-slate-800/10 peer"
-                                                    value="{{ old('nomor_surat', $surat->nomor_surat) }}">
+                                                    value="{{ old('nomor_surat', $surat->pengirim) }}">
                                             </div>
                                         </div>
                                     </div>
@@ -120,9 +120,9 @@
                                             class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
                                             Perihal</label>
                                         <div class="relative w-full">
-                                            <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
-                                                id="modal_perihal">
-                                                {{ $surat->perihal }} </h6>
+                                            <input type="text" name="perihal"
+                                                class="w-full aria-disabled:cursor-not-allowed outline-none focus:outline-none text-slate-800  placeholder:text-slate-600/60 bg-transparent ring-transparent border border-slate-200 transition-all duration-300 ease-in disabled:opacity-50 disabled:pointer-events-none data-[error=true]:border-error data-[success=true]:border-success select-none data-[shape=pill]:rounded-full text-sm rounded-md py-2 px-2.5 ring shadow-sm data-[icon-placement=start]:ps-9 data-[icon-placement=end]:pe-9 hover:border-slate-800 hover:ring-slate-800/10 focus:border-slate-800 focus:ring-slate-800/10 peer"
+                                                value="{{ old('nomor_surat', $surat->perihal) }}">
                                         </div>
                                     </div>
                                 </div>
