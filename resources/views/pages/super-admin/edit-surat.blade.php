@@ -95,9 +95,13 @@
                                                 class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
                                                 Klasifikasi</label>
                                             <div class="relative w-full">
-                                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
-                                                    id="modal_klasifikasi">
-                                                    {{ $surat->klasifikasi_surat }} </h6>
+                                                @include('components.base.dropdown', [
+                                                    'label' => 'Klasifikasi',
+                                                    'value' => ['Umum', 'Pengaduan', 'Permintaan Informasi'],
+                                                    'name' => 'klasifikasi_surat',
+                                                    'selected' => $surat->klasifikasi_surat ?? null,
+                                                ])
+
                                             </div>
                                         </div>
                                     </div>
@@ -107,9 +111,12 @@
                                                 class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
                                                 Sifat</label>
                                             <div class="relative w-full">
-                                                <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
-                                                    id="modal_sifat">
-                                                    {{ $surat->sifat }} </h6>
+                                                @include('components.base.dropdown', [
+                                                    'label' => 'Sifat',
+                                                    'value' => ['Rahasia', 'Penting', 'Segera', 'Rutin'],
+                                                    'name' => 'sifat',
+                                                    'selected' => $surat->sifat ?? null,
+                                                ])
                                             </div>
                                         </div>
                                     </div>
