@@ -20,7 +20,7 @@ class SuratMasuk extends Model
         'file_path',
     ];
 
-    public function disposisi() {
-        return $this->hasMany(Disposisi::class);
+    public function disposisis() {
+        return $this->hasMany(Disposisi::class, 'surat_id');
     }
 }

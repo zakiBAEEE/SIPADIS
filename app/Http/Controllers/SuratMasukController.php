@@ -47,7 +47,7 @@ class SuratMasukController extends Controller
 
     public function show($id)
     {
-        $surat = SuratMasuk::findOrFail($id);
+        $surat = SuratMasuk::with('disposisis')->findOrFail($id);
         return view('pages.super-admin.detail-surat', compact('surat'));
     }
     
