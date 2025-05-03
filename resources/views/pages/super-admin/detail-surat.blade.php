@@ -28,9 +28,6 @@
                         Disposisi
                     </a>
                 </div>
-                {{-- <div class="mb-1">
-                    @include('components.base.tombol-edit-surat')
-                </div> --}}
             </div>
             <div class="mt-4 tab-content-container">
                 <div id="tab1-group4" class="tab-content text-slate-800 block">
