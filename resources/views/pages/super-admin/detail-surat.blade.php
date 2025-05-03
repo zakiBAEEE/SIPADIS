@@ -11,21 +11,26 @@
             <hr class="w-full border-t border-gray-300 my-2" />
         </div>
         <div class="relative tab-group">
-            <div class="flex border-b border-slate-200 relative" role="tablist">
-                <div
-                    class="absolute bottom-0 h-0.5 bg-slate-800 transition-transform duration-300 transform scale-x-0 translate-x-0 tab-indicator">
-                </div>
+            <div class="flex border-b border-slate-200 relative justify-between" role="tablist">
+                <div>
+                    <div
+                        class="absolute bottom-0 h-0.5 bg-slate-800 transition-transform duration-300 transform scale-x-0 translate-x-0 tab-indicator">
+                    </div>
 
-                <a href="#"
-                    class="tab-link text-sm active inline-block py-2 px-4 text-slate-800 transition-colors duration-300 mr-1"
-                    data-tab-target="tab1-group4">
-                    Metadata
-                </a>
-                <a href="#"
-                    class="tab-link text-sm inline-block py-2 px-4 text-slate-800 transition-colors duration-300 mr-1"
-                    data-tab-target="tab2-group4">
-                    Disposisi
-                </a>
+                    <a href="#"
+                        class="tab-link text-sm active inline-block py-2 px-4 text-slate-800 transition-colors duration-300 mr-1"
+                        data-tab-target="tab1-group4">
+                        Metadata
+                    </a>
+                    <a href="#"
+                        class="tab-link text-sm inline-block py-2 px-4 text-slate-800 transition-colors duration-300 mr-1"
+                        data-tab-target="tab2-group4">
+                        Disposisi
+                    </a>
+                </div>
+                <div class="mb-1">
+                    @include('components.base.tombol-edit-surat')
+                </div>
             </div>
             <div class="mt-4 tab-content-container">
                 <div id="tab1-group4" class="tab-content text-slate-800 block">
