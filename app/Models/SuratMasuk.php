@@ -19,4 +19,8 @@ class SuratMasuk extends Model
         'sifat',
         'file_path',
     ];
+
+    public function disposisi() {
+        return $this->hasMany(Disposisi::class);
+    }
 }
