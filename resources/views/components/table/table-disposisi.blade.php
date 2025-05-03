@@ -18,20 +18,26 @@
             </tr>
         </thead>
         <tbody class="group text-sm text-slate-800 dark:text-white">
-            <tr class="even:bg-slate-100 dark:even:bg-slate-900">
-                <td class="p-3">
-                    3 Desember 2023
-                </td>
-                <td class="p-3">
-                    Kepala LLDIKTI
-                </td>
-                <td class="p-3">
-                    Tindaklanjuti surat ini
-                </td>
-                <td class="p-3">
-                    KBU
-                </td>
-            </tr>
+            @forelse ($disposisis as $disposisi)
+                <tr class="even:bg-slate-100 dark:even:bg-slate-900">
+                    <td class="p-3">
+                        {{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->translatedFormat('d F Y') }}
+                    </td>
+                    <td class="p-3">
+                        {{ $disposisi->dari_user_id }}
+                    </td>
+                    <td class="p-3">
+                        {{ $disposisi->catatan }}
+                    </td>
+                    <td class="p-3">
+                        {{ $disposisi->ke_user_id }}
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" class="text-center p-3">Belum ada disposisi.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

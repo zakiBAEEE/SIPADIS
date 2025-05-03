@@ -137,7 +137,6 @@
                                 <p class="text-sm text-slate-600">Tidak ada dokumen terlampir.</p>
                             @endif
                         </div>
-
                     </div>
                 </div>
                 <div id="tab2-group4" class="tab-content text-slate-800 hidden">
@@ -148,7 +147,7 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        @include('components.table.table-disposisi')
+                        @include('components.table.table-disposisi', ['disposisis' => $surat->disposisis])
                     </div>
                 </div>
             </div>
