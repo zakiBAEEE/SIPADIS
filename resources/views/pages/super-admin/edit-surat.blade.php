@@ -36,41 +36,40 @@
                             <div class="flex flex-row gap-3">
                                 <div class="mb-4 space-y-1.5 w-1/2">
                                     <div>
-                                        <label for="email"
-                                            class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
-                                            Nomor
-                                            Surat</label>
                                         <div class="relative w-full">
-                                            <input type="text" name="nomor_surat"
-                                                class="w-full aria-disabled:cursor-not-allowed outline-none focus:outline-none text-slate-800  placeholder:text-slate-600/60 bg-transparent ring-transparent border border-slate-200 transition-all duration-300 ease-in disabled:opacity-50 disabled:pointer-events-none data-[error=true]:border-error data-[success=true]:border-success select-none data-[shape=pill]:rounded-full text-sm rounded-md py-2 px-2.5 ring shadow-sm data-[icon-placement=start]:ps-9 data-[icon-placement=end]:pe-9 hover:border-slate-800 hover:ring-slate-800/10 focus:border-slate-800 focus:ring-slate-800/10 peer"lg:text-xl"
-                                                value="{{ old('nomor_surat', $surat->nomor_surat) }}">
+                                            @include('components.base.input-surat', [
+                                                'label' => 'Nomor Surat',
+                                                'placeholder' => 'Masukkan Nomor Surat',
+                                                'name' => 'nomor_surat',
+                                                'value' => $surat->nomor_surat,
+                                            ])
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="mb-4 space-y-1.5 w-1/3">
                                     <div>
-                                        <label for="email"
-                                            class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
-                                            Tanggal
-                                            Surat</label>
                                         <div class="relative w-full">
-                                            <input type="date" name="tanggal_surat" id="tanggal_surat"
-                                                value="{{ old('tanggal_surat', $surat->tanggal_surat) }}"
-                                                class="w-full aria-disabled:cursor-not-allowed outline-none focus:outline-none text-slate-800 dark:text-white placeholder:text-slate-600/60 bg-transparent ring-transparent border border-slate-200 transition-all duration-300 ease-in disabled:opacity-50 disabled:pointer-events-none data-[error=true]:border-error data-[success=true]:border-success select-none data-[shape=pill]:rounded-full text-sm rounded-md py-2 px-2.5 ring shadow-sm data-[icon-placement=start]:ps-9 data-[icon-placement=end]:pe-9 hover:border-slate-800 hover:ring-slate-800/10 focus:border-slate-800 focus:ring-slate-800/10 peer" />
+                                            @include('components.base.datepicker', [
+                                                'label' => 'Tanggal Surat',
+                                                'placeholder' => 'Pilih Tanggal Surat',
+                                                'id' => 'tanggal_surat',
+                                                'name' => 'tanggal_surat',
+                                                'value' => $surat->tanggal_surat,
+                                            ])
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mb-4 space-y-1.5 w-1/3">
                                     <div>
-                                        <label for="email"
-                                            class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
-                                            Tanggal
-                                            Terima</label>
                                         <div class="relative w-full">
-                                            <input type="date" name="tanggal_terima" id="tanggal_terima"
-                                                value="{{ old('tanggal_terima', $surat->tanggal_terima) }}"
-                                                class="w-full aria-disabled:cursor-not-allowed outline-none focus:outline-none text-slate-800 dark:text-white placeholder:text-slate-600/60 bg-transparent ring-transparent border border-slate-200 transition-all duration-300 ease-in disabled:opacity-50 disabled:pointer-events-none data-[error=true]:border-error data-[success=true]:border-success select-none data-[shape=pill]:rounded-full text-sm rounded-md py-2 px-2.5 ring shadow-sm data-[icon-placement=start]:ps-9 data-[icon-placement=end]:pe-9 hover:border-slate-800 hover:ring-slate-800/10 focus:border-slate-800 focus:ring-slate-800/10 peer" />
+                                            @include('components.base.datepicker', [
+                                                'label' => 'Tanggal Terima',
+                                                'placeholder' => 'Pilih Tanggal Terima',
+                                                'id' => 'tanggal_terima',
+                                                'name' => 'tanggal_terima',
+                                                'value' => $surat->tanggal_terima,
+                                            ])
                                         </div>
                                     </div>
                                 </div>
@@ -78,13 +77,13 @@
                             <div class="flex flex-row gap-3 items-center">
                                 <div class="mb-4 space-y-1.5 w-1/2">
                                     <div>
-                                        <label for="email"
-                                            class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
-                                            Pengirim</label>
                                         <div class="relative w-full">
-                                            <input type="text" name="pengirim"
-                                                class="w-full aria-disabled:cursor-not-allowed outline-none focus:outline-none text-slate-800  placeholder:text-slate-600/60 bg-transparent ring-transparent border border-slate-200 transition-all duration-300 ease-in disabled:opacity-50 disabled:pointer-events-none data-[error=true]:border-error data-[success=true]:border-success select-none data-[shape=pill]:rounded-full text-sm rounded-md py-2 px-2.5 ring shadow-sm data-[icon-placement=start]:ps-9 data-[icon-placement=end]:pe-9 hover:border-slate-800 hover:ring-slate-800/10 focus:border-slate-800 focus:ring-slate-800/10 peer"
-                                                value="{{ old('nomor_surat', $surat->pengirim) }}">
+                                            @include('components.base.input-surat', [
+                                                'label' => 'Pengirim',
+                                                'placeholder' => 'Masukkan Nomor Pengirim',
+                                                'name' => 'pengirim',
+                                                'value' => $surat->pengirim,
+                                            ])
                                         </div>
                                     </div>
                                 </div>
@@ -115,13 +114,13 @@
                             </div>
                             <div class="mb-4 space-y-1.5 w-1/3">
                                 <div>
-                                    <label for="email"
-                                        class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
-                                        Perihal</label>
                                     <div class="relative w-full">
-                                        <input type="text" name="perihal"
-                                            class="w-full aria-disabled:cursor-not-allowed outline-none focus:outline-none text-slate-800  placeholder:text-slate-600/60 bg-transparent ring-transparent border border-slate-200 transition-all duration-300 ease-in disabled:opacity-50 disabled:pointer-events-none data-[error=true]:border-error data-[success=true]:border-success select-none data-[shape=pill]:rounded-full text-sm rounded-md py-2 px-2.5 ring shadow-sm data-[icon-placement=start]:ps-9 data-[icon-placement=end]:pe-9 hover:border-slate-800 hover:ring-slate-800/10 focus:border-slate-800 focus:ring-slate-800/10 peer"
-                                            value="{{ old('nomor_surat', $surat->perihal) }}">
+                                        @include('components.base.input-surat', [
+                                            'label' => 'Perihal',
+                                            'placeholder' => 'Masukkan Perihal',
+                                            'name' => 'perihal',
+                                            'value' => $surat->perihal,
+                                        ])
                                     </div>
                                 </div>
                             </div>

@@ -38,7 +38,9 @@
                     <input type="file" name="file_path" />
                 </div>
             </div> --}}
-                @include('components.base.file-picker', ['label' => 'Upload Surat'])
+                <div class="px-4">
+                    @include('components.base.file-picker', ['label' => 'Upload Surat'])
+                </div>
                 <div class=" px-4 pb-4 flex justify-end gap-2">
                     @include('components.base.tombol-simpan-surat')
                 </div>

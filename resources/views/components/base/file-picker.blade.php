@@ -1,4 +1,4 @@
-<div class="px-4 pb-4">
+<div class="pb-4">
     <label class="block font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">
         {{ $label }}
     </label>
