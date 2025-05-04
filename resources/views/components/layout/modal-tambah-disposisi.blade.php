@@ -18,80 +18,92 @@
                     </svg>
                 </button>
             </div>
-            <div class="p-4 flex flex-col gap-2">
-                <div class="flex flex-row gap-2 justify-evenly">
-                    <div class=" w-1/3">
-                        @include('components.base.datepicker', [
-                            'id' => 'tanggal_disposisi',
-                            'label' => 'Tanggal Disposisi',
-                            'placeholder' => 'Masukkan Tanggal',
-                            'name' => 'tanggal_disposisi',
-                        ])
-                    </div>
-                    <div class=" w-1/3">
-                        @include('components.base.dropdown', [
-                            'label' => 'Disposisi Dari',
-                            'value' => [
-                                'Kepala LLDIKTI',
-                                'KBU',
-                                [
-                                    'label' => 'Katimja',
-                                    'children' => [
-                                        'Kelembagaan',
-                                        'Sistem Informasi',
-                                        'Sumber Daya',
-                                        'Belmawa',
-                                        'Riset dan Pengembangan',
+            <form action="{{ route('disposisi.store', $surat->id) }}" method="POST">
+                <div class="p-4 flex flex-col gap-2">
+                    <div class="flex flex-row gap-2 justify-evenly">
+                        <div class=" w-1/3">
+                            @include('components.base.datepicker', [
+                                'id' => 'tanggal_disposisi',
+                                'label' => 'Tanggal Disposisi',
+                                'placeholder' => 'Masukkan Tanggal',
+                                'name' => 'tanggal_disposisi',
+                            ])
+                        </div>
+                        <div class=" w-1/3">
+                            @include('components.base.dropdown', [
+                                'label' => 'Disposisi Dari',
+                                'value' => [
+                                    'Kepala LLDIKTI',
+                                    'KBU',
+                                    [
+                                        'label' => 'Katimja',
+                                        'children' => [
+                                            'Kelembagaan',
+                                            'Sistem Informasi',
+                                            'Sumber Daya',
+                                            'Belmawa',
+                                            'Riset dan Pengembangan',
+                                        ],
+                                    ],
+                                    [
+                                        'label' => 'Bagian Umum',
+                                        'children' => [
+                                            'Perencanaan & Keuangan',
+                                            'Kepegawaian',
+                                            'Tata Usaha',
+                                            'Humas',
+                                        ],
                                     ],
                                 ],
-                                [
-                                    'label' => 'Bagian Umum',
-                                    'children' => ['Perencanaan & Keuangan', 'Kepegawaian', 'Tata Usaha', 'Humas'],
-                                ],
-                            ],
-                            'name' => 'dari_user_id',
-                        ])
-                    </div>
-                    <div class=" w-1/3">
-                        @include('components.base.dropdown', [
-                            'label' => 'Tujuan Disposisi',
-                            'value' => [
-                                'Kepala LLDIKTI',
-                                'KBU',
-                                [
-                                    'label' => 'Katimja',
-                                    'children' => [
-                                        'Kelembagaan',
-                                        'Sistem Informasi',
-                                        'Sumber Daya',
-                                        'Belmawa',
-                                        'Riset dan Pengembangan',
+                                'name' => 'dari_user_id',
+                            ])
+                        </div>
+                        <div class=" w-1/3">
+                            @include('components.base.dropdown', [
+                                'label' => 'Tujuan Disposisi',
+                                'value' => [
+                                    'Kepala LLDIKTI',
+                                    'KBU',
+                                    [
+                                        'label' => 'Katimja',
+                                        'children' => [
+                                            'Kelembagaan',
+                                            'Sistem Informasi',
+                                            'Sumber Daya',
+                                            'Belmawa',
+                                            'Riset dan Pengembangan',
+                                        ],
+                                    ],
+                                    [
+                                        'label' => 'Bagian Umum',
+                                        'children' => [
+                                            'Perencanaan & Keuangan',
+                                            'Kepegawaian',
+                                            'Tata Usaha',
+                                            'Humas',
+                                        ],
                                     ],
                                 ],
-                                [
-                                    'label' => 'Bagian Umum',
-                                    'children' => ['Perencanaan & Keuangan', 'Kepegawaian', 'Tata Usaha', 'Humas'],
-                                ],
-                            ],
-                            'name' => 'ke_user_id',
-                        ])
+                                'name' => 'ke_user_id',
+                            ])
 
+                        </div>
+                    </div>
+                    <div>
+                        @include('components.base.input-surat', [
+                            'label' => 'Instruksi',
+                            'placeholder' => 'Masukkan Instruksi',
+                            'name' => 'catatan',
+                        ])
                     </div>
                 </div>
-                <div>
-                    @include('components.base.input-surat', [
-                        'label' => 'Instruksi',
-                        'placeholder' => 'Masukkan Instruksi',
-                        'name' => 'catatan',
-                    ])
+                <div class="p-4 flex justify-end gap-2">
+                    <button type="button" data-dismiss="modal"
+                        class="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-2 px-4 bg-transparent border-transparent text-red-500 hover:bg-red-500/10 hover:border-red-500/10 shadow-none hover:shadow-none outline-none">Batal</button>
+                    <button type="submit"
+                        class="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-2 px-4 shadow-sm hover:shadow-md bg-slate-800 border-slate-800 text-slate-50 hover:bg-slate-700 hover:border-slate-700">Tambah</button>
                 </div>
-            </div>
-            <div class="p-4 flex justify-end gap-2">
-                <button type="button" data-dismiss="modal"
-                    class="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-2 px-4 bg-transparent border-transparent text-red-500 hover:bg-red-500/10 hover:border-red-500/10 shadow-none hover:shadow-none outline-none">Batal</button>
-                <button type="submit"
-                    class="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-2 px-4 shadow-sm hover:shadow-md bg-slate-800 border-slate-800 text-slate-50 hover:bg-slate-700 hover:border-slate-700">Tambah</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
