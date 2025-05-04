@@ -2,43 +2,67 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Divisi;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $roles = Role::pluck('id', 'name');     // ['Admin Surat' => 2, ...]
-        $divisis = Divisi::pluck('id', 'nama_divisi'); // ['Sistem Informasi' => 1, ...]
+        // Ambil semua role dan divisi
+        $roleMap = Role::pluck('id', 'name'); // ['Kepala LLDIKTI' => 1, ...]
+        $divisiList = Divisi::pluck('id', 'nama_divisi'); // ['Kelembagaan' => 1, ...]
 
-        User::create([
-            'name' => 'Admin Surat',
-            'username' => 'adminsurat',
-            'password' => Hash::make('password'),
-            'role_id' => $roles['Admin Surat'],
-            'divisi_id' => null,
-        ]);
+        // ===================== //
+        // Users tanpa divisi
+        // ===================== //
+        $nonDivisionalUsers = [
+            ['name' => 'Irwan Hidayat', 'username' => 'kepala01', 'role' => 'Kepala LLDIKTI', 'password' => 'password'],
+            ['name' => 'Mira Lestari', 'username' => 'kbu01', 'role' => 'KBU', 'password' => 'password'],
+            ['name' => 'Dimas Prakoso', 'username' => 'adminsurat01', 'role' => 'Admin Surat', 'password' => 'password'],
+            ['name' => 'Anisa Wulandari', 'username' => 'superadmin01', 'role' => 'Super Admin Surat', 'password' => 'password'],
+        ];
 
-        User::create([
-            'name' => 'Staff Sistem Informasi',
-            'username' => 'staffsi',
-            'password' => Hash::make('password'),
-            'role_id' => $roles['Staff'],
-            'divisi_id' => $divisis['Sistem Informasi'],
-        ]);
+        foreach ($nonDivisionalUsers as $user) {
+            User::updateOrCreate(
+                ['username' => $user['username']],
+                [
+                    'name' => $user['name'],
+                    'password' => Hash::make($user['password']),
+                    'role_id' => $roleMap[$user['role']],
+                    'divisi_id' => null,
+                ]
+            );
+        }
 
-        User::create([
-            'name' => 'Kepala LLDIKTI',
-            'username' => 'kepalalldikti',
-            'password' => Hash::make('password'),
-            'role_id' => $roles['Kepala LLDIKTI'],
-            'divisi_id' => null,
-        ]);
+        // ===================== //
+        // Users dengan divisi
+        // ===================== //
+        foreach ($divisiList as $divisiName => $divisiId) {
+            // Tambah satu Katimja per divisi
+            User::updateOrCreate(
+                ['username' => 'katimja_' . strtolower(str_replace(' ', '_', $divisiName))],
+                [
+                    'name' => fake()->name(), // Nama sungguhan random
+                    'password' => Hash::make('password'),
+                    'role_id' => $roleMap['Katimja'],
+                    'divisi_id' => $divisiId,
+                ]
+            );
 
-        // Tambah user lain jika perlu...
+            // Tambah satu Staff per divisi
+            User::updateOrCreate(
+                ['username' => 'staff_' . strtolower(str_replace(' ', '_', $divisiName))],
+                [
+                    'name' => fake()->name(), // Nama sungguhan random
+                    'password' => Hash::make('password'),
+                    'role_id' => $roleMap['Staff'],
+                    'divisi_id' => $divisiId,
+                ]
+            );
+        }
     }
 }
