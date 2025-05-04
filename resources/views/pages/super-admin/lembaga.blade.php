@@ -11,47 +11,52 @@
                 </h6>
                 <hr class="w-full border-t border-gray-300 my-1" />
             </div>
-            <div class="flex flex-row">
-                <div class="flex flex-col">
-                    @include('components.base.input-surat', [
-                        'label' => 'Nama Kementrian',
-                        'placeholder' => 'Masukkan Nama Kementrian',
-                        'name' => 'nama_kementrian',
-                    ])
-                    @include('components.base.input-surat', [
-                        'label' => 'Nama Lembaga',
-                        'placeholder' => 'Masukkan Nama Lembaga',
-                        'name' => 'nama_lembaga',
-                    ])
-                    <div class="flex flex-row">
-                        <div class="flex flex-col">
-                            @include('components.base.input-surat', [
-                                'label' => 'Email',
-                                'placeholder' => 'Masukkan Email',
-                                'name' => 'email',
-                            ])
-                            @include('components.base.input-surat', [
-                                'label' => 'Alamat',
-                                'placeholder' => 'Masukkan Alamat',
-                                'name' => 'alamat',
-                            ])
-                        </div>
-                        <div class="flex flex-col">
-                            @include('components.base.input-surat', [
-                                'label' => 'Telepon',
-                                'placeholder' => 'Masukkan Telepon',
-                                'name' => 'telepon',
-                            ])
-                            @include('components.base.input-surat', [
-                                'label' => 'Website',
-                                'placeholder' => 'Masukkan Alamat Website',
-                                'name' => 'website',
-                            ])
+            <div class="flex flex-col">
+                <div class="flex flex-row gap-x-5 p-4">
+                    <div class="flex flex-col w-5/6 gap-3">
+                        @include('components.base.input-surat', [
+                            'label' => 'Nama Kementrian',
+                            'placeholder' => 'Masukkan Nama Kementrian',
+                            'name' => 'nama_kementrian',
+                        ])
+                        @include('components.base.input-surat', [
+                            'label' => 'Nama Lembaga',
+                            'placeholder' => 'Masukkan Nama Lembaga',
+                            'name' => 'nama_lembaga',
+                        ])
+                        <div class="flex flex-row w-full gap-3">
+                            <div class="flex flex-col w-1/2 gap-3">
+                                @include('components.base.input-surat', [
+                                    'label' => 'Email',
+                                    'placeholder' => 'Masukkan Email',
+                                    'name' => 'email',
+                                ])
+                                @include('components.base.input-surat', [
+                                    'label' => 'Alamat',
+                                    'placeholder' => 'Masukkan Alamat',
+                                    'name' => 'alamat',
+                                ])
+                            </div>
+                            <div class="flex flex-col w-1/2 gap-3">
+                                @include('components.base.input-surat', [
+                                    'label' => 'Telepon',
+                                    'placeholder' => 'Masukkan Telepon',
+                                    'name' => 'telepon',
+                                ])
+                                @include('components.base.input-surat', [
+                                    'label' => 'Website',
+                                    'placeholder' => 'Masukkan Alamat Website',
+                                    'name' => 'website',
+                                ])
+                            </div>
                         </div>
                     </div>
+                    <div class="w-1/6 h-full">
+                        @include('components.base.file-picker', ['label' => 'Upload Surat'])
+                    </div>
                 </div>
-                @include('components.base.file-picker', ['label' => 'Upload Surat'])
             </div>
+
         </div>
     </div>
 @endsection
