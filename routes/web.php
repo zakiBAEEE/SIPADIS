@@ -18,5 +18,13 @@ Route::get('/lembaga', function () {
     return view('pages.super-admin.lembaga');
 })->name('organisasi.lembaga');
 
+Route::get('/pegawai', function () {
+    return view('pages.super-admin.lembaga');
+})->name('organisasi.pegawai');
+
+Route::get('/tim-kerja', function () {
+    return view('pages.super-admin.lembaga');
+})->name('organisasi.timKerja');
+
 
 Route::post('/surat-masuk/{id}/disposisi', [DisposisiController::class, 'store'])->name('disposisi.store');
