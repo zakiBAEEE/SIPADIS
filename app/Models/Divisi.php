@@ -8,8 +8,8 @@ class Divisi extends Model
 {
     protected $fillable = ['nama_divisi'];
 
-    public function user()
-    {
-        return $this->hasOne(User::class);
-    }
+    public function users()
+{
+    return $this->hasMany(User::class);
+}
 }
