@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Controllers\SuratMasukController;
+use App\Models\SuratMasuk;
+use App\Models\Disposisi;
 
 class DisposisiController extends Controller
 {
@@ -30,29 +33,28 @@ class DisposisiController extends Controller
      */
     public function store(Request $request, $suratId)
     {
-        // Validasi input dari pengguna
-        $request->validate([
-            'dari_user_id' => 'required|exists:users,id',  // Validasi user yang mengirim disposisi
-            'ke_user_id' => 'required|exists:users,id',    // Validasi user yang menerima disposisi
-            'catatan' => 'nullable|string',                 // Validasi catatan, bisa kosong
-            'tanggal_disposisi' => 'required|date',         // Validasi tanggal disposisi
+        // Validasi input dan ambil hasilnya
+        $validated = $request->validate([
+            'dari_user_id' => 'nullable|string',
+            'ke_user_id' => 'nullable|string',
+            'catatan' => 'nullable|string',
+            'tanggal_disposisi' => 'required|date',
         ]);
-
-        // Menemukan surat berdasarkan ID
+    
+        // Cari surat berdasarkan ID
         $suratMasuk = SuratMasuk::findOrFail($suratId);
-
-        // Membuat disposisi baru dan menyimpannya ke database
-        Disposisi::create([
-            'surat_id' => $suratMasuk->id,  // Surat yang terkait
-            'dari_user_id' => $request->dari_user_id,  // User yang mengirim disposisi
-            'ke_user_id' => $request->ke_user_id,      // User yang menerima disposisi
-            'catatan' => $request->catatan,            // Catatan disposisi
-            'tanggal_disposisi' => $request->tanggal_disposisi,  // Tanggal disposisi
-        ]);
-
-        // Redirect ke halaman surat atau disposisi dengan pesan sukses
-        return redirect()->route('disposisi.index', $suratId)->with('success', 'Disposisi berhasil ditambahkan!');
+    
+        // Tambah surat_id ke data validasi
+        $validated['surat_id'] = $suratMasuk->id;
+    
+        // Simpan disposisi
+        Disposisi::create($validated);
+    
+        // Redirect dengan pesan sukses
+        return redirect()->route('disposisi.index', $suratId)
+                         ->with('success', 'Disposisi berhasil ditambahkan!');
     }
+    
 
     /**
      * Display the specified resource.

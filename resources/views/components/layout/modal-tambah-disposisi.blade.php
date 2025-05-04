@@ -3,6 +3,7 @@
         class="inline-flex flex-row justify-center items-center gap-1 border font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-1 px-2 shadow-sm hover:shadow bg-green-500 border-slate-300 text-slate-50">
         @include('components.base.ikon-tambah') Tambah</button>
     <form action="{{ route('disposisi.store', ['id' => $surat->id]) }}" method="POST">
+        @csrf
         <div class="fixed inset-0 bg-slate-950/50 flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300 ease-out z-[9999]"
             id="md-modal" aria-hidden="true">
             <div
@@ -104,6 +105,5 @@
                     class="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-2 px-4 shadow-sm hover:shadow-md bg-slate-800 border-slate-800 text-slate-50 hover:bg-slate-700 hover:border-slate-700">Tambah</button>
             </div>
         </div>
-    </div>
 </form>
 </div>

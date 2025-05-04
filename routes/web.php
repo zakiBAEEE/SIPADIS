@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SuratMasukController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DisposisiController;
 
 Route::get('/', function () {
     return view('pages.super-admin.home');
