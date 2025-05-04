@@ -15,33 +15,39 @@
                 <div class="flex flex-col">
                     <div class="flex flex-row gap-x-5">
                         <div class="flex flex-col w-5/6 gap-3">
-                            @include('components.base.input-display', [
+                            @include('components.base.input-surat', [
                                 'label' => 'Nama Kementrian',
-                                'value' => 'Test',
+                                'placeholder' => 'Masukkan Nama Kementrian',
+                                'name' => 'nama_kementrian',
                             ])
-                            @include('components.base.input-display', [
+                            @include('components.base.input-surat', [
                                 'label' => 'Nama Lembaga',
-                                'value' => 'Test',
+                                'placeholder' => 'Masukkan Nama Lembaga',
+                                'name' => 'nama_lembaga',
                             ])
                             <div class="flex flex-row w-full gap-3">
                                 <div class="flex flex-col w-1/2 gap-3">
-                                    @include('components.base.input-display', [
+                                    @include('components.base.input-surat', [
                                         'label' => 'Email',
-                                        'value' => 'Test',
+                                        'placeholder' => 'Masukkan Email',
+                                        'name' => 'email',
                                     ])
-                                    @include('components.base.input-display', [
+                                    @include('components.base.input-surat', [
                                         'label' => 'Alamat',
-                                        'value' => 'Test',
+                                        'placeholder' => 'Masukkan Alamat',
+                                        'name' => 'alamat',
                                     ])
                                 </div>
                                 <div class="flex flex-col w-1/2 gap-3">
-                                    @include('components.base.input-display', [
+                                    @include('components.base.input-surat', [
                                         'label' => 'Telepon',
-                                        'value' => 'Test',
+                                        'placeholder' => 'Masukkan Telepon',
+                                        'name' => 'telepon',
                                     ])
-                                    @include('components.base.input-display', [
+                                    @include('components.base.input-surat', [
                                         'label' => 'Website',
-                                        'value' => 'Test',
+                                        'placeholder' => 'Masukkan Alamat Website',
+                                        'name' => 'website',
                                     ])
                                 </div>
                             </div>
@@ -54,41 +60,47 @@
                 <div class="flex flex-col gap-3">
                     <div class="flex flex-row gap-3 w-full">
                         <div class="w-1/3">
-                            @include('components.base.input-display', [
+                            @include('components.base.input-surat', [
                                 'label' => 'Tahun',
-                                'value' => 'Test',
+                                'placeholder' => 'Masukkan Tahun',
+                                'name' => 'tahun',
                             ])
                         </div>
                         <div class="w-1/3">
-                            @include('components.base.input-display', [
+                            @include('components.base.input-surat', [
                                 'label' => 'Kota',
-                                'value' => 'Test',
+                                'placeholder' => 'Masukkan Nama Kota',
+                                'name' => 'kota',
                             ])
                         </div>
                         <div class="w-1/3">
-                            @include('components.base.input-display', [
+                            @include('components.base.input-surat', [
                                 'label' => 'Provinsi',
-                                'value' => 'Test',
+                                'placeholder' => 'Masukkan Nama Provinsi',
+                                'name' => 'provinsi',
                             ])
                         </div>
                     </div>
                     <div class="flex flex-row gap-3">
                         <div class="w-1/3">
-                            @include('components.base.input-display', [
+                            @include('components.base.input-surat', [
                                 'label' => 'Kepala Kantor',
-                                'value' => 'Test',
+                                'placeholder' => 'Masukkan Nama Kepala Kantor',
+                                'name' => 'kepala_kantor',
                             ])
                         </div>
                         <div class="w-1/3">
-                            @include('components.base.input-display', [
+                            @include('components.base.input-surat', [
                                 'label' => 'NIP',
-                                'value' => 'Test',
+                                'placeholder' => 'Masukkan NIP Kepala Kantor',
+                                'name' => 'nip_kepala_kantor',
                             ])
                         </div>
                         <div class="w-1/3">
-                            @include('components.base.input-display', [
+                            @include('components.base.input-surat', [
                                 'label' => 'Jabatan',
-                                'value' => 'Test',
+                                'placeholder' => 'Masukkan Jabatan',
+                                'name' => 'jabatan',
                             ])
                         </div>
                     </div>
