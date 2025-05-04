@@ -143,7 +143,7 @@
                     <div class="flex justify-end">
                         <div class="flex flex-row gap-2">
                             @include('components.base.tombol-print-disposisi')
-                            @include('components.layout.modal-tambah-disposisi', ['surat' => $surat])
+                            @include('components.layout.modal-tambah-disposisi')
                         </div>
                     </div>
                     <div class="p-4">
