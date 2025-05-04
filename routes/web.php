@@ -3,6 +3,7 @@
 use App\Http\Controllers\SuratMasukController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DisposisiController;
+use App\Http\Controllers\LembagaController;
 
 Route::get('/', function () {
     return view('pages.super-admin.home');
@@ -14,9 +15,9 @@ Route::post('/surat-masuk', [SuratMasukController::class, 'store'])->name('surat
 Route::get('/surat-masuk/{surat}/edit', [SuratMasukController::class, 'edit'])->name('surat.edit');
 Route::post('/surat-masuk/{surat}', [SuratMasukController::class, 'update'])->name('surat.update');
 
-Route::get('/lembaga', function () {
-    return view('pages.super-admin.lembaga');
-})->name('organisasi.lembaga');
+Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
+Route::get('/lembaga/edit', [LembagaController::class, 'edit'])->name('lembaga.edit');
+
 
 Route::get('/pegawai', function () {
     return view('pages.super-admin.lembaga');
