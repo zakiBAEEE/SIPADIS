@@ -31,28 +31,24 @@ class DisposisiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $suratId)
+    use App\Models\Disposisi;
+    use Illuminate\Http\Request;
+    
+    public function store(Request $request)
     {
-        // Validasi input dan ambil hasilnya
+        // Validasi input termasuk dari_user_id
         $validated = $request->validate([
-            'dari_user_id' => 'nullable|string',
-            'ke_user_id' => 'nullable|string',
+            'surat_id' => 'required|exists:surat_masuk,id',
+            'dari_user_id' => 'required|exists:users,id',
+            'ke_user_id' => 'required|exists:users,id|different:dari_user_id',
             'catatan' => 'nullable|string',
             'tanggal_disposisi' => 'required|date',
         ]);
     
-        // Cari surat berdasarkan ID
-        $suratMasuk = SuratMasuk::findOrFail($suratId);
-    
-        // Tambah surat_id ke data validasi
-        $validated['surat_id'] = $suratMasuk->id;
-    
-        // Simpan disposisi
+        // Simpan data disposisi
         Disposisi::create($validated);
     
-        // Redirect dengan pesan sukses
-        return redirect()->route('disposisi.index', $suratId)
-                         ->with('success', 'Disposisi berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Disposisi berhasil disimpan.');
     }
     
 
