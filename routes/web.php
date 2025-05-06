@@ -27,5 +27,4 @@ Route::get('/tim-kerja', function () {
     return view('pages.super-admin.lembaga');
 })->name('organisasi.timKerja');
 
-
 Route::post('/surat-masuk/{suratId}/disposisi', [DisposisiController::class, 'store'])->name('disposisi.store');

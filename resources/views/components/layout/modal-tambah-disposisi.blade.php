@@ -32,20 +32,18 @@
                         </div>
                         <div class=" w-1/3">
                             @include('components.base.dropdown', [
-                                'label' => 'Ke User (Penerima)',
-                                'value' => $daftarUser->pluck('display', 'value')->toArray(),
+                                'label' => 'Pengirim',
+                                'value' => $daftarUser->values()->toArray(),
                                 'name' => 'dari_user_id',
                             ])
-                            
+
                         </div>
                         <div class=" w-1/3">
                             @include('components.base.dropdown', [
-    'label' => 'Ke User (Penerima)',
-    'value' => $daftarUser->pluck('display', 'value')->toArray(),
-    'name' => 'ke_user_id',
-])
-
-
+                                'label' => 'Tujuan Disposisi',
+                                'value' => $daftarUser->values()->toArray(),
+                                'name' => 'ke_user_id',
+                            ])
                         </div>
                     </div>
                     <div>

@@ -42,7 +42,6 @@ class DisposisiController extends Controller
         $validated['surat_id'] = $suratId;
     
         Disposisi::create($validated);
-    
         return redirect()->back()->with('success', 'Disposisi berhasil disimpan.');
     }
     
