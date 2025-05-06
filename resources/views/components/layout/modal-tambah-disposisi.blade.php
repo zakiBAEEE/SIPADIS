@@ -31,61 +31,19 @@
                         </div>
                         <div class=" w-1/3">
                             @include('components.base.dropdown', [
-                                'label' => 'Disposisi Dari',
-                                'value' => [
-                                    'Kepala LLDIKTI',
-                                    'KBU',
-                                    [
-                                        'label' => 'Katimja',
-                                        'children' => [
-                                            'Kelembagaan',
-                                            'Sistem Informasi',
-                                            'Sumber Daya',
-                                            'Belmawa',
-                                            'Riset dan Pengembangan',
-                                        ],
-                                    ],
-                                    [
-                                        'label' => 'Bagian Umum',
-                                        'children' => [
-                                            'Perencanaan & Keuangan',
-                                            'Kepegawaian',
-                                            'Tata Usaha',
-                                            'Humas',
-                                        ],
-                                    ],
-                                ],
+                                'label' => 'Ke User (Penerima)',
+                                'value' => $daftarUser->pluck('display', 'value')->toArray(),
                                 'name' => 'dari_user_id',
                             ])
+                            
                         </div>
                         <div class=" w-1/3">
                             @include('components.base.dropdown', [
-                                'label' => 'Tujuan Disposisi',
-                                'value' => [
-                                    'Kepala LLDIKTI',
-                                    'KBU',
-                                    [
-                                        'label' => 'Katimja',
-                                        'children' => [
-                                            'Kelembagaan',
-                                            'Sistem Informasi',
-                                            'Sumber Daya',
-                                            'Belmawa',
-                                            'Riset dan Pengembangan',
-                                        ],
-                                    ],
-                                    [
-                                        'label' => 'Bagian Umum',
-                                        'children' => [
-                                            'Perencanaan & Keuangan',
-                                            'Kepegawaian',
-                                            'Tata Usaha',
-                                            'Humas',
-                                        ],
-                                    ],
-                                ],
-                                'name' => 'ke_user_id',
-                            ])
+    'label' => 'Ke User (Penerima)',
+    'value' => $daftarUser->pluck('display', 'value')->toArray(),
+    'name' => 'ke_user_id',
+])
+
 
                         </div>
                     </div>

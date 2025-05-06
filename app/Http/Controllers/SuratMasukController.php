@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SuratMasuk;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -46,11 +47,38 @@ class SuratMasukController extends Controller
         return redirect()->route('surat.index')->with('success', 'Surat berhasil ditambahkan!');
     }
 
+    
     public function show($id)
     {
         $surat = SuratMasuk::with('disposisis')->findOrFail($id);
-        return view('pages.super-admin.detail-surat', compact('surat'));
+    
+        // Pakai relasi 'role' (singular), bukan 'roles'
+        $users = User::with(['divisi', 'role'])->get();
+    
+        $daftarUser = $users->filter(function ($user) {
+            if ($user->divisi) {
+                return $user->role && $user->role->name === 'Katimja'; // hanya Katimja jika punya divisi
+            }
+            return true; // semua boleh jika tidak punya divisi
+        })->map(function ($user) {
+            if ($user->divisi && $user->role && $user->role->name === 'Katimja') {
+                return [
+                    'value' => $user->id,
+                    'display' => $user->divisi->nama_divisi,
+                ];
+            } else {
+                $role = optional($user->role)->name ?? 'Tanpa Role';
+                return [
+                    'value' => $user->id,
+                    'display' => $role,
+                ];
+            }
+        });
+    
+        return view('pages.super-admin.detail-surat', compact('surat', 'daftarUser'));
     }
+    
+
     
     public function edit(SuratMasuk $surat)
     {
