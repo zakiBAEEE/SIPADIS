@@ -19,6 +19,7 @@
                 </button>
             </div>
             <form action="{{ route('disposisi.store', $surat->id) }}" method="POST">
+                @csrf
                 <div class="p-4 flex flex-col gap-2">
                     <div class="flex flex-row gap-2 justify-evenly">
                         <div class=" w-1/3">
