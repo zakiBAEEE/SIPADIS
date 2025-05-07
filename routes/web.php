@@ -4,6 +4,7 @@ use App\Http\Controllers\SuratMasukController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\LembagaController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('pages.super-admin.home');
@@ -19,9 +20,8 @@ Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index
 Route::get('/lembaga/edit', [LembagaController::class, 'edit'])->name('lembaga.edit');
 Route::post('/lembaga/update', [LembagaController::class, 'update'])->name('lembaga.update');
 
-Route::get('/pegawai', function () {
-    return view('pages.super-admin.pegawai');
-})->name('organisasi.pegawai');
+Route::get('/pegawai', [UserController::class, 'index'])->name('pegawai.index');
+
 
 Route::get('/tim-kerja', function () {
     return view('pages.super-admin.tim-kerja');
