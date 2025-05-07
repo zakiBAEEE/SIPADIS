@@ -143,7 +143,7 @@
                 <div id="tab2-group4" class="tab-content text-slate-800 hidden">
                     <div class="flex justify-end">
                         <div class="flex flex-row gap-2">
-                            @include('components.base.tombol-print-disposisi')
+                            @include('components.base.tombol-print-disposisi', ['surat' => $surat])
                             @include('components.layout.modal-tambah-disposisi', ['surat' => $surat])
                         </div>
                     </div>

@@ -8,6 +8,8 @@ use App\Controllers\SuratMasukController;
 use App\Models\SuratMasuk;
 use App\Models\Disposisi;
 
+use App\Models\Lembaga;
+
 class DisposisiController extends Controller
 {
     /**
@@ -15,9 +17,7 @@ class DisposisiController extends Controller
      */
     public function index($suratId)
     {
-        $suratMasuk = SuratMasuk::findOrFail($suratId);
-        $disposisi = $suratMasuk->disposisi;
-        return view('disposisi.index', compact('disposisi', 'suratMasuk'));
+       
     }
 
     /**
@@ -77,4 +77,22 @@ class DisposisiController extends Controller
     {
         //
     }
+
+public function cetak($id)
+{
+    // Ambil surat beserta semua disposisinya sekaligus
+    $surat = SuratMasuk::with(['disposisis.pengirim', 'disposisis.penerima'])->findOrFail($id);
+    
+    // Ambil data lembaga untuk kop surat
+    $lembaga = Lembaga::first();
+
+    // Kirim ke view cetak
+    return view('pages.super-admin.disposisi-cetak', [
+        'surat' => $surat,
+        'disposisis' => $surat->disposisis,
+        'lembaga' => $lembaga,
+    ]);
+}
+
+
 }

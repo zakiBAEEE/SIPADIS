@@ -28,3 +28,4 @@ Route::get('/tim-kerja', function () {
 })->name('organisasi.timKerja');
 
 Route::post('/surat-masuk/{suratId}/disposisi', [DisposisiController::class, 'store'])->name('disposisi.store');
+Route::get('/disposisi/{id}/cetak', [DisposisiController::class, 'cetak'])->name('disposisi.cetak');
