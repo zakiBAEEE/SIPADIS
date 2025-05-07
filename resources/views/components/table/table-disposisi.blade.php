@@ -24,21 +24,21 @@
                         {{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->translatedFormat('d F Y') }}
                     </td>
                     <td class="p-3">
-                        {{ $disposisi->pengirim->name ?? '-' }} <br>
-                        <small class="text-slate-500">
-                            {{ $disposisi->pengirim->divisi->nama_divisi ?? '-' }} |
+                        @if ($disposisi->pengirim && $disposisi->pengirim->divisi)
+                            {{ $disposisi->pengirim->divisi->nama_divisi }}
+                        @else
                             {{ $disposisi->pengirim->role->name ?? '-' }}
-                        </small>
+                        @endif
                     </td>
                     <td class="p-3">
                         {{ $disposisi->catatan }}
                     </td>
                     <td class="p-3">
-                        {{ $disposisi->penerima->name ?? '-' }} <br>
-                        <small class="text-slate-500">
-                            {{ $disposisi->penerima->divisi->nama_divisi ?? '-' }} |
+                        @if ($disposisi->penerima && $disposisi->penerima->divisi)
+                            {{ $disposisi->penerima->divisi->nama_divisi }}
+                        @else
                             {{ $disposisi->penerima->role->name ?? '-' }}
-                        </small>
+                        @endif
                     </td>
                 </tr>
             @empty
@@ -47,6 +47,7 @@
                 </tr>
             @endforelse
         </tbody>
+
 
     </table>
 </div>
