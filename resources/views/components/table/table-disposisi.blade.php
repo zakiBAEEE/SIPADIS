@@ -18,19 +18,27 @@
             </tr>
         </thead>
         <tbody class="group text-sm text-slate-800 dark:text-white">
-            @forelse ($disposisis as $disposisi)
+            @forelse ($surat->disposisis as $disposisi)
                 <tr class="even:bg-slate-100 dark:even:bg-slate-900">
                     <td class="p-3">
                         {{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->translatedFormat('d F Y') }}
                     </td>
                     <td class="p-3">
-                        {{ $disposisi->dari_user_id }}
+                        {{ $disposisi->pengirim->name ?? '-' }} <br>
+                        <small class="text-slate-500">
+                            {{ $disposisi->pengirim->divisi->nama_divisi ?? '-' }} |
+                            {{ $disposisi->pengirim->role->name ?? '-' }}
+                        </small>
                     </td>
                     <td class="p-3">
                         {{ $disposisi->catatan }}
                     </td>
                     <td class="p-3">
-                        {{ $disposisi->ke_user_id }}
+                        {{ $disposisi->penerima->name ?? '-' }} <br>
+                        <small class="text-slate-500">
+                            {{ $disposisi->penerima->divisi->nama_divisi ?? '-' }} |
+                            {{ $disposisi->penerima->role->name ?? '-' }}
+                        </small>
                     </td>
                 </tr>
             @empty
@@ -39,5 +47,6 @@
                 </tr>
             @endforelse
         </tbody>
+
     </table>
 </div>

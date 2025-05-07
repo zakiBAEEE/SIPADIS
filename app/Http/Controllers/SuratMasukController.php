@@ -48,42 +48,40 @@ class SuratMasukController extends Controller
     }
 
     
-    public function show($id)
-    {
-        $surat = SuratMasuk::with([
-    'disposisis.pengirim.divisi', 
-    'disposisis.pengirim.role',
-    'disposisis.penerima.divisi', 
-    'disposisis.penerima.role'
-])->findOrFail($id);
+   public function show($id)
+{
+    $surat = SuratMasuk::with([
+        'disposisis.pengirim.divisi', 
+        'disposisis.pengirim.role',      // Jika User punya relasi role() -> belongsTo(Role::class)
+        'disposisis.penerima.divisi', 
+        'disposisis.penerima.role'
+    ])->findOrFail($id);
 
-    
-        // Pakai relasi 'role' (singular), bukan 'roles'
-        $users = User::with(['divisi', 'role'])->get();
-    
-        $daftarUser = $users->filter(function ($user) {
-            if ($user->divisi) {
-                return $user->role && $user->role->name === 'Katimja'; // hanya Katimja jika punya divisi
-            }
-            return true; // semua boleh jika tidak punya divisi
-        })->map(function ($user) {
-            if ($user->divisi && $user->role && $user->role->name === 'Katimja') {
-                return [
-                    'value' => $user->id,
-                    'display' => $user->divisi->nama_divisi,
-                ];
-            } else {
-                $role = optional($user->role)->name ?? 'Tanpa Role';
-                return [
-                    'value' => $user->id,
-                    'display' => $role,
-                ];
-            }
-        });
-    
-        return view('pages.super-admin.detail-surat', compact('surat', 'daftarUser'));
-    }
-    
+    $users = User::with(['divisi', 'role'])->get();
+
+    $daftarUser = $users->filter(function ($user) {
+        if ($user->divisi) {
+            return $user->role && $user->role->name === 'Katimja';
+        }
+        return true;
+    })->map(function ($user) {
+        if ($user->divisi && $user->role && $user->role->name === 'Katimja') {
+            return [
+                'value' => $user->id,
+                'display' => $user->divisi->nama_divisi,
+            ];
+        } else {
+            $role = optional($user->role)->name ?? 'Tanpa Role';
+            return [
+                'value' => $user->id,
+                'display' => $role,
+            ];
+        }
+    });
+
+    return view('pages.super-admin.detail-surat', compact('surat', 'daftarUser'));
+}
+
 
     
     public function edit(SuratMasuk $surat)
