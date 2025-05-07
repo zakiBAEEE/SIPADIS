@@ -26,7 +26,7 @@
                         <div class="flex flex-col w-5/6 gap-3">
                             @include('components.base.input-display', [
                                 'label' => 'Nama Kementrian',
-                                'value' => $lembaga->nama_kementrian,
+                                'value' => $lembaga->nama_kementerian,
                             ])
                             @include('components.base.input-display', [
                                 'label' => 'Nama Lembaga',

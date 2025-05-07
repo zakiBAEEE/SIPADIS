@@ -22,8 +22,9 @@
                 </div>
             </div>
             <hr class="w-full border-t border-gray-300 my-1" />
-            <form action="">
+            <form action="{{ route('lembaga.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+
                 <div class="flex flex-col gap-7">
                     <div class="flex flex-col">
                         <div class="flex flex-row gap-x-5">
@@ -31,12 +32,14 @@
                                 @include('components.base.input-surat', [
                                     'label' => 'Nama Kementrian',
                                     'placeholder' => 'Masukkan Nama Kementrian',
-                                    'name' => 'nama_kementrian',
+                                    'name' => 'nama_kementerian',
+                                    'value' => old('nama_kementerian', $lembaga->nama_kementerian ?? ''),
                                 ])
                                 @include('components.base.input-surat', [
                                     'label' => 'Nama Lembaga',
                                     'placeholder' => 'Masukkan Nama Lembaga',
                                     'name' => 'nama_lembaga',
+                                    'value' => old('nama_lembaga', $lembaga->nama_lembaga ?? ''),
                                 ])
                                 <div class="flex flex-row w-full gap-3">
                                     <div class="flex flex-col w-1/2 gap-3">
@@ -44,11 +47,13 @@
                                             'label' => 'Email',
                                             'placeholder' => 'Masukkan Email',
                                             'name' => 'email',
+                                            'value' => old('email', $lembaga->email ?? ''),
                                         ])
                                         @include('components.base.input-surat', [
                                             'label' => 'Alamat',
                                             'placeholder' => 'Masukkan Alamat',
                                             'name' => 'alamat',
+                                            'value' => old('alamat', $lembaga->alamat ?? ''),
                                         ])
                                     </div>
                                     <div class="flex flex-col w-1/2 gap-3">
@@ -56,20 +61,26 @@
                                             'label' => 'Telepon',
                                             'placeholder' => 'Masukkan Telepon',
                                             'name' => 'telepon',
+                                            'value' => old('telepon', $lembaga->telepon ?? ''),
                                         ])
                                         @include('components.base.input-surat', [
                                             'label' => 'Website',
                                             'placeholder' => 'Masukkan Alamat Website',
                                             'name' => 'website',
+                                            'value' => old('website', $lembaga->website ?? ''),
                                         ])
                                     </div>
                                 </div>
                             </div>
                             <div class="w-1/6 h-full">
-                                @include('components.base.file-picker', ['label' => 'Upload Logo Lembaga'])
+                                @include('components.base.file-picker', [
+                                    'label' => 'Upload Logo Lembaga',
+                                    'file' => $lembaga->logo ?? '',
+                                ])
                             </div>
                         </div>
                     </div>
+
                     <div class="flex flex-col gap-7">
                         <div class="flex flex-row gap-3 w-full">
                             <div class="w-1/3">
@@ -77,6 +88,7 @@
                                     'label' => 'Tahun',
                                     'placeholder' => 'Masukkan Tahun',
                                     'name' => 'tahun',
+                                    'value' => old('tahun', $lembaga->tahun ?? ''),
                                 ])
                             </div>
                             <div class="w-1/3">
@@ -84,6 +96,7 @@
                                     'label' => 'Kota',
                                     'placeholder' => 'Masukkan Nama Kota',
                                     'name' => 'kota',
+                                    'value' => old('kota', $lembaga->kota ?? ''),
                                 ])
                             </div>
                             <div class="w-1/3">
@@ -91,6 +104,7 @@
                                     'label' => 'Provinsi',
                                     'placeholder' => 'Masukkan Nama Provinsi',
                                     'name' => 'provinsi',
+                                    'value' => old('provinsi', $lembaga->provinsi ?? ''),
                                 ])
                             </div>
                         </div>
@@ -100,6 +114,7 @@
                                     'label' => 'Kepala Kantor',
                                     'placeholder' => 'Masukkan Nama Kepala Kantor',
                                     'name' => 'kepala_kantor',
+                                    'value' => old('kepala_kantor', $lembaga->kepala_kantor ?? ''),
                                 ])
                             </div>
                             <div class="w-1/3">
@@ -107,6 +122,7 @@
                                     'label' => 'NIP',
                                     'placeholder' => 'Masukkan NIP Kepala Kantor',
                                     'name' => 'nip_kepala_kantor',
+                                    'value' => old('nip_kepala_kantor', $lembaga->nip_kepala_kantor ?? ''),
                                 ])
                             </div>
                             <div class="w-1/3">
@@ -114,15 +130,18 @@
                                     'label' => 'Jabatan',
                                     'placeholder' => 'Masukkan Jabatan',
                                     'name' => 'jabatan',
+                                    'value' => old('jabatan', $lembaga->jabatan ?? ''),
                                 ])
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="flex justify-end mt-7 flex-row gap-2">
                     @include('components.base.tombol-simpan-surat')
                 </div>
             </form>
+
         </div>
     </div>
 @endsection
