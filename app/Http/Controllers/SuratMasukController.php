@@ -50,7 +50,13 @@ class SuratMasukController extends Controller
     
     public function show($id)
     {
-        $surat = SuratMasuk::with('disposisis')->findOrFail($id);
+        $surat = SuratMasuk::with([
+    'disposisis.pengirim.divisi', 
+    'disposisis.pengirim.role',
+    'disposisis.penerima.divisi', 
+    'disposisis.penerima.role'
+])->findOrFail($id);
+
     
         // Pakai relasi 'role' (singular), bukan 'roles'
         $users = User::with(['divisi', 'role'])->get();
