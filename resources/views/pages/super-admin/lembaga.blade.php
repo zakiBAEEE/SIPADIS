@@ -55,9 +55,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-1/6 h-full">
+                        <div class="mb-4">
+                            <label class="block font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">
+                                Logo Saat Ini:
+                            </label>
                             <img src="{{ asset('storage/' . $lembaga->logo) }}" alt="Preview Dokumen"
-                                class="max-w-full h-auto border rounded">
+                                class="max-w-full h-auto border rounded" width="100px" height="50px">
                         </div>
                     </div>
                 </div>

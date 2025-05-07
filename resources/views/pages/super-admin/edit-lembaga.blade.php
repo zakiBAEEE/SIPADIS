@@ -72,13 +72,27 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-1/6 h-full">
-                                @include('components.base.file-picker', [
-                                    'label' => 'Upload Logo Lembaga',
-                                    'file' => $lembaga->logo ?? '',
-                                    'name' => 'logo',
-                                ])
+
+                            <div class="flex flex-col gap-3 items-center">
+                                @if ($lembaga->logo)
+                                    <div class="mb-4">
+                                        <label
+                                            class="block font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">
+                                            Logo Saat Ini:
+                                        </label>
+                                        <img src="{{ asset('storage/' . $lembaga->logo) }}" alt="Preview Dokumen"
+                                            class="max-w-full h-auto border rounded" width="100px" height="50px">
+                                    </div>
+                                @endif
+                                <div class="w-full h-full">
+                                    @include('components.base.file-picker', [
+                                        'label' => 'Upload Logo Lembaga',
+                                        'file' => $lembaga->logo ?? '',
+                                        'name' => 'logo',
+                                    ])
+                                </div>
                             </div>
+
                         </div>
                     </div>
 
