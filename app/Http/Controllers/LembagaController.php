@@ -13,7 +13,7 @@ class LembagaController extends Controller
     public function index()
     {
         $lembaga = Lembaga::first(); // Asumsikan hanya 1 entri lembaga
-        return view('lembaga.index', compact('lembaga'));
+        return view('pages.super-admin.lembaga', compact('lembaga'));
     }
 
     /**
@@ -22,7 +22,7 @@ class LembagaController extends Controller
     public function edit()
     {
         $lembaga = Lembaga::first();
-        return view('lembaga.edit', compact('lembaga'));
+        return view('pages.super-admin.edit-lembaga', compact('lembaga'));
     }
 
     /**
