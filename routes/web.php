@@ -17,7 +17,7 @@ Route::post('/surat-masuk/{surat}', [SuratMasukController::class, 'update'])->na
 
 Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
 Route::get('/lembaga/edit', [LembagaController::class, 'edit'])->name('lembaga.edit');
-
+Route::put('/lembaga/update', [LembagaController::class, 'update'])->name('lembaga.update');
 
 Route::get('/pegawai', function () {
     return view('pages.super-admin.lembaga');
