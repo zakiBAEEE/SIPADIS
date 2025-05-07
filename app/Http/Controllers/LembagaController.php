@@ -2,64 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Lembaga;
 
 class LembagaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan data lembaga.
      */
     public function index()
     {
-        return view('pages.super-admin.lembaga');
+        $lembaga = Lembaga::first(); // Asumsikan hanya 1 entri lembaga
+        return view('lembaga.index', compact('lembaga'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Tampilkan form edit data lembaga.
      */
     public function edit()
     {
-        return view('pages.super-admin.edit-lembaga');
+        $lembaga = Lembaga::first();
+        return view('lembaga.edit', compact('lembaga'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Proses update data lembaga.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'nama_kementerian' => 'required|string|max:255',
+            'nama_lembaga' => 'required|string|max:255',
+            'email' => 'required|email',
+            'alamat' => 'required|string',
+            'telepon' => 'required|string',
+            'website' => 'nullable|url',
+            'kota' => 'required|string',
+            'provinsi' => 'required|string',
+            'kepala_kantor' => 'required|string',
+            'nip_kepala_kantor' => 'required|string',
+            'jabatan' => 'required|string',
+            'logo' => 'nullable|string',
+            'tahun' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $lembaga = Lembaga::first();
+        $lembaga->update($request->all());
+
+        return redirect()->route('lembaga.index')->with('success', 'Data lembaga berhasil diperbarui.');
     }
 }
