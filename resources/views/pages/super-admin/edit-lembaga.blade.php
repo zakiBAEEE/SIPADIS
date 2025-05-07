@@ -76,6 +76,7 @@
                                 @include('components.base.file-picker', [
                                     'label' => 'Upload Logo Lembaga',
                                     'file' => $lembaga->logo ?? '',
+                                    'name' => 'logo',
                                 ])
                             </div>
                         </div>

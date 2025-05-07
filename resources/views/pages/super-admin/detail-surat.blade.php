@@ -130,7 +130,8 @@
                                         <iframe src="{{ asset('storage/' . $surat->file_path) }}" class="w-full h-[500px]"
                                             frameborder="0"></iframe>
                                     @else
-                                        <img src="m" alt="Preview Dokumen" class="max-w-full h-auto">
+                                        <img src="{{ asset('storage/' . $surat->file_path) }}" alt="Preview Dokumen"
+                                            class="max-w-full h-auto border rounded">
                                     @endif
                                 </div>
                             @else

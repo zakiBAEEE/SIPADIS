@@ -8,7 +8,8 @@
          border-slate-300 bg-white text-slate-500 hover:border-blue-400 hover:bg-blue-50
          dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-blue-500 dark:hover:bg-
          slate-700 h-full">
-        <input type="file" name="file_path" id="fileInput" class="absolute inset-0 opacity-0 z-10 cursor-pointer h-full" />
+        <input type="file" name="{{ $name }}" id="fileInput"
+            class="absolute inset-0 opacity-0 z-10 cursor-pointer h-full" />
 
         <div class="flex flex-col items-center pointer-events-none h-full">
             <svg xmlns="http://www.w3.org/2000/svg"

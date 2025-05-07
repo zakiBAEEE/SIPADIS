@@ -28,27 +28,39 @@ class LembagaController extends Controller
     /**
      * Proses update data lembaga.
      */
-    public function update(Request $request)
-    {
-        $request->validate([
-            'nama_kementerian' => 'required|string|max:255',
-            'nama_lembaga' => 'required|string|max:255',
-            'email' => 'required|email',
-            'alamat' => 'required|string',
-            'telepon' => 'required|string',
-            'website' => 'nullable|url',
-            'kota' => 'required|string',
-            'provinsi' => 'required|string',
-            'kepala_kantor' => 'required|string',
-            'nip_kepala_kantor' => 'required|string',
-            'jabatan' => 'required|string',
-            'logo' => 'nullable|string',
-            'tahun' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
-        ]);
+   public function update(Request $request)
+{
+    $request->validate([
+        'nama_kementerian' => 'required|string|max:255',
+        'nama_lembaga' => 'required|string|max:255',
+        'email' => 'required|email',
+        'alamat' => 'required|string',
+        'telepon' => 'required|string',
+        'website' => 'nullable|url',
+        'kota' => 'required|string',
+        'provinsi' => 'required|string',
+        'kepala_kantor' => 'required|string',
+        'nip_kepala_kantor' => 'required|string',
+        'jabatan' => 'required|string',
+        'logo' => 'nullable|file|mimes:jpg,jpeg,png,svg|max:2048',
+        'tahun' => 'required|digits:4|integer|min:1900|max:' . date('Y'),
+    ]);
 
-        $lembaga = Lembaga::first();
-        $lembaga->update($request->all());
+    $lembaga = Lembaga::first();
 
-        return redirect()->route('lembaga.index')->with('success', 'Data lembaga berhasil diperbarui.');
+    // Ambil semua data kecuali file logo
+    $data = $request->except('logo');
+
+    // Jika ada file logo diunggah
+    if ($request->hasFile('logo')) {
+        $file = $request->file('logo');
+        $path = $file->store('logo', 'public'); // disimpan ke storage/app/public/logo
+        $data['logo'] = $path;
     }
+
+    $lembaga->update($data);
+
+    return redirect()->route('lembaga.index')->with('success', 'Data lembaga berhasil diperbarui.');
+}
+
 }

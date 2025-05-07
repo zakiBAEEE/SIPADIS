@@ -127,6 +127,7 @@
                             @endif
                             @include('components.base.file-picker', [
                                 'label' => 'Upload Ulang Dokumen (Opsional)',
+                                'name' => 'file_path',
                             ])
                             <div class=" px-4 pb-4 flex justify-end gap-2">
                                 @include('components.base.tombol-simpan-surat')

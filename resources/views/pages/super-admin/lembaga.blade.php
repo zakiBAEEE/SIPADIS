@@ -56,10 +56,8 @@
                             </div>
                         </div>
                         <div class="w-1/6 h-full">
-                            @include('components.base.file-picker', [
-                                'label' => 'Upload Logo Lembaga',
-                                'file' => $lembaga->logo,
-                            ])
+                            <img src="{{ asset('storage/' . $lembaga->logo) }}" alt="Preview Dokumen"
+                                class="max-w-full h-auto border rounded">
                         </div>
                     </div>
                 </div>

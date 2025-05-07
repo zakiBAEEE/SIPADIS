@@ -26,7 +26,10 @@
                 @csrf
                 @include('components.form.form-surat-masuk')
                 <div class="px-4">
-                    @include('components.base.file-picker', ['label' => 'Upload Surat'])
+                    @include('components.base.file-picker', [
+                        'label' => 'Upload Surat',
+                        'name' => 'file_path',
+                    ])
                 </div>
                 <div class=" px-4 pb-4 flex justify-end gap-2">
                     @include('components.base.tombol-simpan-surat')
