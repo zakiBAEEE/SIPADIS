@@ -20,11 +20,11 @@ Route::get('/lembaga/edit', [LembagaController::class, 'edit'])->name('lembaga.e
 Route::put('/lembaga/update', [LembagaController::class, 'update'])->name('lembaga.update');
 
 Route::get('/pegawai', function () {
-    return view('pages.super-admin.lembaga');
+    return view('pages.super-admin.pegawai');
 })->name('organisasi.pegawai');
 
 Route::get('/tim-kerja', function () {
-    return view('pages.super-admin.lembaga');
+    return view('pages.super-admin.tim-kerja');
 })->name('organisasi.timKerja');
 
 Route::post('/surat-masuk/{suratId}/disposisi', [DisposisiController::class, 'store'])->name('disposisi.store');
