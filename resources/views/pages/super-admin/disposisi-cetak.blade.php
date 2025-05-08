@@ -11,10 +11,22 @@
         }
 
         .kop {
-            text-align: center;
             border-bottom: 2px solid black;
             padding-bottom: 5px;
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .kop img {
+            width: 80px;
+            height: auto;
+            margin-right: 15px;
+        }
+
+        .kop-text {
+            flex: 1;
+            text-align: center;
         }
 
         .judul {
@@ -70,16 +82,19 @@
 <body onload="window.print()">
 
     <div class="kop">
-        <h3 style="margin: 0;">{{ $lembaga->nama_kementerian }}</h3>
-        <h4 style="margin: 0;">{{ $lembaga->nama_lembaga }}</h4>
-        <p style="margin: 0;">{{ $lembaga->alamat }}</p>
-        <p style="margin: 0;">Telepon : {{ $lembaga->telepon }}</p>
-        <p style="margin: 0;">Email : {{ $lembaga->email }}</p>
+        <img src="{{ asset('storage/' . $lembaga->logo) }}" alt="Preview Dokumen" class="max-w-full h-auto border rounded">
+        <div class="kop-text">
+            <h3 style="margin: 0;">{{ $lembaga->nama_kementerian }}</h3>
+            <h4 style="margin: 0;">{{ $lembaga->nama_lembaga }}</h4>
+            <p style="margin: 0;">{{ $lembaga->alamat }}</p>
+            <p style="margin: 0;">Telepon : {{ $lembaga->telepon }}</p>
+            <p style="margin: 0;">Email : {{ $lembaga->email }}</p>
+        </div>
     </div>
 
     <div class="judul">LEMBAR DISPOSISI</div>
 
-    <div class="checkbox-group">
+    <div class="checkbox-group flex flex-row justify-center">
         <label>☐ RAHASIA</label>
         <label>☐ PENTING</label>
         <label>☐ SEGERA</label>
@@ -105,7 +120,7 @@
                 <td>: {{ $surat->nomor_surat }}</td>
             </tr>
             <tr>
-                <td><strong>Asal</strong></td>
+                <td><strong>Pengirim</strong></td>
                 <td colspan="3">: {{ $surat->pengirim }}</td>
             </tr>
         </table>
@@ -137,7 +152,6 @@
 </body>
 
 </html> --}}
-
 <!DOCTYPE html>
 <html lang="id">
 
@@ -234,7 +248,7 @@
 
     <div class="judul">LEMBAR DISPOSISI</div>
 
-    <div class="checkbox-group">
+    <div class="checkbox-group flex flex-row justify-center">
         <label>☐ RAHASIA</label>
         <label>☐ PENTING</label>
         <label>☐ SEGERA</label>
@@ -277,7 +291,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($disposisis as $disposisi)
+            @forelse ($disposisis as $disposisi)
                 <tr>
                     <td>{{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->format('d M Y') }}</td>
                     <td>{{ $disposisi->penerima->name ?? '-' }}</td>
@@ -285,7 +299,11 @@
                     <td>{{ $disposisi->pengirim->name ?? '-' }}</td>
                     <td></td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td style="text-align: center;" colspan="5">Belum ada data disposisi.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 
