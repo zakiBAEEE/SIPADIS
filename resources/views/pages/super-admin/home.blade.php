@@ -16,7 +16,7 @@
                 <h5 class="font-sans text-lg font-bold antialiased md:text-xl lg:text-xl text-gray-600">Hari Ini</h5>
                 <hr class="w-full border-t border-gray-300 my-1" />
             </div>
-            <div class="flex flex-row gap-4 items-center justify-evenly">
+            {{-- <div class="flex flex-row gap-4 items-center justify-evenly">
                 @include('components.layout.card-dashboard', ['jenis' => 'total'])
                 @include('components.base.ikon-panah-kanan')
                 <div class="flex flex-row gap-2">
@@ -24,7 +24,23 @@
                     @include('components.layout.card-dashboard', ['jenis' => 'pengaduan'])
                     @include('components.layout.card-dashboard', ['jenis' => 'permintaan informasi'])
                 </div>
+            </div> --}}
+            <div class="flex flex-row gap-4 items-center justify-evenly">
+                @include('components.layout.card-dashboard', ['jenis' => 'total', 'count' => $total])
+                @include('components.base.ikon-panah-kanan')
+                <div class="flex flex-row gap-2">
+                    @include('components.layout.card-dashboard', ['jenis' => 'umum', 'count' => $umum])
+                    @include('components.layout.card-dashboard', [
+                        'jenis' => 'pengaduan',
+                        'count' => $pengaduan,
+                    ])
+                    @include('components.layout.card-dashboard', [
+                        'jenis' => 'permintaan informasi',
+                        'count' => $permintaanInformasi,
+                    ])
+                </div>
             </div>
+
         </div>
         <div class="flex flex-col gap-y-4">
             <div>

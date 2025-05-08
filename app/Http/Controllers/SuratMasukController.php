@@ -11,12 +11,23 @@ use Illuminate\Support\Facades\Storage;
 
 class SuratMasukController extends Controller
 {
-    // public function index()
-    // {
-    //     // $surats = SuratMasuk::orderBy('created_at', 'desc')->get();;
-    //     $surats = SuratMasuk::orderBy('created_at', 'desc')->paginate(8); 
-    //     return view('pages.super-admin.surat-masuk', compact('surats'));
-    // }
+    public function dashboard()
+{
+    $today = now()->toDateString();
+
+    $total = SuratMasuk::whereDate('created_at', $today)->count();
+    $umum = SuratMasuk::whereDate('created_at', $today)->where('klasifikasi_surat', 'umum')->count();
+    $pengaduan = SuratMasuk::whereDate('created_at', $today)->where('klasifikasi_surat', 'pengaduan')->count();
+    $permintaanInformasi = SuratMasuk::whereDate('created_at', $today)->where('klasifikasi_surat', 'permintaan informasi')->count();
+
+    return view('pages.super-admin.home', compact(
+        'total',
+        'umum',
+        'pengaduan',
+        'permintaanInformasi'
+    ));
+}
+
 
     public function index(Request $request)
 {

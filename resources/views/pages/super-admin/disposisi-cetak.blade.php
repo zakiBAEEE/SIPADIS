@@ -45,28 +45,44 @@
 
     <!-- Metadata Surat -->
     <div class="border border-black p-3 mb-4">
-        <table class="w-full table-fixed">
-            <tr>
-                <td class="w-1/4 font-bold">No. Agenda</td>
-                <td class="w-1/4">: {{ $surat->nomor_agenda }}</td>
-                <td class="w-1/4 font-bold">Tanggal Diterima</td>
-                <td class="w-1/4">: {{ \Carbon\Carbon::parse($surat->tanggal_terima)->format('d M Y') }}</td>
-            </tr>
-            <tr>
-                <td class="font-bold">Perihal</td>
-                <td colspan="3">: {{ $surat->perihal }}</td>
-            </tr>
-            <tr>
-                <td class="font-bold">Tanggal Surat</td>
-                <td>: {{ \Carbon\Carbon::parse($surat->tanggal_surat)->format('d M Y') }}</td>
-                <td class="font-bold">Nomor Surat</td>
-                <td>: {{ $surat->nomor_surat }}</td>
-            </tr>
-            <tr>
-                <td class="font-bold">Pengirim</td>
-                <td colspan="3">: {{ $surat->pengirim }}</td>
-            </tr>
-        </table>
+        <div class="w-full border border-gray-300 rounded-md divide-y divide-gray-200 text-sm">
+            <div class="flex flex-wrap">
+                <div class="w-full md:w-1/2 flex items-start border-b border-gray-200">
+                    <div class="w-40 font-bold p-2 bg-gray-50">No. Agenda</div>
+                    <div class="flex-1 p-2">: {{ $surat->nomor_agenda }}</div>
+                </div>
+                <div class="w-full md:w-1/2 flex items-start border-b border-gray-200">
+                    <div class="w-40 font-bold p-2 bg-gray-50">Tanggal Diterima</div>
+                    <div class="flex-1 p-2">:
+                        {{ \Carbon\Carbon::parse($surat->tanggal_terima)->locale('id')->translatedFormat('d F Y') }}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex border-b border-gray-200">
+                <div class="w-40 font-bold p-2 bg-gray-50">Perihal</div>
+                <div class="flex-1 p-2">: {{ $surat->perihal }}</div>
+            </div>
+
+            <div class="flex flex-wrap border-b border-gray-200">
+                <div class="w-full md:w-1/2 flex items-start">
+                    <div class="w-40 font-bold p-2 bg-gray-50">Tanggal Surat</div>
+                    <div class="flex-1 p-2">:
+                        {{ \Carbon\Carbon::parse($surat->tanggal_surat)->locale('id')->translatedFormat('d F Y') }}
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 flex items-start">
+                    <div class="w-40 font-bold p-2 bg-gray-50">Nomor Surat</div>
+                    <div class="flex-1 p-2">: {{ $surat->nomor_surat }}</div>
+                </div>
+            </div>
+
+            <div class="flex">
+                <div class="w-40 font-bold p-2 bg-gray-50">Pengirim</div>
+                <div class="flex-1 p-2">: {{ $surat->pengirim }}</div>
+            </div>
+        </div>
     </div>
 
     <!-- Tabel Disposisi -->

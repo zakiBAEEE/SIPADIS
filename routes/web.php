@@ -6,9 +6,12 @@ use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\LembagaController;
 use App\Http\Controllers\UserController;
 
-Route::get('/', function () {
-    return view('pages.super-admin.home');
-})->name('surat.home');
+// Route::get('/', function () {
+//     return view('pages.super-admin.home');
+// })->name('surat.home');
+
+Route::get('/', [SuratMasukController::class, 'dashboard'])->name('surat.home');
+
 
 Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat.index');
 Route::get('/surat-masuk/{id}', [SuratMasukController::class, 'show'])->name('surat.show');

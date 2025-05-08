@@ -13,7 +13,7 @@
     <div class="w-full h-max rounded p-3">
         <ul class="flex flex-col gap-0.5 min-w-60">
             <li>
-                <a href="/"
+                <a href="{{ route('surat.home') }}"
                     class="flex items-center py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in aria-disabled:opacity-50 aria-disabled:pointer-events-none bg-transparent text-slate-600 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800 dark:focus:text-white dark:data-[selected=true]:text-white dark:bg-opacity-70">
                     <span class="grid place-items-center shrink-0 me-2.5">
                         <svg width="1.5em" height="1.5em" stroke-width="1.5" viewBox="0 0 24 24" fill="none"
