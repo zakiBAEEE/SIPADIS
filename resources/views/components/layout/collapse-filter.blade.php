@@ -102,18 +102,18 @@
                     @include('components.base.datepicker', [
                         'label' => 'Tanggal Surat',
                         'placeholder' => 'Pilih Tanggal Surat',
-                        'id' => 'tanggal_surat',
-                        'name' => 'tanggal_surat',
-                        'value' => request('tanggal_surat'),
+                        'id' => 'filter_tanggal_surat',
+                        'name' => 'filter_tanggal_surat',
+                        'value' => request('filter_tanggal_surat'),
                     ])
                 </div>
                 <div class="mb-4 space-y-1.5 w-1/3">
                     @include('components.base.datepicker', [
                         'label' => 'Tanggal Terima',
                         'placeholder' => 'Pilih Tanggal Terima',
-                        'id' => 'tanggal_terima',
-                        'name' => 'tanggal_terima',
-                        'value' => request('tanggal_terima'),
+                        'id' => 'filter_tanggal_terima',
+                        'name' => 'filter_tanggal_terima',
+                        'value' => request('filter_tanggal_terima'),
                     ])
                 </div>
             </div>

@@ -34,13 +34,34 @@ class SuratMasukController extends Controller
         $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
     }
 
-    if ($request->filled('tanggal_surat')) {
-        $query->whereDate('tanggal_surat', $request->tanggal_surat);
-    }
+    // if ($request->filled('filter_tanggal_surat')) {
+    //     $query->whereDate('filter_tanggal_surat', $request->filter_tanggal_surat);
+    // }
 
-    if ($request->filled('tanggal_terima')) {
-        $query->whereDate('tanggal_terima', $request->tanggal_terima);
+    // if ($request->filled('filter_tanggal_terima')) {
+    //     $query->whereDate('filter_tanggal_terima', $request->filter_tanggal_terima);
+    // }
+
+    if ($request->filled('filter_tanggal_surat')) {
+    $range = explode(' to ', $request->filter_tanggal_surat);
+    if (count($range) === 2) {
+        $query->whereBetween('tanggal_surat', [$range[0], $range[1]]);
+    } elseif (count($range) === 1) {
+        $query->whereDate('tanggal_surat', $range[0]);
     }
+}
+
+if ($request->filled('filter_tanggal_terima')) {
+    $range = explode(' to ', $request->filter_tanggal_terima);
+    if (count($range) === 2) {
+        $query->whereBetween('tanggal_terima', [$range[0], $range[1]]);
+    } elseif (count($range) === 1) {
+        $query->whereDate('tanggal_terima', $range[0]);
+    }
+}
+
+
+
 
     if ($request->filled('perihal')) {
         $query->where('perihal', 'like', '%' . $request->perihal . '%');
