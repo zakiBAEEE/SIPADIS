@@ -14,9 +14,6 @@
             </div>
         </div>
         <hr class="w-full border-t border-gray-300 my-4" />
-        {{-- @include('components.table.table', ['surats' => $surats])
-        <div class="mt-4 flex flex-row justify-end">
-            @include('components.base.pagination', ['surats' => $surats])
-        </div> --}}
+        @include('components.table.table-pegawai', ['users' => $users])
     </div>
 @endsection
