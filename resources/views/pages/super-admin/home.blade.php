@@ -36,7 +36,6 @@
                 </div>
             </div>
 
-
         </div>
         <div class="flex flex-col gap-y-4">
             <div>
@@ -44,25 +43,51 @@
                     Masuk</h5>
                 <hr class="w-full border-t border-gray-300 my-1" />
             </div>
-            <div class="flex flex-row px-2 gap-x-4 my-1">
-                <div class="">
+            <form action="{{ route('surat.home') }}" method="GET" class="flex flex-row px-2 gap-x-4 my-1 items-end">
+                <div>
                     <label for="startDate" class="block text-gray-700 text-sm font-semibold mb-2">Pilih Rentang
-                        tanggal</label>
-                    <input type="text" id="startDate"
+                        Tanggal</label>
+                    <input type="text" name="tanggal_range" id="startDate"
                         class="flatpickr w-full px-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Select Date Range" />
+                        placeholder="Select Date Range" value="{{ $tanggalRange ?? '' }}" />
+                </div>
+                <div>
+                    <button type="submit"
+                        class="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                        Tampilkan
+                    </button>
+                </div>
+            </form>
 
+            {{-- Rekapitulasi Berdasarkan Rentang Tanggal (Jika Ada) --}}
+            <div class="mt-8">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">
+                    Rekapitulasi Surat Berdasarkan Tanggal: {{ $tanggalRange ?? '-' }}
+                </h2>
+                <div class="flex flex-row gap-4 items-center justify-evenly">
+                    @include('components.layout.card-dashboard', [
+                        'jenis' => 'total',
+                        'count' => $rekapRange['total'] ?? 0,
+                    ])
+                    @include('components.base.ikon-panah-kanan')
+                    <div class="flex flex-row gap-2">
+                        @include('components.layout.card-dashboard', [
+                            'jenis' => 'umum',
+                            'count' => $rekapRange['umum'] ?? 0,
+                        ])
+                        @include('components.layout.card-dashboard', [
+                            'jenis' => 'pengaduan',
+                            'count' => $rekapRange['pengaduan'] ?? 0,
+                        ])
+                        @include('components.layout.card-dashboard', [
+                            'jenis' => 'permintaan informasi',
+                            'count' => $rekapRange['permintaan_informasi'] ?? 0,
+                        ])
+                    </div>
                 </div>
             </div>
-            <div class="flex flex-row gap-4 items-center justify-evenly">
-                @include('components.layout.card-dashboard', ['jenis' => 'total'])
-                @include('components.base.ikon-panah-kanan')
-                <div class="flex flex-row gap-2">
-                    @include('components.layout.card-dashboard', ['jenis' => 'umum'])
-                    @include('components.layout.card-dashboard', ['jenis' => 'pengaduan'])
-                    @include('components.layout.card-dashboard', ['jenis' => 'permintaan informasi'])
-                </div>
-            </div>
+
+
             @php
                 $series = [
                     ['name' => 'Umum', 'data' => [12, 20, 25, 30, 28, 15]],
