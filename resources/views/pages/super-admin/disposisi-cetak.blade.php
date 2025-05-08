@@ -116,10 +116,11 @@
 <body onload="window.print()">
 
     <div class="kop">
-        <h3 style="margin: 0;">KEMENTERIAN PENDIDIKAN DAN KEBUDAYAAN</h3>
-        <h4 style="margin: 0;">LEMBAGA LAYANAN PENDIDIKAN TINGGI</h4>
-        <p style="margin: 0;">Wilayah VIII</p>
-        <p style="margin: 0;">Jl. Raya Sesetan No. 105, Denpasar – Bali | Telepon: 0361-234789</p>
+        <h3 style="margin: 0;">{{ $lembaga->nama_kementerian }}</h3>
+        <h4 style="margin: 0;">{{ $lembaga->nama_lembaga }}</h4>
+        <p style="margin: 0;">{{ $lembaga->alamat }}</p>
+        <p style="margin: 0;">Telepon : {{ $lembaga->telepon }}</p>
+        <p style="margin: 0;">Email : {{ $lembaga->email }}</p>
     </div>
 
     <div class="judul">LEMBAR DISPOSISI</div>
