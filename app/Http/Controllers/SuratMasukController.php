@@ -11,12 +11,54 @@ use Illuminate\Support\Facades\Storage;
 
 class SuratMasukController extends Controller
 {
-    public function index()
-    {
-        // $surats = SuratMasuk::orderBy('created_at', 'desc')->get();;
-        $surats = SuratMasuk::orderBy('created_at', 'desc')->paginate(8); 
-        return view('pages.super-admin.surat-masuk', compact('surats'));
+    // public function index()
+    // {
+    //     // $surats = SuratMasuk::orderBy('created_at', 'desc')->get();;
+    //     $surats = SuratMasuk::orderBy('created_at', 'desc')->paginate(8); 
+    //     return view('pages.super-admin.surat-masuk', compact('surats'));
+    // }
+
+    public function index(Request $request)
+{
+    $query = SuratMasuk::query();
+
+    if ($request->filled('nomor_agenda')) {
+        $query->where('nomor_agenda', 'like', '%' . $request->nomor_agenda . '%');
     }
+
+    if ($request->filled('nomor_surat')) {
+        $query->where('nomor_surat', 'like', '%' . $request->nomor_surat . '%');
+    }
+
+    if ($request->filled('pengirim')) {
+        $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
+    }
+
+    if ($request->filled('tanggal_surat')) {
+        $query->whereDate('tanggal_surat', $request->tanggal_surat);
+    }
+
+    if ($request->filled('tanggal_terima')) {
+        $query->whereDate('tanggal_terima', $request->tanggal_terima);
+    }
+
+    if ($request->filled('perihal')) {
+        $query->where('perihal', 'like', '%' . $request->perihal . '%');
+    }
+
+    if ($request->filled('klasifikasi_surat')) {
+        $query->where('klasifikasi_surat', $request->klasifikasi_surat);
+    }
+
+    if ($request->filled('sifat')) {
+        $query->where('sifat', $request->sifat);
+    }
+
+    $surats = $query->orderBy('created_at', 'desc')->paginate(8)->appends($request->query());
+
+    return view('pages.super-admin.surat-masuk', compact('surats'));
+}
+
 
     public function create()
     {
