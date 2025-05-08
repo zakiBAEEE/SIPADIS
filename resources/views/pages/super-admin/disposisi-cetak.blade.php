@@ -107,16 +107,17 @@
 <body onload="window.print()" class="text-xs font-sans min-h-screen p-4">
 
     <!-- Kop Surat -->
-    <div class="border-b-2 border-black pb-2 mb-4 flex items-start gap-2">
-        <img src="{{ asset('storage/' . $lembaga->logo) }}" alt="Logo" class="w-20 h-auto">
-        <div class="flex-1 text-center leading-tight">
-            <h3 class="text-base font-bold">{{ $lembaga->nama_kementerian }}</h3>
-            <h4 class="text-sm font-semibold">{{ $lembaga->nama_lembaga }}</h4>
+    <div class="border-b-2 border-black pb-2 mb-4 flex justify-center items-center gap-2">
+        <img src="{{ asset('storage/' . $lembaga->logo) }}" alt="Logo" class="w-28 h-auto">
+        <div class="text-center leading-tight">
+            <h3 class="text-xl font-bold">{{ $lembaga->nama_kementerian }}</h3>
+            <h4 class="text-lg font-semibold">{{ $lembaga->nama_lembaga }}</h4>
             <p class="m-0">{{ $lembaga->alamat }}</p>
             <p class="m-0">Telepon: {{ $lembaga->telepon }}</p>
             <p class="m-0">Email: {{ $lembaga->email }}</p>
         </div>
     </div>
+
 
     <!-- Judul -->
     <div class="text-center font-bold text-lg mb-2">LEMBAR DISPOSISI</div>
