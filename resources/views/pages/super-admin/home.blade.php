@@ -62,7 +62,7 @@
             {{-- Rekapitulasi Berdasarkan Rentang Tanggal (Jika Ada) --}}
             <div class="mt-8">
                 <h2 class="text-lg font-bold text-gray-800 mb-4">
-                    Rekapitulasi Surat Berdasarkan Tanggal: {{ $tanggalRange ?? '-' }}
+                    Rekapitulasi Surat Tanggal: {{ $tanggalRange ?? '-' }}
                 </h2>
                 <div class="flex flex-row gap-4 items-center justify-evenly">
                     @include('components.layout.card-dashboard', [

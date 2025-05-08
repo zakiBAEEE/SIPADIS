@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Carbon\Carbon;
 
 class SuratMasukController extends Controller
 {
@@ -46,6 +46,12 @@ public function dashboard(Request $request)
                     ->where('klasifikasi_surat', 'permintaan informasi')->count(),
             ];
         }
+
+        Carbon::setLocale('id');
+
+[$start, $end] = explode(' to ', $tanggalRange);
+
+$tanggalRange = Carbon::parse($start)->translatedFormat('d F Y') . ' - ' . Carbon::parse($end)->translatedFormat('d F Y');
     }
 
     return view('pages.super-admin.home', compact(
@@ -74,14 +80,6 @@ public function dashboard(Request $request)
     if ($request->filled('pengirim')) {
         $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
     }
-
-    // if ($request->filled('filter_tanggal_surat')) {
-    //     $query->whereDate('filter_tanggal_surat', $request->filter_tanggal_surat);
-    // }
-
-    // if ($request->filled('filter_tanggal_terima')) {
-    //     $query->whereDate('filter_tanggal_terima', $request->filter_tanggal_terima);
-    // }
 
     if ($request->filled('filter_tanggal_surat')) {
     $range = explode(' to ', $request->filter_tanggal_surat);
