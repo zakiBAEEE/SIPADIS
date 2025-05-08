@@ -176,9 +176,21 @@
                         <td class="border border-black px-2 py-1">
                             {{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->format('d M Y') }}
                         </td>
-                        <td class="border border-black px-2 py-2">{{ $disposisi->penerima->name ?? '-' }}</td>
+                        <td class="border border-black px-2 py-2">
+                            @if ($disposisi->penerima && $disposisi->penerima->divisi)
+                                {{ $disposisi->penerima->divisi->nama_divisi }}
+                            @else
+                                {{ $disposisi->penerima->role->name ?? '-' }}
+                            @endif
+                        </td>
                         <td class="border border-black px-2 py-2">{{ $disposisi->catatan }}</td>
-                        <td class="border border-black px-2 py-2">{{ $disposisi->pengirim->name ?? '-' }}</td>
+                        <td class="border border-black px-2 py-2">
+                            @if ($disposisi->pengirim && $disposisi->pengirim->divisi)
+                                {{ $disposisi->pengirim->divisi->nama_divisi }}
+                            @else
+                                {{ $disposisi->pengirim->role->name ?? '-' }}
+                            @endif
+                        </td>
                         <td class="border border-black px-2 py-2"></td>
                     </tr>
                 @endforeach
