@@ -5,7 +5,7 @@
         <div class="flex flex-row justify-between items-center w-full">
             <div>
                 <h4 class="font-sans text-xl font-bold antialiased md:text-2xl lg:text-2xl text-gray-600">Data Surat
-                    {{ $klasiikasi }}
+                    {{ $klasifikasi }}
                 </h4>
                 <h6 class="font-sans text-base font-bold antialiased md:text-lg lg:text-lg text-gray-600">
                     {{ $tanggalRange ? 'Per ' . $tanggalRange : 'Per Hari Ini' }}
@@ -18,7 +18,7 @@
         </div>
         @include('components.table.table', ['surats' => $surats])
         <div class="mt-4 flex flex-row justify-end">
-            @include('components.base.pagination', ['surats' => $surats])
+            {{-- @include('components.base.pagination', ['surats' => $surats]) --}}
         </div>
     </div>
 @endsection

@@ -18,6 +18,8 @@ Route::get('/surat-masuk/{id}', [SuratMasukController::class, 'show'])->name('su
 Route::post('/surat-masuk', [SuratMasukController::class, 'store'])->name('surat.store');
 Route::get('/surat-masuk/{surat}/edit', [SuratMasukController::class, 'edit'])->name('surat.edit');
 Route::post('/surat-masuk/{surat}', [SuratMasukController::class, 'update'])->name('surat.update');
+Route::get('/surat/klasifikasi', [SuratMasukController::class, 'detailByKlasifikasi'])->name('surat.klasifikasi');
+
 
 Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
 Route::get('/lembaga/edit', [LembagaController::class, 'edit'])->name('lembaga.edit');

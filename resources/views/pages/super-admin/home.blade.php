@@ -21,10 +21,12 @@
                 @include('components.layout.card-dashboard', ['jenis' => 'total', 'count' => $totalToday])
                 @include('components.base.ikon-panah-kanan')
                 <div class="flex flex-row gap-2">
-                    @include('components.layout.card-dashboard', [
-                        'jenis' => 'umum',
-                        'count' => $umumToday,
-                    ])
+                    <a href="{{ route('surat.klasifikasi', ['klasifikasi' => 'Umum', 'tanggal_range' => $tanggalRange]) }}">
+                        @include('components.layout.card-dashboard', [
+                            'jenis' => 'umum',
+                            'count' => $umumToday,
+                        ])
+                    </a>
                     @include('components.layout.card-dashboard', [
                         'jenis' => 'pengaduan',
                         'count' => $pengaduanToday,
@@ -75,14 +77,24 @@
                     ])
                     @include('components.base.ikon-panah-kanan')
                     <div class="flex flex-row gap-2">
-                        @include('components.layout.card-dashboard', [
-                            'jenis' => 'umum',
-                            'count' => $rekapRange['umum'] ?? 0,
-                        ])
-                        @include('components.layout.card-dashboard', [
-                            'jenis' => 'pengaduan',
-                            'count' => $rekapRange['pengaduan'] ?? 0,
-                        ])
+                        <a
+                            href="{{ route('surat.klasifikasi', ['klasifikasi' => 'Umum', 'tanggal_range' => $tanggalRange]) }}">
+                            @include('components.layout.card-dashboard', [
+                                'jenis' => 'umum',
+                                'count' => $rekapRange['umum'] ?? 0,
+                            ])
+                        </a>
+                        <a
+                            href="{{ route('surat.klasifikasi', ['klasifikasi' => 'Pengaduan', 'tanggal_range' => $tanggalRange]) }}">
+                            @include('components.layout.card-dashboard', [
+                                'jenis' => 'pengaduan',
+                                'count' => $rekapRange['pengaduan'] ?? 0,
+                            ])
+                        </a>
+                        <a
+                            href="{{ route('surat.klasifikasi', ['klasifikasi' => 'Permintaan Informasi', 'tanggal_range' => $tanggalRange]) }">
+
+                        </a>
                         @include('components.layout.card-dashboard', [
                             'jenis' => 'permintaan informasi',
                             'count' => $rekapRange['permintaan_informasi'] ?? 0,

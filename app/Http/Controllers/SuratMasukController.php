@@ -90,8 +90,35 @@ public function dashboard(Request $request)
     ]);
 }
 
+public function detailByKlasifikasi(Request $request)
+{
+    $klasifikasi = $request->input('klasifikasi');
+    $tanggalRange = $request->input('tanggal_range');
+    $query = SuratMasuk::query();
 
+    if ($klasifikasi) {
+        $query->where('klasifikasi_surat', $klasifikasi);
+    }
 
+    if ($tanggalRange) {
+        $dates = explode(' to ', $tanggalRange);
+        if (count($dates) === 2) {
+            $start = Carbon::parse($dates[0])->startOfDay();
+            $end = Carbon::parse($dates[1])->endOfDay();
+            $query->whereBetween('created_at', [$start, $end]);
+        }
+    } else {
+        $query->whereDate('created_at', now()->toDateString()); // Default: Hari ini
+    }
+
+    $suratList = $query->orderBy('created_at', 'desc')->get();
+
+    return view('pages.super-admin.klasifikasi-surat', [
+        'surats' => $suratList,
+        'klasifikasi' => $klasifikasi,
+        'tanggalRange' => $tanggalRange ?? 'Hari ini',
+    ]);
+}
 
     public function index(Request $request)
 {
