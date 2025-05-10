@@ -12,58 +12,6 @@ use Carbon\Carbon;
 class SuratMasukController extends Controller
 {
 
-// public function dashboard(Request $request)
-// {
-//     // --- Rekap Hari Ini (tetap)
-//     $todayStart = now()->startOfDay();
-//     $todayEnd = now()->endOfDay();
-
-//     $totalToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])->count();
-//     $umumToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])
-//                 ->where('klasifikasi_surat', 'umum')->count();
-//     $pengaduanToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])
-//                 ->where('klasifikasi_surat', 'pengaduan')->count();
-//     $permintaanInformasiToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])
-//                 ->where('klasifikasi_surat', 'permintaan informasi')->count();
-
-//     // --- Rekap Berdasarkan Range (optional)
-//     $tanggalRange = $request->input('tanggal_range');
-//     $rekapRange = null;
-
-//     if ($tanggalRange) {
-//         $dates = explode(' to ', $tanggalRange);
-//         if (count($dates) == 2) {
-//             $start = \Carbon\Carbon::parse($dates[0])->startOfDay();
-//             $end = \Carbon\Carbon::parse($dates[1])->endOfDay();
-
-//             $rekapRange = [
-//                 'total' => SuratMasuk::whereBetween('created_at', [$start, $end])->count(),
-//                 'umum' => SuratMasuk::whereBetween('created_at', [$start, $end])
-//                     ->where('klasifikasi_surat', 'umum')->count(),
-//                 'pengaduan' => SuratMasuk::whereBetween('created_at', [$start, $end])
-//                     ->where('klasifikasi_surat', 'pengaduan')->count(),
-//                 'permintaan_informasi' => SuratMasuk::whereBetween('created_at', [$start, $end])
-//                     ->where('klasifikasi_surat', 'permintaan informasi')->count(),
-//             ];
-//         }
-
-//         Carbon::setLocale('id');
-
-// [$start, $end] = explode(' to ', $tanggalRange);
-
-// $tanggalRange = Carbon::parse($start)->translatedFormat('d F Y') . ' - ' . Carbon::parse($end)->translatedFormat('d F Y');
-//     }
-
-//     return view('pages.super-admin.home', compact(
-//         'totalToday',
-//         'umumToday',
-//         'pengaduanToday',
-//         'permintaanInformasiToday',
-//         'rekapRange',
-//         'tanggalRange'
-//     ));
-// }
-
 private function getRekapitulasiSurat($start, $end)
 {
     return [
@@ -76,7 +24,6 @@ private function getRekapitulasiSurat($start, $end)
             ->where('klasifikasi_surat', 'permintaan informasi')->count(),
     ];
 }
-
 
 public function dashboard(Request $request)
 {
