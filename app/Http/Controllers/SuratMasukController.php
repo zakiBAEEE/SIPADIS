@@ -89,22 +89,23 @@ public function dashboard(Request $request)
     $rekapRange = null;
     $tanggalRangeDisplay = null;
 
-    if ($tanggalRange) {
-        $dates = explode(' to ', $tanggalRange);
-        if (count($dates) == 2) {
-            $start = Carbon::parse($dates[0])->startOfDay();
-            $end = Carbon::parse($dates[1])->endOfDay();
-
-            $rekapRange = $this->getRekapitulasiSurat($start, $end);
-            Carbon::setLocale('id');
-            $tanggalRangeDisplay = Carbon::parse($dates[0])->translatedFormat('d F Y') . ' - ' . Carbon::parse($dates[1])->translatedFormat('d F Y');
-        }
-    }
-
-    // Ambil data chart bulanan berdasarkan created_at
     $startChart = now()->subMonths(5)->startOfMonth();
     $endChart = now()->endOfMonth();
 
+    if ($tanggalRange && count($dates = explode(' to ', $tanggalRange)) == 2) {
+        $start = Carbon::parse($dates[0])->startOfDay();
+        $end = Carbon::parse($dates[1])->endOfDay();
+
+        $rekapRange = $this->getRekapitulasiSurat($start, $end);
+        Carbon::setLocale('id');
+        $tanggalRangeDisplay = Carbon::parse($dates[0])->translatedFormat('d F Y') . ' - ' . Carbon::parse($dates[1])->translatedFormat('d F Y');
+
+        // Gunakan range yang dipilih user untuk chart
+        $startChart = Carbon::parse($dates[0])->startOfMonth();
+        $endChart = Carbon::parse($dates[1])->endOfMonth();
+    }
+
+    // Siapkan data chart
     $categories = [];
     $series = [
         'umum' => [],
@@ -116,7 +117,8 @@ public function dashboard(Request $request)
         $bulanStart = $date->copy()->startOfMonth();
         $bulanEnd = $date->copy()->endOfMonth();
 
-        $categories[] = $date->format('Y-m-d') . ' GMT';
+        $categories[] = $date->format('Y-m-d') . ' GMT'; // Atau ubah ke nama bulan untuk tampilan
+
         foreach (['umum', 'pengaduan', 'permintaan informasi'] as $jenis) {
             $jumlah = SuratMasuk::whereBetween('created_at', [$bulanStart, $bulanEnd])
                 ->where('klasifikasi_surat', $jenis)
@@ -140,6 +142,7 @@ public function dashboard(Request $request)
         'categories' => $categories
     ]);
 }
+
 
 
 
