@@ -51,11 +51,15 @@
                         class="flatpickr w-full px-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="Select Date Range" value="{{ $tanggalRange ?? '' }}" />
                 </div>
-                <div>
+                <div class="flex flex-row gap-3">
                     <button type="submit"
                         class="inline-flex border font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-1 px-2 shadow-sm hover:shadow bg-slate-800 border-slate-800 text-slate-50 hover:bg-slate-700 hover:border-slate-700">
                         Tampilkan
                     </button>
+                    <a href="{{ route('surat.home') }}"
+                        class="inline-flex border font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-1 px-2 shadow-sm hover:shadow bg-red-800 border-red-800 text-slate-50 hover:bg-red-500 hover:border-red-500">
+                        Reset
+                    </a>
                 </div>
             </form>
 
@@ -88,29 +92,12 @@
             </div>
 
 
-            @php
-                $series = [
-                    ['name' => 'Umum', 'data' => [12, 20, 25, 30, 28, 15]],
-                    ['name' => 'Pengaduan', 'data' => [5, 10, 8, 6, 7, 9]],
-                    ['name' => 'Permintaan Informasi', 'data' => [3, 5, 2, 4, 6, 5]],
-                ];
-
-                $categories = [
-                    '2025-01-01 GMT',
-                    '2025-02-01 GMT',
-                    '2025-03-01 GMT',
-                    '2025-04-01 GMT',
-                    '2025-05-01 GMT',
-                    '2025-06-01 GMT',
-                ];
-            @endphp
 
             @include('components.layout.chart', [
                 'id' => 'suratChartBulanan',
                 'series' => $series,
                 'categories' => $categories,
             ])
-
         </div>
     </div>
 @endsection

@@ -12,57 +12,135 @@ use Carbon\Carbon;
 class SuratMasukController extends Controller
 {
 
+// public function dashboard(Request $request)
+// {
+//     // --- Rekap Hari Ini (tetap)
+//     $todayStart = now()->startOfDay();
+//     $todayEnd = now()->endOfDay();
+
+//     $totalToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])->count();
+//     $umumToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])
+//                 ->where('klasifikasi_surat', 'umum')->count();
+//     $pengaduanToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])
+//                 ->where('klasifikasi_surat', 'pengaduan')->count();
+//     $permintaanInformasiToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])
+//                 ->where('klasifikasi_surat', 'permintaan informasi')->count();
+
+//     // --- Rekap Berdasarkan Range (optional)
+//     $tanggalRange = $request->input('tanggal_range');
+//     $rekapRange = null;
+
+//     if ($tanggalRange) {
+//         $dates = explode(' to ', $tanggalRange);
+//         if (count($dates) == 2) {
+//             $start = \Carbon\Carbon::parse($dates[0])->startOfDay();
+//             $end = \Carbon\Carbon::parse($dates[1])->endOfDay();
+
+//             $rekapRange = [
+//                 'total' => SuratMasuk::whereBetween('created_at', [$start, $end])->count(),
+//                 'umum' => SuratMasuk::whereBetween('created_at', [$start, $end])
+//                     ->where('klasifikasi_surat', 'umum')->count(),
+//                 'pengaduan' => SuratMasuk::whereBetween('created_at', [$start, $end])
+//                     ->where('klasifikasi_surat', 'pengaduan')->count(),
+//                 'permintaan_informasi' => SuratMasuk::whereBetween('created_at', [$start, $end])
+//                     ->where('klasifikasi_surat', 'permintaan informasi')->count(),
+//             ];
+//         }
+
+//         Carbon::setLocale('id');
+
+// [$start, $end] = explode(' to ', $tanggalRange);
+
+// $tanggalRange = Carbon::parse($start)->translatedFormat('d F Y') . ' - ' . Carbon::parse($end)->translatedFormat('d F Y');
+//     }
+
+//     return view('pages.super-admin.home', compact(
+//         'totalToday',
+//         'umumToday',
+//         'pengaduanToday',
+//         'permintaanInformasiToday',
+//         'rekapRange',
+//         'tanggalRange'
+//     ));
+// }
+
+private function getRekapitulasiSurat($start, $end)
+{
+    return [
+        'total' => SuratMasuk::whereBetween('created_at', [$start, $end])->count(),
+        'umum' => SuratMasuk::whereBetween('created_at', [$start, $end])
+            ->where('klasifikasi_surat', 'umum')->count(),
+        'pengaduan' => SuratMasuk::whereBetween('created_at', [$start, $end])
+            ->where('klasifikasi_surat', 'pengaduan')->count(),
+        'permintaan_informasi' => SuratMasuk::whereBetween('created_at', [$start, $end])
+            ->where('klasifikasi_surat', 'permintaan informasi')->count(),
+    ];
+}
+
+
 public function dashboard(Request $request)
 {
-    // --- Rekap Hari Ini (tetap)
     $todayStart = now()->startOfDay();
     $todayEnd = now()->endOfDay();
 
-    $totalToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])->count();
-    $umumToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])
-                ->where('klasifikasi_surat', 'umum')->count();
-    $pengaduanToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])
-                ->where('klasifikasi_surat', 'pengaduan')->count();
-    $permintaanInformasiToday = SuratMasuk::whereBetween('created_at', [$todayStart, $todayEnd])
-                ->where('klasifikasi_surat', 'permintaan informasi')->count();
+    $totalToday = $this->getRekapitulasiSurat($todayStart, $todayEnd);
 
-    // --- Rekap Berdasarkan Range (optional)
     $tanggalRange = $request->input('tanggal_range');
     $rekapRange = null;
+    $tanggalRangeDisplay = null;
 
     if ($tanggalRange) {
         $dates = explode(' to ', $tanggalRange);
         if (count($dates) == 2) {
-            $start = \Carbon\Carbon::parse($dates[0])->startOfDay();
-            $end = \Carbon\Carbon::parse($dates[1])->endOfDay();
+            $start = Carbon::parse($dates[0])->startOfDay();
+            $end = Carbon::parse($dates[1])->endOfDay();
 
-            $rekapRange = [
-                'total' => SuratMasuk::whereBetween('created_at', [$start, $end])->count(),
-                'umum' => SuratMasuk::whereBetween('created_at', [$start, $end])
-                    ->where('klasifikasi_surat', 'umum')->count(),
-                'pengaduan' => SuratMasuk::whereBetween('created_at', [$start, $end])
-                    ->where('klasifikasi_surat', 'pengaduan')->count(),
-                'permintaan_informasi' => SuratMasuk::whereBetween('created_at', [$start, $end])
-                    ->where('klasifikasi_surat', 'permintaan informasi')->count(),
-            ];
+            $rekapRange = $this->getRekapitulasiSurat($start, $end);
+            Carbon::setLocale('id');
+            $tanggalRangeDisplay = Carbon::parse($dates[0])->translatedFormat('d F Y') . ' - ' . Carbon::parse($dates[1])->translatedFormat('d F Y');
         }
-
-        Carbon::setLocale('id');
-
-[$start, $end] = explode(' to ', $tanggalRange);
-
-$tanggalRange = Carbon::parse($start)->translatedFormat('d F Y') . ' - ' . Carbon::parse($end)->translatedFormat('d F Y');
     }
 
-    return view('pages.super-admin.home', compact(
-        'totalToday',
-        'umumToday',
-        'pengaduanToday',
-        'permintaanInformasiToday',
-        'rekapRange',
-        'tanggalRange'
-    ));
+    // Ambil data chart bulanan berdasarkan created_at
+    $startChart = now()->subMonths(5)->startOfMonth();
+    $endChart = now()->endOfMonth();
+
+    $categories = [];
+    $series = [
+        'umum' => [],
+        'pengaduan' => [],
+        'permintaan_informasi' => [],
+    ];
+
+    for ($date = $startChart->copy(); $date->lte($endChart); $date->addMonth()) {
+        $bulanStart = $date->copy()->startOfMonth();
+        $bulanEnd = $date->copy()->endOfMonth();
+
+        $categories[] = $date->format('Y-m-d') . ' GMT';
+        foreach (['umum', 'pengaduan', 'permintaan informasi'] as $jenis) {
+            $jumlah = SuratMasuk::whereBetween('created_at', [$bulanStart, $bulanEnd])
+                ->where('klasifikasi_surat', $jenis)
+                ->count();
+            $series[$jenis][] = $jumlah;
+        }
+    }
+
+    return view('pages.super-admin.home', [
+        'totalToday' => $totalToday['total'],
+        'umumToday' => $totalToday['umum'],
+        'pengaduanToday' => $totalToday['pengaduan'],
+        'permintaanInformasiToday' => $totalToday['permintaan_informasi'],
+        'rekapRange' => $rekapRange,
+        'tanggalRange' => $tanggalRangeDisplay ?? $tanggalRange,
+        'series' => [
+            ['name' => 'Umum', 'data' => $series['umum']],
+            ['name' => 'Pengaduan', 'data' => $series['pengaduan']],
+            ['name' => 'Permintaan Informasi', 'data' => $series['permintaan_informasi']],
+        ],
+        'categories' => $categories
+    ]);
 }
+
 
 
     public function index(Request $request)
