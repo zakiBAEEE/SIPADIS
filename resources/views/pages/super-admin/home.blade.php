@@ -92,13 +92,12 @@
                             ])
                         </a>
                         <a
-                            href="{{ route('surat.klasifikasi', ['klasifikasi' => 'Permintaan Informasi', 'tanggal_range' => $tanggalRange]) }">
-
+                            href="{{ route('surat.klasifikasi', ['klasifikasi' => 'Permintaan Informasi', 'tanggal_range' => $tanggalRange]) }}">
+                            @include('components.layout.card-dashboard', [
+                                'jenis' => 'permintaan informasi',
+                                'count' => $rekapRange['permintaan_informasi'] ?? 0,
+                            ])
                         </a>
-                        @include('components.layout.card-dashboard', [
-                            'jenis' => 'permintaan informasi',
-                            'count' => $rekapRange['permintaan_informasi'] ?? 0,
-                        ])
                     </div>
                 </div>
             </div>
