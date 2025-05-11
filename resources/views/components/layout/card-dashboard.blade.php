@@ -1,8 +1,8 @@
 @props(['jenis', 'count'])
 
 <div
-    class="w-full max-w-xs overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg shadow-slate-950/5 flex justify-center items-center">
-    <div class="h-max w-full rounded px-3 py-2 flex flex-col items-center justify-center gap-2">
+    class="w-[200px] overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg shadow-slate-950/5 flex justify-center items-center h-[110px]">
+    <div class="h-full w-full rounded px-3 py-2 flex flex-col items-center justify-center gap-2">
         @if ($jenis === 'total')
             @include('components.base.ikon-surat')
         @elseif($jenis === 'umum')

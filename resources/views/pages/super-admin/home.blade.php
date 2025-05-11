@@ -71,12 +71,14 @@
                     Rekapitulasi Surat Tanggal: {{ $tanggalRange ?? '-' }}
                 </h2>
                 <div class="flex flex-row gap-4 items-center justify-evenly">
-                    @include('components.layout.card-dashboard', [
-                        'jenis' => 'total',
-                        'count' => $rekapRange['total'] ?? 0,
-                    ])
+                    <div class="flex w-1/3">
+                        @include('components.layout.card-dashboard', [
+                            'jenis' => 'total',
+                            'count' => $rekapRange['total'] ?? 0,
+                        ])
+                    </div>
                     @include('components.base.ikon-panah-kanan')
-                    <div class="flex flex-row gap-2">
+                    <div class="flex flex-row gap-2 w-1/2">
                         <a
                             href="{{ route('surat.klasifikasi', ['klasifikasi' => 'Umum', 'tanggal_range' => $tanggalRange]) }}">
                             @include('components.layout.card-dashboard', [
