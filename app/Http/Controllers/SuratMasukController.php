@@ -25,6 +25,71 @@ private function getRekapitulasiSurat($start, $end)
     ];
 }
 
+// public function dashboard(Request $request)
+// {
+//     $todayStart = now()->startOfDay();
+//     $todayEnd = now()->endOfDay();
+
+//     $totalToday = $this->getRekapitulasiSurat($todayStart, $todayEnd);
+
+//     $tanggalRange = $request->input('tanggal_range');
+//     $rekapRange = null;
+//     $tanggalRangeDisplay = null;
+
+//     $startChart = now()->subMonths(5)->startOfMonth();
+//     $endChart = now()->endOfMonth();
+
+//     if ($tanggalRange && count($dates = explode(' to ', $tanggalRange)) == 2) {
+//         $start = Carbon::parse($dates[0])->startOfDay();
+//         $end = Carbon::parse($dates[1])->endOfDay();
+
+//         $rekapRange = $this->getRekapitulasiSurat($start, $end);
+//         Carbon::setLocale('id');
+//         $tanggalRangeDisplay = Carbon::parse($dates[0])->translatedFormat('d F Y') . ' - ' . Carbon::parse($dates[1])->translatedFormat('d F Y');
+
+//         // Gunakan range yang dipilih user untuk chart
+//         $startChart = Carbon::parse($dates[0])->startOfMonth();
+//         $endChart = Carbon::parse($dates[1])->endOfMonth();
+//     }
+
+//     // Siapkan data chart
+//     $categories = [];
+//     $series = [
+//         'umum' => [],
+//         'pengaduan' => [],
+//         'permintaan_informasi' => [],
+//     ];
+
+//     for ($date = $startChart->copy(); $date->lte($endChart); $date->addMonth()) {
+//         $bulanStart = $date->copy()->startOfMonth();
+//         $bulanEnd = $date->copy()->endOfMonth();
+
+//         $categories[] = $date->format('Y-m-d') . ' GMT'; // Atau ubah ke nama bulan untuk tampilan
+
+//         foreach (['umum', 'pengaduan', 'permintaan informasi'] as $jenis) {
+//             $jumlah = SuratMasuk::whereBetween('created_at', [$bulanStart, $bulanEnd])
+//                 ->where('klasifikasi_surat', $jenis)
+//                 ->count();
+//             $series[$jenis][] = $jumlah;
+//         }
+//     }
+
+//     return view('pages.super-admin.home', [
+//         'totalToday' => $totalToday['total'],
+//         'umumToday' => $totalToday['umum'],
+//         'pengaduanToday' => $totalToday['pengaduan'],
+//         'permintaanInformasiToday' => $totalToday['permintaan_informasi'],
+//         'rekapRange' => $rekapRange,
+//         'tanggalRange' => $tanggalRangeDisplay ?? $tanggalRange,
+//         'series' => [
+//             ['name' => 'Umum', 'data' => $series['umum']],
+//             ['name' => 'Pengaduan', 'data' => $series['pengaduan']],
+//             ['name' => 'Permintaan Informasi', 'data' => $series['permintaan_informasi']],
+//         ],
+//         'categories' => $categories
+//     ]);
+// }
+
 public function dashboard(Request $request)
 {
     $todayStart = now()->startOfDay();
@@ -36,23 +101,7 @@ public function dashboard(Request $request)
     $rekapRange = null;
     $tanggalRangeDisplay = null;
 
-    $startChart = now()->subMonths(5)->startOfMonth();
-    $endChart = now()->endOfMonth();
-
-    if ($tanggalRange && count($dates = explode(' to ', $tanggalRange)) == 2) {
-        $start = Carbon::parse($dates[0])->startOfDay();
-        $end = Carbon::parse($dates[1])->endOfDay();
-
-        $rekapRange = $this->getRekapitulasiSurat($start, $end);
-        Carbon::setLocale('id');
-        $tanggalRangeDisplay = Carbon::parse($dates[0])->translatedFormat('d F Y') . ' - ' . Carbon::parse($dates[1])->translatedFormat('d F Y');
-
-        // Gunakan range yang dipilih user untuk chart
-        $startChart = Carbon::parse($dates[0])->startOfMonth();
-        $endChart = Carbon::parse($dates[1])->endOfMonth();
-    }
-
-    // Siapkan data chart
+    // Default: chart tidak menampilkan data (kecuali jika user pilih tanggal)
     $categories = [];
     $series = [
         'umum' => [],
@@ -60,17 +109,28 @@ public function dashboard(Request $request)
         'permintaan_informasi' => [],
     ];
 
-    for ($date = $startChart->copy(); $date->lte($endChart); $date->addMonth()) {
-        $bulanStart = $date->copy()->startOfMonth();
-        $bulanEnd = $date->copy()->endOfMonth();
+    if ($tanggalRange && count($dates = explode(' to ', $tanggalRange)) == 2) {
+        $start = Carbon::parse($dates[0])->startOfMonth();
+        $end = Carbon::parse($dates[1])->endOfMonth();
 
-        $categories[] = $date->format('Y-m-d') . ' GMT'; // Atau ubah ke nama bulan untuk tampilan
+        $rekapRange = $this->getRekapitulasiSurat($start->copy()->startOfDay(), $end->copy()->endOfDay());
+        Carbon::setLocale('id');
+        $tanggalRangeDisplay = Carbon::parse($dates[0])->translatedFormat('F Y') . ' - ' . Carbon::parse($dates[1])->translatedFormat('F Y');
 
-        foreach (['umum', 'pengaduan', 'permintaan informasi'] as $jenis) {
-            $jumlah = SuratMasuk::whereBetween('created_at', [$bulanStart, $bulanEnd])
-                ->where('klasifikasi_surat', $jenis)
-                ->count();
-            $series[$jenis][] = $jumlah;
+        // Ambil data per bulan
+        for ($date = $start->copy(); $date->lte($end); $date->addMonth()) {
+            $bulanStart = $date->copy()->startOfMonth();
+            $bulanEnd = $date->copy()->endOfMonth();
+
+            // Label sumbu X: Nama bulan dan tahun (misal: "Mei 2025")
+            $categories[] = $date->translatedFormat('F Y');
+
+            foreach (['umum', 'pengaduan', 'permintaan informasi'] as $jenis) {
+                $jumlah = SuratMasuk::whereBetween('created_at', [$bulanStart, $bulanEnd])
+                    ->where('klasifikasi_surat', $jenis)
+                    ->count();
+                $series[$jenis][] = $jumlah;
+            }
         }
     }
 
@@ -80,7 +140,7 @@ public function dashboard(Request $request)
         'pengaduanToday' => $totalToday['pengaduan'],
         'permintaanInformasiToday' => $totalToday['permintaan_informasi'],
         'rekapRange' => $rekapRange,
-        'tanggalRange' => $tanggalRangeDisplay ?? $tanggalRange,
+        'tanggalRange' => $tanggalRangeDisplay ?? 'Per Hari ini',
         'series' => [
             ['name' => 'Umum', 'data' => $series['umum']],
             ['name' => 'Pengaduan', 'data' => $series['pengaduan']],
@@ -89,6 +149,7 @@ public function dashboard(Request $request)
         'categories' => $categories
     ]);
 }
+
 
 public function detailByKlasifikasi(Request $request)
 {

@@ -104,8 +104,6 @@
                 </div>
             </div>
 
-
-
             @include('components.layout.chart', [
                 'id' => 'suratChartBulanan',
                 'series' => $series,

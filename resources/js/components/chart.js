@@ -38,8 +38,13 @@ export function renderChart(selector, seriesData, categoryData) {
             },
         },
         xaxis: {
-            type: 'datetime',
-            categories: categoryData
+            type: 'category',
+            categories: categoryData,
+            labels: {
+                style: {
+                    fontSize: '12px'
+                }
+            }
         },
         legend: {
             position: 'right',
