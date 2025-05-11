@@ -12,5 +12,25 @@
             </div>
         </div>
         <hr class="w-full border-t border-gray-300 my-4" />
+        <div class="flex justify-center items-center">
+            <div>
+                <form action="{{ route('surat.printAgenda') }}" method="GET">
+                    <div class="mb-4 space-y-1.5 w-1/3">
+                        @include('components.base.datepicker', [
+                            'label' => 'Tanggal Surat',
+                            'placeholder' => 'Pilih Tanggal Surat',
+                            'id' => 'cetak-agenda',
+                            'name' => 'cetak-agenda',
+                        ])
+                    </div>
+                    <button type="submit"
+                        class="inline-flex border font-medium font-sans text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md px-1 shadow-sm hover:shadow-md bg-transparent border-slate-800 text-slate-800 flex-row justify-center items-center gap-1"
+                        target="_blank">
+                        @include('components.base.ikon-print') Cetak
+                    </button>
+
+                </form>
+            </div>
+        </div>
     </div>
 @endsection

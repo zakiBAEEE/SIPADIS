@@ -21,6 +21,7 @@ Route::post('/surat-masuk/{surat}', [SuratMasukController::class, 'update'])->na
 Route::get('/surat/klasifikasi', [SuratMasukController::class, 'detailByKlasifikasi'])->name('surat.klasifikasi');
 
 Route::get('/surat/cetak-agenda', [SuratMasukController::class, 'cetakAgenda'])->name('surat.cetakAgenda');
+Route::get('/surat/print-agenda', [SuratMasukController::class, 'printAgenda'])->name('surat.printAgenda');
 
 
 Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
