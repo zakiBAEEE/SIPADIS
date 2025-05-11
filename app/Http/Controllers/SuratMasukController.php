@@ -282,7 +282,7 @@ public function update(Request $request, SuratMasuk $surat)
 
     public function printAgenda(Request $request)
     {
-        $tanggalRange = $request->input('tanggal_range');
+        $tanggalRange = $request->input('cetak-agenda');
     
         $suratMasuk = collect(); // Default kosong
         $start = $end = null;

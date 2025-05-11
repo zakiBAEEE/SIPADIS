@@ -14,7 +14,7 @@
         <hr class="w-full border-t border-gray-300 my-4" />
         <div class="flex justify-center items-center">
             <div>
-                <form action="{{ route('surat.printAgenda') }}" method="GET">
+                <form action="{{ route('surat.printAgenda') }}" method="GET" target="blank">
                     <div class="mb-4 space-y-1.5 w-1/3">
                         @include('components.base.datepicker', [
                             'label' => 'Tanggal Surat',
