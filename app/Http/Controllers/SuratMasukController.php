@@ -289,8 +289,14 @@ public function update(Request $request, SuratMasuk $surat)
     
         if ($tanggalRange && str_contains($tanggalRange, ' to ')) {
             [$start, $end] = explode(' to ', $tanggalRange);
+
     
-            $suratMasuk = SuratMasuk::with(['disposisis.pengirim', 'disposisis.penerima'])
+            $suratMasuk = SuratMasuk::with([
+                'disposisis.pengirim.divisi', 
+                'disposisis.pengirim.role', 
+                'disposisis.penerima.divisi', 
+                'disposisis.penerima.role'])
+                
                 ->whereBetween('tanggal_terima', [$start, $end])
                 ->orderBy('tanggal_terima')
                 ->get();
