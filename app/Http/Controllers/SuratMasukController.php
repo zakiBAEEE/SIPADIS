@@ -275,4 +275,8 @@ public function update(Request $request, SuratMasuk $surat)
     {
         
     }
+
+    public function cetakAgenda(){
+        return view('pages.super-admin.cetak-agenda');
+    }
 }

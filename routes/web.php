@@ -20,6 +20,8 @@ Route::get('/surat-masuk/{surat}/edit', [SuratMasukController::class, 'edit'])->
 Route::post('/surat-masuk/{surat}', [SuratMasukController::class, 'update'])->name('surat.update');
 Route::get('/surat/klasifikasi', [SuratMasukController::class, 'detailByKlasifikasi'])->name('surat.klasifikasi');
 
+Route::get('/surat/cetak-agenda', [SuratMasukController::class, 'cetakAgenda'])->name('surat.cetakAgenda');
+
 
 Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
 Route::get('/lembaga/edit', [LembagaController::class, 'edit'])->name('lembaga.edit');
