@@ -280,8 +280,23 @@ public function update(Request $request, SuratMasuk $surat)
         return view('pages.super-admin.cetak-agenda');
     }
 
-    public function printAgenda(){
-        $suratMasuk = SuratMasuk::with('disposisis.pengirim', 'disposisis.penerima')->get();
-        return view('pages.super-admin.print-agenda-surat-masuk', compact('suratMasuk'));
+    public function printAgenda(Request $request)
+    {
+        $tanggalRange = $request->input('tanggal_range');
+    
+        $suratMasuk = collect(); // Default kosong
+        $start = $end = null;
+    
+        if ($tanggalRange && str_contains($tanggalRange, ' to ')) {
+            [$start, $end] = explode(' to ', $tanggalRange);
+    
+            $suratMasuk = SuratMasuk::with(['disposisis.pengirim', 'disposisis.penerima'])
+                ->whereBetween('tanggal_terima', [$start, $end])
+                ->orderBy('tanggal_terima')
+                ->get();
+        }
+    
+        return view('pages.super-admin.print-agenda-surat-masuk', compact('suratMasuk', 'tanggalRange'));
     }
+    
 }
