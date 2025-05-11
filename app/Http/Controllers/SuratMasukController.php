@@ -279,4 +279,9 @@ public function update(Request $request, SuratMasuk $surat)
     public function cetakAgenda(){
         return view('pages.super-admin.cetak-agenda');
     }
+
+    public function printAgenda(){
+        $suratMasuk = SuratMasuk::with('disposisis.pengirim', 'disposisis.penerima')->get();
+        return view('pages.super-admin.print-agenda-surat-masuk', compact('suratMasuk'));
+    }
 }
