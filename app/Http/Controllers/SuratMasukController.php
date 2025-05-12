@@ -150,9 +150,6 @@ if ($request->filled('filter_tanggal_terima')) {
     }
 }
 
-
-
-
     if ($request->filled('perihal')) {
         $query->where('perihal', 'like', '%' . $request->perihal . '%');
     }
