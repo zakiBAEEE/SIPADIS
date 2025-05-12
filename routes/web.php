@@ -23,7 +23,6 @@ Route::get('/surat/klasifikasi', [SuratMasukController::class, 'detailByKlasifik
 Route::get('/surat/cetak-agenda', [SuratMasukController::class, 'cetakAgenda'])->name('surat.cetakAgenda');
 Route::get('/surat/print-agenda', [SuratMasukController::class, 'printAgenda'])->name('surat.printAgenda');
 
-
 Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
 Route::get('/lembaga/edit', [LembagaController::class, 'edit'])->name('lembaga.edit');
 Route::post('/lembaga/update', [LembagaController::class, 'update'])->name('lembaga.update');
