@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\LembagaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TimKerjaController;
 
 // Route::get('/', function () {
 //     return view('pages.super-admin.home');
@@ -30,9 +31,8 @@ Route::post('/lembaga/update', [LembagaController::class, 'update'])->name('lemb
 Route::get('/pegawai', [UserController::class, 'index'])->name('pegawai.index');
 
 
-Route::get('/tim-kerja', function () {
-    return view('pages.super-admin.tim-kerja');
-})->name('organisasi.timKerja');
+Route::get('/tim-kerja', [TimKerjaController::class, 'index'])->name('timKerja.index');
+Route::post('/tim-kerja', [TimKerjaController::class, 'index'])->name('timKerja.store');
 
 Route::post('/surat-masuk/{suratId}/disposisi', [DisposisiController::class, 'store'])->name('disposisi.store');
 Route::get('/disposisi/{id}/cetak', [DisposisiController::class, 'cetak'])->name('disposisi.cetak');
