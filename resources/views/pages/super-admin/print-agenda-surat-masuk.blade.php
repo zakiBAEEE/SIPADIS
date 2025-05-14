@@ -82,7 +82,7 @@
                             </td>
 
                             <td class="border border-black px-1 py-1 break-words whitespace-normal">
-                                {{ $disposisi ? \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->format('d M Y') : '' }}
+                                {{ $disposisi ? \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->translatedFormat('d M Y') : '' }}
                             </td>
 
                             <td class="border border-black px-1 py-1 break-words whitespace-normal">
