@@ -32,7 +32,10 @@ Route::get('/pegawai', [UserController::class, 'index'])->name('pegawai.index');
 
 
 Route::get('/tim-kerja', [TimKerjaController::class, 'index'])->name('timKerja.index');
-Route::post('/tim-kerja', [TimKerjaController::class, 'index'])->name('timKerja.store');
+Route::post('/tim-kerja', [TimKerjaController::class, 'store'])->name('timKerja.store');
+Route::get('/tim-kerja/{id}/edit', [TimKerjaController::class, 'edit'])->name('tim-kerja.edit');
+Route::delete('/tim-kerja/{id}', [TimKerjaController::class, 'destroy'])->name('tim-kerja.destroy');
+
 
 Route::post('/surat-masuk/{suratId}/disposisi', [DisposisiController::class, 'store'])->name('disposisi.store');
 Route::get('/disposisi/{id}/cetak', [DisposisiController::class, 'cetak'])->name('disposisi.cetak');

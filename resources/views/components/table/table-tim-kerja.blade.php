@@ -9,6 +9,9 @@
                 <th class="px-2.5 py-2 text-start font-bold">
                     Nama Tim Kerja
                 </th>
+                <th>
+                    Aksi
+                </th>
             </tr>
         </thead>
         <tbody class="group text-sm text-slate-800 dark:text-white">
@@ -20,10 +23,31 @@
                     <td class="p-3">
                         {{ $item->nama_divisi }}
                     </td>
+                    <td class="p-3">
+                        <div class="flex flex-row gap-x-1">
+                            <!-- Tombol Lihat -->
+
+                            <!-- Tombol Edit -->
+                            <a href="{{ route('tim-kerja.edit', $item->id) }}">
+                                @include('components.base.ikon-edit')
+                            </a>
+
+                            <!-- Tombol Hapus -->
+                            <form action="{{ route('tim-kerja.destroy', $item->id) }}" method="POST"
+                                onsubmit="return confirm('Yakin ingin menghapus tim kerja ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">
+                                    @include('components.base.ikon-hapus')
+                                </button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
             @empty
                 <tr>
                     <td colspan="4" class="text-center p-3">Belum ada disposisi.</td>
+
                 </tr>
             @endforelse
         </tbody>
