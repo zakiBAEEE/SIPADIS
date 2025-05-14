@@ -33,7 +33,7 @@ Route::get('/pegawai', [UserController::class, 'index'])->name('pegawai.index');
 
 Route::get('/tim-kerja', [TimKerjaController::class, 'index'])->name('timKerja.index');
 Route::post('/tim-kerja', [TimKerjaController::class, 'store'])->name('timKerja.store');
-Route::get('/tim-kerja/{id}/edit', [TimKerjaController::class, 'edit'])->name('tim-kerja.edit');
+Route::post('/tim-kerja/{id}/edit', [TimKerjaController::class, 'update'])->name('timKerja.update');
 Route::delete('/tim-kerja/{id}', [TimKerjaController::class, 'destroy'])->name('tim-kerja.destroy');
 
 

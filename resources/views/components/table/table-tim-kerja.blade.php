@@ -25,14 +25,10 @@
                     </td>
                     <td class="p-3">
                         <div class="flex flex-row gap-x-1">
-                            <!-- Tombol Lihat -->
 
-                            <!-- Tombol Edit -->
-                            <a href="{{ route('tim-kerja.edit', $item->id) }}">
-                                @include('components.base.ikon-edit')
-                            </a>
 
-                            <!-- Tombol Hapus -->
+                            @include('components.layout.modal-edit-tim-kerja', ['id' => $item->id])
+
                             <form action="{{ route('tim-kerja.destroy', $item->id) }}" method="POST"
                                 onsubmit="return confirm('Yakin ingin menghapus tim kerja ini?')">
                                 @csrf

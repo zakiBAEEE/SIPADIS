@@ -14,12 +14,6 @@ class TimKerjaController extends Controller
         return view('pages.super-admin.tim-kerja', compact('timKerja'));
     }
 
-    // CREATE: Tampilkan form tambah
-    public function create()
-    {
-        
-    }
-
     // STORE: Simpan data baru
     public function store(Request $request)
     {
