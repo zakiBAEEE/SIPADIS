@@ -27,13 +27,11 @@ Route::get('/surat/print-agenda', [SuratMasukController::class, 'printAgenda'])-
 Route::get('/surat/cetak-agenda-terima', [SuratMasukController::class, 'cetakAgendaTerima'])->name('surat.cetakAgendaTerima');
 Route::get('/cetak-agenda-terima', [App\Http\Controllers\SuratMasukController::class, 'printAgendaTerima'])->name('print.agenda.terima');
 
-
 Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
 Route::get('/lembaga/edit', [LembagaController::class, 'edit'])->name('lembaga.edit');
 Route::post('/lembaga/update', [LembagaController::class, 'update'])->name('lembaga.update');
 
 Route::get('/pegawai', [UserController::class, 'index'])->name('pegawai.index');
-
 
 Route::get('/tim-kerja', [TimKerjaController::class, 'index'])->name('timKerja.index');
 Route::post('/tim-kerja', [TimKerjaController::class, 'store'])->name('timKerja.store');

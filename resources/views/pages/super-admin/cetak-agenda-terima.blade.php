@@ -7,7 +7,7 @@
             <div>
                 <h4 class="font-sans text-xl font-bold antialiased md:text-2xl lg:text-2xl text-gray-600">Cetak Agenda
                     Surat
-                    Masuk
+                    Terima
                 </h4>
                 <h6 class="font-sans text-base font-bold antialiased md:text-lg lg:text-lg text-gray-600">LLDIKTI Wilayah
                     2

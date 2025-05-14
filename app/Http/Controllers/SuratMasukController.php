@@ -379,7 +379,7 @@ public function update(Request $request, SuratMasuk $surat)
     }
 
     public function cetakAgendaTerima(){
-        return view('pages.super-admin.print-agenda-terima');
+        return view('pages.super-admin.cetak-agenda-terima');
     }
 
 
@@ -439,13 +439,11 @@ public function update(Request $request, SuratMasuk $surat)
         $query->where('perihal', 'like', '%' . $filters['perihal'] . '%');
     }
 
-    // Filter tanggal surat
     if (!empty($filters['cetak-agenda-tanggal-surat']) && str_contains($filters['cetak-agenda-tanggal-surat'], ' to ')) {
         [$startSurat, $endSurat] = explode(' to ', $filters['cetak-agenda-tanggal-surat']);
         $query->whereBetween('tanggal_surat', [$startSurat, $endSurat]);
     }
 
-    // Filter tanggal terima
     if (!empty($filters['cetak-agenda-tanggal-terima']) && str_contains($filters['cetak-agenda-tanggal-terima'], ' to ')) {
         [$startTerima, $endTerima] = explode(' to ', $filters['cetak-agenda-tanggal-terima']);
         $query->whereBetween('tanggal_terima', [$startTerima, $endTerima]);
@@ -453,7 +451,6 @@ public function update(Request $request, SuratMasuk $surat)
 
     $suratMasuk = $query->orderBy('tanggal_terima')->get();
 
-    // Filter hanya disposisi dari kepala
     foreach ($suratMasuk as $surat) {
         $surat->disposisis = $surat->disposisis->filter(function ($d) {
             return optional($d->pengirim?->role)->name === 'kepala';
@@ -465,7 +462,4 @@ public function update(Request $request, SuratMasuk $surat)
         'tanggalRange' => null,
     ]);
 }
-
-    
-    
 }

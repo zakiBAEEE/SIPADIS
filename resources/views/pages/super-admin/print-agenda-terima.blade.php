@@ -15,9 +15,7 @@
 </head>
 
 <body onload="window.print()" class="text-[9px] font-sans p-4 bg-white text-black">
-
     <h2 class="text-center text-base font-bold mb-4 uppercase">Cetak Agenda Terima</h2>
-
     <div class="overflow-x-auto">
         <table class="w-full table-fixed border border-black border-collapse text-[9px]">
             <thead class="bg-gray-200">
@@ -35,7 +33,6 @@
                             'Paraf',
                         ];
                     @endphp
-
                     @foreach ($headers as $header)
                         <th class="border border-black px-1 py-1 break-words whitespace-normal text-wrap">
                             {{ $header }}
@@ -66,7 +63,6 @@
                                 {{ $surat->perihal }}
                             </td>
 
-                            {{-- Tujuan Disposisi --}}
                             <td class="border border-black px-1 py-1 break-words whitespace-normal">
                                 @if ($disposisi->penerima)
                                     @php
@@ -79,14 +75,11 @@
                                 @endif
                             </td>
 
-                            {{-- Instruksi --}}
                             <td class="border border-black px-1 py-1 break-words whitespace-normal">
                                 {{ $disposisi->catatan ?? '-' }}
                             </td>
 
-                            {{-- Paraf (Kosong untuk ditandatangani) --}}
                             <td class="border border-black px-1 py-1 break-words whitespace-normal text-center">
-                                {{-- Kosong untuk tanda tangan --}}
                             </td>
                         </tr>
                     @endforeach
