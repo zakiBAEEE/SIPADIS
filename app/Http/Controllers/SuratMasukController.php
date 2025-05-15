@@ -277,30 +277,6 @@ public function update(Request $request, SuratMasuk $surat)
         return view('pages.super-admin.cetak-agenda');
     }
 
-    // public function printAgenda(Request $request)
-    // {
-    //     $tanggalRange = $request->input('cetak-agenda');
-    
-    //     $suratMasuk = collect(); // Default kosong
-    //     $start = $end = null;
-    
-    //     if ($tanggalRange && str_contains($tanggalRange, ' to ')) {
-    //         [$start, $end] = explode(' to ', $tanggalRange);
-
-    
-    //         $suratMasuk = SuratMasuk::with([
-    //             'disposisis.pengirim.divisi', 
-    //             'disposisis.pengirim.role', 
-    //             'disposisis.penerima.divisi', 
-    //             'disposisis.penerima.role'])
-                
-    //             ->whereBetween('tanggal_terima', [$start, $end])
-    //             ->orderBy('tanggal_terima')
-    //             ->get();
-    //     }
-    
-    //     return view('pages.super-admin.print-agenda-surat-masuk', compact('suratMasuk', 'tanggalRange'));
-    // }
     public function printAgenda(Request $request)
     {
         $filters = $request->only([
@@ -382,84 +358,83 @@ public function update(Request $request, SuratMasuk $surat)
         return view('pages.super-admin.cetak-agenda-terima');
     }
 
-
     public function printAgendaTerima(Request $request)
-{
-    $filters = $request->only([
-        'nomor_agenda',
-        'nomor_surat',
-        'filter_tanggal_surat',
-        'filter_tanggal_terima',
-        'pengirim',
-        'klasifikasi_surat',
-        'sifat',
-        'perihal',
-        'cetak-agenda-tanggal-surat',
-        'cetak-agenda-tanggal-terima',
-    ]);
-
-    $hasFilters = collect($filters)->filter()->isNotEmpty();
-
-    if (!$hasFilters) {
+    {
+        $filters = $request->only([
+            'nomor_agenda',
+            'nomor_surat',
+            'filter_tanggal_surat',
+            'filter_tanggal_terima',
+            'pengirim',
+            'klasifikasi_surat',
+            'sifat',
+            'perihal',
+            'cetak-agenda-tanggal-surat',
+            'cetak-agenda-tanggal-terima',
+        ]);
+    
+        $hasFilters = collect($filters)->filter()->isNotEmpty();
+    
+        if (!$hasFilters) {
+            return view('pages.super-admin.print-agenda-terima', [
+                'suratMasuk' => collect(),
+                'tanggalRange' => null,
+            ]);
+        }
+    
+        $query = SuratMasuk::with([
+            'disposisis.pengirim.divisi',
+            'disposisis.pengirim.role',
+            'disposisis.penerima.divisi',
+            'disposisis.penerima.role',
+        ])
+        ->whereHas('disposisis.pengirim', function ($query) {
+            $query->where('role_id', 2); // Kepala LLDIKTI
+        });
+    
+        // Filter lainnya
+        if (!empty($filters['nomor_agenda'])) {
+            $query->where('nomor_agenda', 'like', '%' . $filters['nomor_agenda'] . '%');
+        }
+    
+        if (!empty($filters['nomor_surat'])) {
+            $query->where('nomor_surat', 'like', '%' . $filters['nomor_surat'] . '%');
+        }
+    
+        if (!empty($filters['pengirim'])) {
+            $query->where('pengirim', 'like', '%' . $filters['pengirim'] . '%');
+        }
+    
+        if (!empty($filters['klasifikasi_surat'])) {
+            $query->where('klasifikasi_surat', $filters['klasifikasi_surat']);
+        }
+    
+        if (!empty($filters['sifat'])) {
+            $query->where('sifat', $filters['sifat']);
+        }
+    
+        if (!empty($filters['perihal'])) {
+            $query->where('perihal', 'like', '%' . $filters['perihal'] . '%');
+        }
+    
+        if (!empty($filters['cetak-agenda-tanggal-surat']) && str_contains($filters['cetak-agenda-tanggal-surat'], ' to ')) {
+            [$startSurat, $endSurat] = explode(' to ', $filters['cetak-agenda-tanggal-surat']);
+            $query->whereBetween('tanggal_surat', [$startSurat, $endSurat]);
+        }
+    
+        if (!empty($filters['cetak-agenda-tanggal-terima']) && str_contains($filters['cetak-agenda-tanggal-terima'], ' to ')) {
+            [$startTerima, $endTerima] = explode(' to ', $filters['cetak-agenda-tanggal-terima']);
+            $query->whereBetween('tanggal_terima', [$startTerima, $endTerima]);
+        }
+    
+        $suratMasuk = $query->orderBy('tanggal_terima')->get();
+    
         return view('pages.super-admin.print-agenda-terima', [
-            'suratMasuk' => collect(),
+            'suratMasuk' => $suratMasuk,
             'tanggalRange' => null,
         ]);
     }
+    
 
-    $query = SuratMasuk::with([
-        'disposisis.pengirim.role',
-        'disposisis.pengirim.divisi',
-        'disposisis.penerima.role',
-        'disposisis.penerima.divisi',
-    ]);
 
-    // Filter berdasarkan form
-    if (!empty($filters['nomor_agenda'])) {
-        $query->where('nomor_agenda', 'like', '%' . $filters['nomor_agenda'] . '%');
-    }
-
-    if (!empty($filters['nomor_surat'])) {
-        $query->where('nomor_surat', 'like', '%' . $filters['nomor_surat'] . '%');
-    }
-
-    if (!empty($filters['pengirim'])) {
-        $query->where('pengirim', 'like', '%' . $filters['pengirim'] . '%');
-    }
-
-    if (!empty($filters['klasifikasi_surat'])) {
-        $query->where('klasifikasi_surat', $filters['klasifikasi_surat']);
-    }
-
-    if (!empty($filters['sifat'])) {
-        $query->where('sifat', $filters['sifat']);
-    }
-
-    if (!empty($filters['perihal'])) {
-        $query->where('perihal', 'like', '%' . $filters['perihal'] . '%');
-    }
-
-    if (!empty($filters['cetak-agenda-tanggal-surat']) && str_contains($filters['cetak-agenda-tanggal-surat'], ' to ')) {
-        [$startSurat, $endSurat] = explode(' to ', $filters['cetak-agenda-tanggal-surat']);
-        $query->whereBetween('tanggal_surat', [$startSurat, $endSurat]);
-    }
-
-    if (!empty($filters['cetak-agenda-tanggal-terima']) && str_contains($filters['cetak-agenda-tanggal-terima'], ' to ')) {
-        [$startTerima, $endTerima] = explode(' to ', $filters['cetak-agenda-tanggal-terima']);
-        $query->whereBetween('tanggal_terima', [$startTerima, $endTerima]);
-    }
-
-    $suratMasuk = $query->orderBy('tanggal_terima')->get();
-
-    foreach ($suratMasuk as $surat) {
-        $surat->disposisis = $surat->disposisis->filter(function ($d) {
-            return optional($d->pengirim?->role)->name === 'kepala';
-        });
-    }
-
-    return view('pages.super-admin.print-agenda-terima', [
-        'suratMasuk' => $suratMasuk,
-        'tanggalRange' => null,
-    ]);
-}
 }
