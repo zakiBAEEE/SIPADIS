@@ -23,9 +23,10 @@ Route::get('/surat/klasifikasi', [SuratMasukController::class, 'detailByKlasifik
 
 Route::get('/surat/cetak-agenda', [SuratMasukController::class, 'cetakAgenda'])->name('surat.cetakAgenda');
 Route::get('/surat/print-agenda', [SuratMasukController::class, 'printAgenda'])->name('surat.printAgenda');
+
 // Route khusus untuk cetak agenda terima (versi Kepala LLDIKTI)
 Route::get('/surat/cetak-agenda-terima', [SuratMasukController::class, 'cetakAgendaTerima'])->name('surat.cetakAgendaTerima');
-Route::get('/cetak-agenda-terima', [App\Http\Controllers\SuratMasukController::class, 'printAgendaTerima'])->name('print.agenda.terima');
+Route::get('/cetak-agenda-terima', [SuratMasukController::class, 'printAgenda'])->name('print.agenda.terima');
 
 Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
 Route::get('/lembaga/edit', [LembagaController::class, 'edit'])->name('lembaga.edit');
