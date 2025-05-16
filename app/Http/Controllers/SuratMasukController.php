@@ -352,21 +352,40 @@ public function update(Request $request, SuratMasuk $surat)
         $suratMasuk = $query->orderBy('tanggal_terima')->get();
     
         // Jika mode 'terima', filter hanya surat yang diterima oleh Kepala LLDIKTI
+        // if ($mode === 'terima') {
+        //     $kepala = User::whereHas('role', function ($q) {
+        //         $q->where('name', 'Kepala LLDIKTI');
+        //     })->first();
+    
+        //     if ($kepala) {
+        //         $kepalaId = $kepala->id;
+        //         $suratMasuk = $suratMasuk->filter(function ($surat) use ($kepalaId) {
+        //             return $surat->disposisis->contains('dari_user_id', $kepalaId);
+        //         });
+        //     } else {
+        //         $suratMasuk = collect(); // kosong jika tidak ditemukan
+        //     }
+        // }
         if ($mode === 'terima') {
             $kepala = User::whereHas('role', function ($q) {
                 $q->where('name', 'Kepala LLDIKTI');
             })->first();
-    
+        
             if ($kepala) {
                 $kepalaId = $kepala->id;
                 $suratMasuk = $suratMasuk->filter(function ($surat) use ($kepalaId) {
-                    return $surat->disposisis->contains('dari_user_id', $kepalaId);
+                    $firstDisposisi = $surat->disposisis->sortBy('created_at')->first();
+                    return $firstDisposisi && $firstDisposisi->dari_user_id == $kepalaId;
+                })->map(function ($surat) {
+                    // Reset disposisis agar hanya disposisi pertama saja yang dikirim ke view
+                    $surat->disposisis = collect([$surat->disposisis->sortBy('created_at')->first()]);
+                    return $surat;
                 });
             } else {
-                $suratMasuk = collect(); // kosong jika tidak ditemukan
+                $suratMasuk = collect();
             }
         }
-    
+        
         return view($mode === 'terima' 
             ? 'pages.super-admin.print-agenda-terima' 
             : 'pages.super-admin.print-agenda-surat-masuk', [
