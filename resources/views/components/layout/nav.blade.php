@@ -28,7 +28,7 @@
             </li>
 
             <li>
-                <div data-toggle="collapse" data-target="#sidebarCollapseList" aria-expanded="false"
+                <div data-toggle="collapse" data-target="#suratmasukcollapselist" aria-expanded="false"
                     aria-controls="sidebarCollapseList"
                     class="flex items-center justify-between min-w-60 cursor-pointer py-1.5 px-2.5 rounded-md align-middle transition-all duration-300 ease-in text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 focus:bg-slate-200 dark:focus:bg-slate-700 focus:text-slate-800 dark:focus:text-white">
                     <span class="flex items-center">
@@ -64,7 +64,7 @@
                     </span>
                 </div>
                 <div class="overflow-hidden transition-[max-height] duration-300 ease-in-out max-h-0"
-                    id="sidebarCollapseList">
+                    id="suratmasukcollapselist">
                     <ul class="flex flex-col gap-0.5 min-w-60">
                         <li>
                             <a href="/surat-masuk"
@@ -83,7 +83,7 @@
             {{-- ====================================================== --}}
 
             <li>
-                <div data-toggle="collapse" data-target="#sidebarCollapseList" aria-expanded="false"
+                <div data-toggle="collapse" data-target="#agendasuratcollapselist" aria-expanded="false"
                     aria-controls="sidebarCollapseList"
                     class="flex items-center justify-between min-w-60 cursor-pointer py-1.5 px-2.5 rounded-md align-middle transition-all duration-300 ease-in text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 focus:bg-slate-200 dark:focus:bg-slate-700 focus:text-slate-800 dark:focus:text-white">
                     <span class="flex items-center">
@@ -119,7 +119,7 @@
                     </span>
                 </div>
                 <div class="overflow-hidden transition-[max-height] duration-300 ease-in-out max-h-0"
-                    id="sidebarCollapseList">
+                    id="agendasuratcollapselist">
                     <ul class="flex flex-col gap-0.5 min-w-60">
                         <li>
                             <a href="/surat/cetak-agenda"
@@ -136,7 +136,7 @@
 
             <hr class="-mx-3 my-3 border-slate-200" />
             <li>
-                <div data-toggle="collapse" data-target="#sidebarCollapseList" aria-expanded="false"
+                <div data-toggle="collapse" data-target="#organisasicollapselist" aria-expanded="false"
                     aria-controls="sidebarCollapseList"
                     class="flex items-center justify-between min-w-60 cursor-pointer py-1.5 px-2.5 rounded-md align-middle transition-all duration-300 ease-in text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 focus:bg-slate-200 dark:focus:bg-slate-700 focus:text-slate-800 dark:focus:text-white">
                     <span class="flex items-center">
@@ -172,7 +172,7 @@
                     </span>
                 </div>
                 <div class="overflow-hidden transition-[max-height] duration-300 ease-in-out max-h-0"
-                    id="sidebarCollapseList">
+                    id="organisasicollapselist">
                     <ul class="flex flex-col gap-0.5 min-w-60">
                         <li>
                             <a href="/pegawai"
