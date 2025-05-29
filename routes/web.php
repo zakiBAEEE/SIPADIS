@@ -7,8 +7,8 @@ use App\Http\Controllers\LembagaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TimKerjaController;
 
-// Route::get('/', function () {
-//     return view('pages.super-admin.home');
+// Route::get('/surat-masuk', function () {
+//     return ("<h1>Kintil</h1>");
 // })->name('surat.home');
 
 Route::get('/', [SuratMasukController::class, 'dashboard'])->name('surat.home');
