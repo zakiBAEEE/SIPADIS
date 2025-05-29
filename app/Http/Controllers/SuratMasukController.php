@@ -118,8 +118,14 @@ public function detailByKlasifikasi(Request $request)
 
 public function index(Request $request)
 {
-    $query = SuratMasuk::query();
+    // Tentukan apakah akan menampilkan surat dengan disposisi atau tanpa disposisi
+    $withDisposisi = $request->boolean('with_disposisi');
 
+    $query = $withDisposisi
+        ? SuratMasuk::query()
+        : SuratMasuk::doesntHave('disposisis');
+
+    // Filter berdasarkan berbagai parameter
     if ($request->filled('nomor_agenda')) {
         $query->where('nomor_agenda', 'like', '%' . $request->nomor_agenda . '%');
     }
@@ -132,23 +138,25 @@ public function index(Request $request)
         $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
     }
 
+    // Filter tanggal surat
     if ($request->filled('filter_tanggal_surat')) {
-    $range = explode(' to ', $request->filter_tanggal_surat);
-    if (count($range) === 2) {
-        $query->whereBetween('tanggal_surat', [$range[0], $range[1]]);
-    } elseif (count($range) === 1) {
-        $query->whereDate('tanggal_surat', $range[0]);
+        $range = explode(' to ', $request->filter_tanggal_surat);
+        if (count($range) === 2) {
+            $query->whereBetween('tanggal_surat', [$range[0], $range[1]]);
+        } elseif (count($range) === 1) {
+            $query->whereDate('tanggal_surat', $range[0]);
+        }
     }
 
-
-if ($request->filled('filter_tanggal_terima')) {
-    $range = explode(' to ', $request->filter_tanggal_terima);
-    if (count($range) === 2) {
-        $query->whereBetween('tanggal_terima', [$range[0], $range[1]]);
-    } elseif (count($range) === 1) {
-        $query->whereDate('tanggal_terima', $range[0]);
+    // Filter tanggal terima
+    if ($request->filled('filter_tanggal_terima')) {
+        $range = explode(' to ', $request->filter_tanggal_terima);
+        if (count($range) === 2) {
+            $query->whereBetween('tanggal_terima', [$range[0], $range[1]]);
+        } elseif (count($range) === 1) {
+            $query->whereDate('tanggal_terima', $range[0]);
+        }
     }
-}
 
     if ($request->filled('perihal')) {
         $query->where('perihal', 'like', '%' . $request->perihal . '%');
@@ -162,64 +170,17 @@ if ($request->filled('filter_tanggal_terima')) {
         $query->where('sifat', $request->sifat);
     }
 
-}
-$surats = $query->orderBy('created_at', 'desc')->paginate(8)->appends($request->query());
-
-return view('pages.super-admin.surat-masuk', compact('surats'));
-
-
-}
-
-public function suratMasukTanpaDispo(Request $request)
-{
-    $query = SuratMasuk::doesntHave('disposisi');
-
-    if ($request->filled('nomor_agenda')) {
-        $query->where('nomor_agenda', 'like', '%' . $request->nomor_agenda . '%');
-    }
-
-    if ($request->filled('nomor_surat')) {
-        $query->where('nomor_surat', 'like', '%' . $request->nomor_surat . '%');
-    }
-
-    if ($request->filled('pengirim')) {
-        $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
-    }
-
-    if ($request->filled('filter_tanggal_surat')) {
-    $range = explode(' to ', $request->filter_tanggal_surat);
-    if (count($range) === 2) {
-        $query->whereBetween('tanggal_surat', [$range[0], $range[1]]);
-    } elseif (count($range) === 1) {
-        $query->whereDate('tanggal_surat', $range[0]);
-    }
-}
-
-if ($request->filled('filter_tanggal_terima')) {
-    $range = explode(' to ', $request->filter_tanggal_terima);
-    if (count($range) === 2) {
-        $query->whereBetween('tanggal_terima', [$range[0], $range[1]]);
-    } elseif (count($range) === 1) {
-        $query->whereDate('tanggal_terima', $range[0]);
-    }
-}
-
-    if ($request->filled('perihal')) {
-        $query->where('perihal', 'like', '%' . $request->perihal . '%');
-    }
-
-    if ($request->filled('klasifikasi_surat')) {
-        $query->where('klasifikasi_surat', $request->klasifikasi_surat);
-    }
-
-    if ($request->filled('sifat')) {
-        $query->where('sifat', $request->sifat);
-    }
-
-    $surats = $query->orderBy('created_at', 'desc')->paginate(8)->appends($request->query());
+    // Pagination dan kirim data ke view
+    $surats = $query->orderBy('created_at', 'desc')
+                    ->paginate(8)
+                    ->appends($request->query());
 
     return view('pages.super-admin.surat-masuk', compact('surats'));
 }
+
+
+
+
 
 
     public function create()
