@@ -122,7 +122,7 @@
                     id="agendasuratcollapselist">
                     <ul class="flex flex-col gap-0.5 min-w-60">
                         <li>
-                            <a href="/surat/cetak-agenda"
+                            <a href="{{ route('surat.agendaKbu') }}"
                                 class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 focus:bg-slate-200 dark:focus:bg-slate-700 focus:text-slate-800 dark:focus:text-white">KBU</a>
                         </li>
                         <li>

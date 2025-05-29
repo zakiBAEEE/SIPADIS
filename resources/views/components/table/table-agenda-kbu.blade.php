@@ -23,7 +23,6 @@
     <tbody>
         @foreach ($suratMasuk as $surat)
             <tr class="break-inside-avoid">
-                <!-- Data Surat Masuk -->
                 <td class="border border-black px-1 py-1 text-center break-words whitespace-normal">
                     {{ $surat->nomor_agenda }}
                 </td>
