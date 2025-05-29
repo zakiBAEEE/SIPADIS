@@ -178,11 +178,6 @@ public function index(Request $request)
     return view('pages.super-admin.surat-masuk', compact('surats'));
 }
 
-
-
-
-
-
     public function create()
     {
         
