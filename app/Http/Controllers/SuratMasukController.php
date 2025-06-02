@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\SuratMasukService; // <--- TAMBAHKAN BARIS INI
+use App\Services\SuratRekapitulasiService;
 use App\Models\SuratMasuk;
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -12,61 +14,50 @@ use Carbon\Carbon;
 class SuratMasukController extends Controller
 {
 
-private function getRekapitulasiSurat($start, $end)
-{
-    return [
-        'total' => SuratMasuk::whereBetween('created_at', [$start, $end])->count(),
-        'umum' => SuratMasuk::whereBetween('created_at', [$start, $end])
-            ->where('klasifikasi_surat', 'umum')->count(),
-        'pengaduan' => SuratMasuk::whereBetween('created_at', [$start, $end])
-            ->where('klasifikasi_surat', 'pengaduan')->count(),
-        'permintaan_informasi' => SuratMasuk::whereBetween('created_at', [$start, $end])
-            ->where('klasifikasi_surat', 'permintaan informasi')->count(),
-    ];
-}
+    protected $rekapService;
+    protected $suratMasukService;
+
+    public function __construct(SuratRekapitulasiService $rekapService, SuratMasukService $suratMasukService)
+    {
+        $this->rekapService = $rekapService;
+        $this->suratMasukService = $suratMasukService;
+    }
 
 public function dashboard(Request $request)
 {
     $todayStart = now()->startOfDay();
     $todayEnd = now()->endOfDay();
 
-    $totalToday = $this->getRekapitulasiSurat($todayStart, $todayEnd);
+    $rekapService = new SuratRekapitulasiService();
+
+    $totalToday = $rekapService->getRekapitulasiSurat($todayStart, $todayEnd);
 
     $tanggalRange = $request->input('tanggal_range');
     $rekapRange = null;
-    $tanggalRangeDisplay = null;
+    $tanggalRangeDisplay = 'Per Hari ini';
 
-    // Default: chart tidak menampilkan data (kecuali jika user pilih tanggal)
-    $categories = [];
+    // Default chart values
     $series = [
-        'umum' => [],
-        'pengaduan' => [],
-        'permintaan_informasi' => [],
+        ['name' => 'Umum', 'data' => []],
+        ['name' => 'Pengaduan', 'data' => []],
+        ['name' => 'Permintaan Informasi', 'data' => []],
     ];
+    $categories = [];
 
-    if ($tanggalRange && count($dates = explode(' to ', $tanggalRange)) == 2) {
-        $start = Carbon::parse($dates[0])->startOfMonth();
-        $end = Carbon::parse($dates[1])->endOfMonth();
+    if ($tanggalRange) {
+        [$start, $end] = $rekapService->parseRangeTanggal($tanggalRange);
 
-        $rekapRange = $this->getRekapitulasiSurat($start->copy()->startOfDay(), $end->copy()->endOfDay());
-        Carbon::setLocale('id');
-        $tanggalRangeDisplay = Carbon::parse($dates[0])->translatedFormat('F Y') . ' - ' . Carbon::parse($dates[1])->translatedFormat('F Y');
+        $rekapRange = $rekapService->getRekapitulasiSurat($start->copy()->startOfDay(), $end->copy()->endOfDay());
 
-        // Ambil data per bulan
-        for ($date = $start->copy(); $date->lte($end); $date->addMonth()) {
-            $bulanStart = $date->copy()->startOfMonth();
-            $bulanEnd = $date->copy()->endOfMonth();
+        $tanggalRangeDisplay = $start->translatedFormat('F Y') . ' - ' . $end->translatedFormat('F Y');
 
-            // Label sumbu X: Nama bulan dan tahun (misal: "Mei 2025")
-            $categories[] = $date->translatedFormat('F Y');
-
-            foreach (['umum', 'pengaduan', 'permintaan informasi'] as $jenis) {
-                $jumlah = SuratMasuk::whereBetween('created_at', [$bulanStart, $bulanEnd])
-                    ->where('klasifikasi_surat', $jenis)
-                    ->count();
-                $series[$jenis][] = $jumlah;
-            }
-        }
+        $chart = $rekapService->getChartSeries($start, $end);
+        $series = [
+            ['name' => 'Umum', 'data' => $chart['series']['umum']],
+            ['name' => 'Pengaduan', 'data' => $chart['series']['pengaduan']],
+            ['name' => 'Permintaan Informasi', 'data' => $chart['series']['permintaan_informasi']],
+        ];
+        $categories = $chart['categories'];
     }
 
     return view('pages.super-admin.home', [
@@ -75,16 +66,11 @@ public function dashboard(Request $request)
         'pengaduanToday' => $totalToday['pengaduan'],
         'permintaanInformasiToday' => $totalToday['permintaan_informasi'],
         'rekapRange' => $rekapRange,
-        'tanggalRange' => $tanggalRangeDisplay ?? 'Per Hari ini',
-        'series' => [
-            ['name' => 'Umum', 'data' => $series['umum']],
-            ['name' => 'Pengaduan', 'data' => $series['pengaduan']],
-            ['name' => 'Permintaan Informasi', 'data' => $series['permintaan_informasi']],
-        ],
+        'tanggalRange' => $tanggalRangeDisplay,
+        'series' => $series,
         'categories' => $categories
     ]);
 }
-
 
 public function detailByKlasifikasi(Request $request)
 {
@@ -178,10 +164,6 @@ public function index(Request $request)
     return view('pages.super-admin.surat-masuk', compact('surats'));
 }
 
-    public function create()
-    {
-        
-    }
 
     public function store(Request $request)
     {
@@ -278,10 +260,7 @@ public function update(Request $request, SuratMasuk $surat)
 
     return redirect()->route('surat.show', ['id' => $surat->id])->with('success', 'Surat berhasil diperbarui!');
 }
-    public function destroy(SuratMasuk $suratMasuk)
-    {
-        
-    }
+
 
     public function cetakAgenda(){
         return view('pages.super-admin.cetak-agenda');

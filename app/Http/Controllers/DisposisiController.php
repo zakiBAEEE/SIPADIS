@@ -25,9 +25,8 @@ class DisposisiController extends Controller
      */
     public function create()
     {
-        //
+        
     }
-
 
     public function store(Request $request, $suratId)
     {
@@ -37,10 +36,8 @@ class DisposisiController extends Controller
             'catatan' => 'nullable|string',
             'tanggal_disposisi' => 'required|date',
         ]);
-    
         // Inject surat_id ke array yang sudah tervalidasi
         $validated['surat_id'] = $suratId;
-    
         Disposisi::create($validated);
         return redirect()->back()->with('success', 'Disposisi berhasil disimpan.');
     }
