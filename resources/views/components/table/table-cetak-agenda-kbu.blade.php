@@ -13,7 +13,6 @@
 
         <form action="{{ route('print.agenda.terima') }}" method="GET" target="_blank">
             <input type="hidden" name="mode" value="semua">
-
             <div class="flex flex-col gap-2">
                 <div class="mb-4 space-y-1.5 w-full">
                     @include('components.base.input-surat', [
