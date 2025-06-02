@@ -16,7 +16,6 @@
                         $headers[] = 'Paraf';
                     }
                 @endphp
-
                 @foreach ($headers as $header)
                     <th class="p-3 text-left">
                         

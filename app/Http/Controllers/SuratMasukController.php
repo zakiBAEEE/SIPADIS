@@ -108,7 +108,7 @@ public function index(Request $request)
     $withDisposisi = $request->boolean('with_disposisi');
 
     $query = $withDisposisi
-        ? SuratMasuk::query()
+        ? SuratMasuk::has('disposisis')
         : SuratMasuk::doesntHave('disposisis');
 
     // Filter berdasarkan berbagai parameter
