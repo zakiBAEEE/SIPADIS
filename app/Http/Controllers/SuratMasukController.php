@@ -341,6 +341,7 @@ public function update(Request $request, SuratMasuk $surat)
         return view('pages.super-admin.cetak-agenda-terima');
     }
 
+    // FUNGSI INI DIGUNAKAN UNTUK PRINT AGENDA KEPALA MAUPUN KBU
     public function printAgenda(Request $request)
     {
         $filters = $request->only([
