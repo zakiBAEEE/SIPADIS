@@ -31,5 +31,4 @@
         @include('components.table.table-agenda-kbu', ['suratMasuk' => $suratMasuk])
     </div>
 </body>
-
 </html>

@@ -25,12 +25,6 @@ Route::get('/surat/cetak-agenda', [SuratMasukController::class, 'cetakAgenda'])-
 Route::get('/surat/print-agenda', [SuratMasukController::class, 'printAgenda'])->name('surat.printAgenda');
 
 
-
-
-// Route khusus untuk cetak agenda terima (versi Kepala LLDIKTI)
-Route::get('/surat/cetak-agenda-terima', [SuratMasukController::class, 'cetakAgendaTerima'])->name('surat.cetakAgendaTerima');
-Route::get('/cetak-agenda-terima', [SuratMasukController::class, 'printAgenda'])->name('print.agenda.terima');
-
 Route::get('/agenda-kbu', [SuratMasukController::class, 'agendaKbu'])->name('surat.agendaKbu');
 Route::get('/agenda-kepala', [SuratMasukController::class, 'cetakAgendaTerima'])->name('surat.cetakAgendaTerima');
 

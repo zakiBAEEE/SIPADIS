@@ -437,8 +437,8 @@ public function update(Request $request, SuratMasuk $surat)
         }
     
         return view($mode === 'terima' 
-            ? 'pages.super-admin.print-agenda-terima' 
-            : 'pages.super-admin.print-agenda-surat-masuk', [
+            ? 'pages.super-admin.print-agenda-kepala' 
+            : 'pages.super-admin.print-agenda-kbu', [
                 'suratMasuk' => $suratMasuk,
                 'tanggalRange' => null,
             ]);
