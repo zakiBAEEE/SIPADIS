@@ -261,12 +261,6 @@ public function update(Request $request, SuratMasuk $surat)
     return redirect()->route('surat.show', ['id' => $surat->id])->with('success', 'Surat berhasil diperbarui!');
 }
 
-
-    public function cetakAgenda(){
-        return view('pages.super-admin.cetak-agenda');
-    }
-
-
     public function agendaKbu(Request $request)
     {
         $filters = $request->only([
@@ -337,9 +331,6 @@ public function update(Request $request, SuratMasuk $surat)
         ]);
     }
     
-    public function cetakAgendaTerima(){
-        return view('pages.super-admin.cetak-agenda-terima');
-    }
 
     // FUNGSI INI DIGUNAKAN UNTUK PRINT AGENDA KEPALA MAUPUN KBU
     public function printAgenda(Request $request)
@@ -434,8 +425,7 @@ public function update(Request $request, SuratMasuk $surat)
             } else {
                 $suratMasuk = collect();
             }
-        }
-    
+        }    
         return view($mode === 'terima' 
             ? 'pages.super-admin.print-agenda-kepala' 
             : 'pages.super-admin.print-agenda-kbu', [
@@ -443,6 +433,4 @@ public function update(Request $request, SuratMasuk $surat)
                 'tanggalRange' => null,
             ]);
     }
-
-
 }
