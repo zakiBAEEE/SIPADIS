@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\SuratMasukService;
 
 use App\Models\SuratMasuk;
-use App\Models\User; 
+use App\Models\User;
 
 class AgendaController extends Controller
 {
@@ -33,6 +33,7 @@ class AgendaController extends Controller
 
         $hasFilters = collect($filters)->filter()->isNotEmpty();
 
+        // Base query
         $query = SuratMasuk::with([
             'disposisis.pengirim.divisi',
             'disposisis.pengirim.role',
@@ -41,6 +42,7 @@ class AgendaController extends Controller
         ])->has('disposisis');
 
         if ($hasFilters) {
+            // Use your existing filter function here
             $query = $this->filterService->getSuratMasukWithFilters($filters);
         }
 
@@ -50,9 +52,9 @@ class AgendaController extends Controller
             'suratMasuk' => $suratMasuk,
         ]);
     }
-    
 
-   public function printAgenda(Request $request)
+
+    public function printAgenda(Request $request)
     {
         $filters = $request->only([
             'nomor_agenda',
@@ -66,19 +68,12 @@ class AgendaController extends Controller
             'cetak-agenda-tanggal-surat',
             'cetak-agenda-tanggal-terima',
         ]);
-    
+
+        // Cek apakah ada filter yang diterapkan
         $hasFilters = collect($filters)->filter()->isNotEmpty();
-    
-        $mode = $request->get('mode'); 
-    
-        if (!$hasFilters) {
-            return view($mode === 'terima' 
-                ? 'pages.super-admin.print-agenda-terima' 
-                : 'pages.super-admin.print-agenda-surat-masuk', [
-                    'suratMasuk' => collect(),
-                    'tanggalRange' => null,
-                ]);
-        }
+
+        $mode = $request->get('mode'); // 'terima' atau null
+
 
         $query = SuratMasuk::with([
             'disposisis.pengirim.divisi',
@@ -87,7 +82,9 @@ class AgendaController extends Controller
             'disposisis.penerima.role',
         ])->has('disposisis');
 
-        $query = $this->filterService->getSuratMasukWithFilters($filters, $query);
+        if ($hasFilters) {
+            $query = $this->filterService->getSuratMasukWithFilters($filters);
+        }
 
         $suratMasuk = $query->orderBy('tanggal_terima')->get();
 
@@ -95,12 +92,12 @@ class AgendaController extends Controller
             $suratMasuk = $this->filterByKepalaDisposisi($suratMasuk);
         }
 
-        return view($mode === 'terima' 
-            ? 'pages.super-admin.print-agenda-kepala' 
+        return view($mode === 'terima'
+            ? 'pages.super-admin.print-agenda-kepala'
             : 'pages.super-admin.print-agenda-kbu', [
-                'suratMasuk' => $suratMasuk,
-                'tanggalRange' => null,
-            ]);
+            'suratMasuk' => $suratMasuk,
+            'tanggalRange' => null,
+        ]);
     }
 
     private function filterByKepalaDisposisi($suratMasuk)
