@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\SuratMasukService;
+use App\Services\DisposisisFilterService;
 
 use App\Models\SuratMasuk;
 use App\Models\User;
@@ -12,11 +13,14 @@ use App\Models\User;
 class AgendaController extends Controller
 {
     protected $filterService;
+    protected $disposisisFilterService;
 
-    public function __construct(SuratMasukService $filterService)
+    public function __construct(SuratMasukService $filterService, DisposisisFilterService $disposisisFilterService)
     {
         $this->filterService = $filterService;
+        $this->disposisisFilterService = $disposisisFilterService;  // Simpan service di properti controller
     }
+
 
     public function agendaKbu(Request $request)
     {
@@ -81,7 +85,7 @@ class AgendaController extends Controller
 
         // Terapkan filter jika ada
         if ($hasFilters) {
-            $query = $this->filterService->getSuratMasukWithFilters($filters,);
+            $query = $this->filterService->getSuratMasukWithFilters($filters, );
         }
 
         $suratMasuk = $query->orderBy('tanggal_terima')->get();
@@ -105,8 +109,6 @@ class AgendaController extends Controller
             'klasifikasi_surat',
             'sifat',
             'perihal',
-            'cetak-agenda-tanggal-surat',
-            'cetak-agenda-tanggal-terima',
         ]);
 
         // Cek apakah ada filter yang diterapkan
@@ -129,7 +131,7 @@ class AgendaController extends Controller
         $suratMasuk = $query->orderBy('tanggal_terima')->get();
 
         // Filter berdasarkan disposisi kepala
-        $suratMasuk = $this->filterByKepalaDisposisi($suratMasuk);
+        $suratMasuk = $this->disposisisFilterService->filterByKepalaDisposisi($suratMasuk);
 
         // Tampilkan halaman print agenda untuk kepala
         return view('pages.super-admin.print-agenda-kepala', [
@@ -138,26 +140,4 @@ class AgendaController extends Controller
         ]);
     }
 
-
-    private function filterByKepalaDisposisi($suratMasuk)
-    {
-        $kepala = User::whereHas('role', function ($q) {
-            $q->where('name', 'Kepala LLDIKTI');
-        })->first();
-
-        if ($kepala) {
-            $kepalaId = $kepala->id;
-            $suratMasuk = $suratMasuk->filter(function ($surat) use ($kepalaId) {
-                $firstDisposisi = $surat->disposisis->sortBy('created_at')->first();
-                return $firstDisposisi && $firstDisposisi->dari_user_id == $kepalaId;
-            })->map(function ($surat) {
-                $surat->disposisis = collect([$surat->disposisis->sortBy('created_at')->first()]);
-                return $surat;
-            });
-        } else {
-            $suratMasuk = collect();
-        }
-
-        return $suratMasuk;
-    }
 }
