@@ -11,7 +11,6 @@ class SuratMasukService
     {
        $query = $existingQuery ?? SuratMasuk::query();
 
-        // Apply various filters
         if (!empty($filters['nomor_agenda'])) {
             $query->where('nomor_agenda', 'like', '%' . $filters['nomor_agenda'] . '%');
         }
@@ -24,7 +23,6 @@ class SuratMasukService
             $query->where('pengirim', 'like', '%' . $filters['pengirim'] . '%');
         }
 
-        // Filter by date range
         $this->applyDateFilters($query, $filters);
 
         if (!empty($filters['klasifikasi_surat'])) {

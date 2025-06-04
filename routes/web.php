@@ -21,7 +21,9 @@ Route::post('/surat-masuk/{surat}', [SuratMasukController::class, 'update'])->na
 Route::get('/surat/klasifikasi', [SuratMasukController::class, 'detailByKlasifikasi'])->name('surat.klasifikasi');
 
 Route::get('/agenda-kbu', [AgendaController::class, 'agendaKbu'])->name('surat.agendaKbu');
+Route::get('/agenda-kepala', [AgendaController::class, 'agendaKepala'])->name('surat.agendaKepala');
 Route::get('/print-agenda-kbu', [AgendaController::class, 'printAgendaKbu'])->name('surat.printAgendaKbu');
+Route::get('/print-agenda-kepala', [AgendaController::class, 'printAgendaKepala'])->name('surat.printAgendaKepala');
 
 // Lembaga
 Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');

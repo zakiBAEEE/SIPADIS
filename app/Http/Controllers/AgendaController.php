@@ -29,6 +29,18 @@ class AgendaController extends Controller
         ]);
     }
 
+    public function agendaKepala(Request $request)
+    {
+        $query = $this->suratMasukWithDisposisi->suratMasukWithDisposisi($request);
+
+        $suratMasuk = $query->orderBy('tanggal_terima')->paginate(10)->appends($request->query());
+
+        $suratMasuk = $this->disposisisFilterService->filterByKepalaDisposisi($suratMasuk);
+
+        return view('pages.super-admin.agenda-kepala', [
+            'suratMasuk' => $suratMasuk,
+        ]);
+    }
 
     public function printAgendaKbu(Request $request)
     {
@@ -41,7 +53,7 @@ class AgendaController extends Controller
         ]);
     }
 
-    public function printAgendaTerima(Request $request)
+    public function printAgendaKepala(Request $request)
     {
         $query = $this->suratMasukWithDisposisi->suratMasukWithDisposisi($request);
 
