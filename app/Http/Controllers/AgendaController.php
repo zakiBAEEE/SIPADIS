@@ -18,7 +18,6 @@ class AgendaController extends Controller
         $this->disposisisFilterService = $disposisisFilterService;  // Simpan service di properti controller
     }
 
-
     public function agendaKbu(Request $request)
     {
         $query = $this->suratMasukWithDisposisi->suratMasukWithDisposisi($request);
