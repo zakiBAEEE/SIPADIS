@@ -54,8 +54,48 @@ class AgendaController extends Controller
     }
 
 
-    public function printAgenda(Request $request)
+    public function printAgendaKbu(Request $request)
     {
+        // Ambil filter dari request
+        $filters = $request->only([
+            'nomor_agenda',
+            'nomor_surat',
+            'filter_tanggal_surat',
+            'filter_tanggal_terima',
+            'pengirim',
+            'klasifikasi_surat',
+            'sifat',
+            'perihal',
+        ]);
+
+        // Cek apakah ada filter yang diterapkan
+        $hasFilters = collect($filters)->filter()->isNotEmpty();
+
+        // Query untuk surat masuk dengan disposisi
+        $query = SuratMasuk::with([
+            'disposisis.pengirim.divisi',
+            'disposisis.pengirim.role',
+            'disposisis.penerima.divisi',
+            'disposisis.penerima.role',
+        ])->has('disposisis');
+
+        // Terapkan filter jika ada
+        if ($hasFilters) {
+            $query = $this->filterService->getSuratMasukWithFilters($filters,);
+        }
+
+        $suratMasuk = $query->orderBy('tanggal_terima')->get();
+
+        // Tampilkan halaman print agenda KBU
+        return view('pages.super-admin.print-agenda-kbu', [
+            'suratMasuk' => $suratMasuk,
+            'tanggalRange' => null,
+        ]);
+    }
+
+    public function printAgendaTerima(Request $request)
+    {
+        // Ambil filter dari request
         $filters = $request->only([
             'nomor_agenda',
             'nomor_surat',
@@ -72,9 +112,7 @@ class AgendaController extends Controller
         // Cek apakah ada filter yang diterapkan
         $hasFilters = collect($filters)->filter()->isNotEmpty();
 
-        $mode = $request->get('mode'); // 'terima' atau null
-
-
+        // Query untuk surat masuk dengan disposisi
         $query = SuratMasuk::with([
             'disposisis.pengirim.divisi',
             'disposisis.pengirim.role',
@@ -82,23 +120,24 @@ class AgendaController extends Controller
             'disposisis.penerima.role',
         ])->has('disposisis');
 
+        // Terapkan filter jika ada
         if ($hasFilters) {
             $query = $this->filterService->getSuratMasukWithFilters($filters);
         }
 
+        // Ambil seluruh surat masuk yang sudah difilter (tanpa pagination karena untuk print)
         $suratMasuk = $query->orderBy('tanggal_terima')->get();
 
-        if ($mode === 'terima') {
-            $suratMasuk = $this->filterByKepalaDisposisi($suratMasuk);
-        }
+        // Filter berdasarkan disposisi kepala
+        $suratMasuk = $this->filterByKepalaDisposisi($suratMasuk);
 
-        return view($mode === 'terima'
-            ? 'pages.super-admin.print-agenda-kepala'
-            : 'pages.super-admin.print-agenda-kbu', [
+        // Tampilkan halaman print agenda untuk kepala
+        return view('pages.super-admin.print-agenda-kepala', [
             'suratMasuk' => $suratMasuk,
             'tanggalRange' => null,
         ]);
     }
+
 
     private function filterByKepalaDisposisi($suratMasuk)
     {
