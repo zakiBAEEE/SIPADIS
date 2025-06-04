@@ -2,10 +2,11 @@
 namespace App\Services;
 
 use App\Models\SuratMasuk;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class SuratMasukService
 {
+
     public function getSuratMasukWithFilters($filters)
     {
         $query = SuratMasuk::query();
@@ -36,6 +37,35 @@ class SuratMasukService
 
         if (!empty($filters['perihal'])) {
             $query->where('perihal', 'like', '%' . $filters['perihal'] . '%');
+        }
+
+        return $query;
+    }
+
+    public function suratMasukWithDisposisi(Request $request)
+    {
+        $filters = $request->only([
+            'nomor_agenda',
+            'nomor_surat',
+            'filter_tanggal_surat',
+            'filter_tanggal_terima',
+            'pengirim',
+            'klasifikasi_surat',
+            'sifat',
+            'perihal',
+        ]);
+
+        $hasFilters = collect($filters)->filter()->isNotEmpty();
+
+        $query = SuratMasuk::with([
+            'disposisis.pengirim.divisi',
+            'disposisis.pengirim.role',
+            'disposisis.penerima.divisi',
+            'disposisis.penerima.role',
+        ])->has('disposisis');
+
+        if ($hasFilters) {
+            $query = $this->getSuratMasukWithFilters($filters);
         }
 
         return $query;
