@@ -120,7 +120,7 @@
                             Terapkan Filter
                         </button>
 
-                        <button type="submit" formaction="{{ route('surat.printAgenda') }}" {{-- Mengarah ke route printAgenda --}}
+                        <button type="submit" formaction="{{ route('surat.printAgendaKbu') }}" {{-- Mengarah ke route printAgenda --}}
                             formmethod="GET" {{-- Pastikan method GET --}} formtarget="_blank" {{-- Opsional: buka di tab baru --}}
                             class="inline-flex items-center justify-center border font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-1 px-2 shadow-sm hover:shadow bg-blue-700 border-blue-700 text-slate-50 hover:bg-blue-600 hover:border-blue-600">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20"

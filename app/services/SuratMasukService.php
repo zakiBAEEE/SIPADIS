@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 class SuratMasukService
 {
 
-    public function getSuratMasukWithFilters($filters)
+    public function getSuratMasukWithFilters($filters, $existingQuery = null)
     {
-        $query = SuratMasuk::query();
+       $query = $existingQuery ?? SuratMasuk::query();
 
         // Apply various filters
         if (!empty($filters['nomor_agenda'])) {
@@ -65,7 +65,7 @@ class SuratMasukService
         ])->has('disposisis');
 
         if ($hasFilters) {
-            $query = $this->getSuratMasukWithFilters($filters);
+            $query = $this->getSuratMasukWithFilters($filters, $query);
         }
 
         return $query;

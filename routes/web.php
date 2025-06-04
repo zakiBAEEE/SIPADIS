@@ -21,7 +21,7 @@ Route::post('/surat-masuk/{surat}', [SuratMasukController::class, 'update'])->na
 Route::get('/surat/klasifikasi', [SuratMasukController::class, 'detailByKlasifikasi'])->name('surat.klasifikasi');
 
 Route::get('/agenda-kbu', [AgendaController::class, 'agendaKbu'])->name('surat.agendaKbu');
-Route::get('/surat/print-agenda', [AgendaController::class, 'printAgenda'])->name('surat.printAgenda'); // Untuk print agenda kbu dan agenda kepala
+Route::get('/print-agenda-kbu', [AgendaController::class, 'printAgendaKbu'])->name('surat.printAgendaKbu');
 
 // Lembaga
 Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
@@ -36,7 +36,6 @@ Route::get('/tim-kerja', [TimKerjaController::class, 'index'])->name('timKerja.i
 Route::post('/tim-kerja', [TimKerjaController::class, 'store'])->name('timKerja.store');
 Route::post('/tim-kerja/{id}/edit', [TimKerjaController::class, 'update'])->name('timKerja.update');
 Route::delete('/tim-kerja/{id}', [TimKerjaController::class, 'destroy'])->name('tim-kerja.destroy');
-
 
 // Disposisi
 Route::post('/surat-masuk/{suratId}/disposisi', [DisposisiController::class, 'store'])->name('disposisi.store');

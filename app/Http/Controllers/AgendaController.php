@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 use App\Services\SuratMasukService;
 use App\Services\DisposisisFilterService;
 
-use App\Models\SuratMasuk;
-use App\Models\User;
-
 class AgendaController extends Controller
 {
     protected $suratMasukWithDisposisi;
