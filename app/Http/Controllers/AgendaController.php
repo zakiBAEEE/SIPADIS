@@ -31,11 +31,17 @@ class AgendaController extends Controller
 
     public function agendaKepala(Request $request)
     {
+        // Panggil service untuk mendapatkan query surat dengan disposisi
         $query = $this->suratMasukWithDisposisi->suratMasukWithDisposisi($request);
 
+        // Lakukan pemrosesan pagination pertama
         $suratMasuk = $query->orderBy('tanggal_terima')->paginate(10)->appends($request->query());
 
-        $suratMasuk = $this->disposisisFilterService->filterByKepalaDisposisi($suratMasuk);
+        // Terapkan filter berdasarkan disposisi kepala, namun pastikan pagination tetap terjaga
+        $filteredSuratMasuk = $this->disposisisFilterService->filterByKepalaDisposisi($suratMasuk->getCollection());
+
+        // Kembalikan pagination dengan data yang sudah difilter
+        $suratMasuk->setCollection($filteredSuratMasuk);
 
         return view('pages.super-admin.agenda-kepala', [
             'suratMasuk' => $suratMasuk,
