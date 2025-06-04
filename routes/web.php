@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SuratMasukController;
+use App\Http\Controllers\AgendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\LembagaController;
@@ -19,8 +20,8 @@ Route::get('/surat-masuk/{surat}/edit', [SuratMasukController::class, 'edit'])->
 Route::post('/surat-masuk/{surat}', [SuratMasukController::class, 'update'])->name('surat.update');
 Route::get('/surat/klasifikasi', [SuratMasukController::class, 'detailByKlasifikasi'])->name('surat.klasifikasi');
 
-Route::get('/agenda-kbu', [SuratMasukController::class, 'agendaKbu'])->name('surat.agendaKbu');
-Route::get('/surat/print-agenda', [SuratMasukController::class, 'printAgenda'])->name('surat.printAgenda'); // Untuk print agenda kbu dan agenda kepala
+Route::get('/agenda-kbu', [AgendaController::class, 'agendaKbu'])->name('surat.agendaKbu');
+Route::get('/surat/print-agenda', [AgendaController::class, 'printAgenda'])->name('surat.printAgenda'); // Untuk print agenda kbu dan agenda kepala
 
 // Lembaga
 Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
