@@ -4,7 +4,6 @@
          <img class="mx-auto h-24 w-auto" src={{ asset('images/logo-lldikti.jpg') }} alt="Your Company">
          <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
      </div>
-
      <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
          <form class="space-y-6" method="POST" action="{{ route('login') }}">
              @csrf
@@ -19,7 +18,6 @@
                      @enderror
                  </div>
              </div>
-
              <div>
                  <div class="flex items-center justify-between">
                      <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>

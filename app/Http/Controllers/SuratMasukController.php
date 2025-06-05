@@ -23,146 +23,151 @@ class SuratMasukController extends Controller
         $this->suratMasukService = $suratMasukService;
     }
 
-public function dashboard(Request $request)
-{
-    $todayStart = now()->startOfDay();
-    $todayEnd = now()->endOfDay();
+    public function dashboard(Request $request)
+    {
+        $todayStart = now()->startOfDay();
+        $todayEnd = now()->endOfDay();
 
-    $rekapService = new SuratRekapitulasiService();
+        $rekapService = new SuratRekapitulasiService();
 
-    $totalToday = $rekapService->getRekapitulasiSurat($todayStart, $todayEnd);
+        $totalToday = $rekapService->getRekapitulasiSurat($todayStart, $todayEnd);
 
-    $tanggalRange = $request->input('tanggal_range');
-    $rekapRange = null;
-    $tanggalRangeDisplay = 'Per Hari ini';
+        $tanggalRange = $request->input('tanggal_range');
+        $rekapRange = null;
+        $tanggalRangeDisplay = 'Per Hari ini';
 
-    // Default chart values
-    $series = [
-        ['name' => 'Umum', 'data' => []],
-        ['name' => 'Pengaduan', 'data' => []],
-        ['name' => 'Permintaan Informasi', 'data' => []],
-    ];
-    $categories = [];
-
-    if ($tanggalRange) {
-        [$start, $end] = $rekapService->parseRangeTanggal($tanggalRange);
-
-        $rekapRange = $rekapService->getRekapitulasiSurat($start->copy()->startOfDay(), $end->copy()->endOfDay());
-
-        $tanggalRangeDisplay = $start->translatedFormat('F Y') . ' - ' . $end->translatedFormat('F Y');
-
-        $chart = $rekapService->getChartSeries($start, $end);
+        // Default chart values
         $series = [
-            ['name' => 'Umum', 'data' => $chart['series']['umum']],
-            ['name' => 'Pengaduan', 'data' => $chart['series']['pengaduan']],
-            ['name' => 'Permintaan Informasi', 'data' => $chart['series']['permintaan_informasi']],
+            ['name' => 'Umum', 'data' => []],
+            ['name' => 'Pengaduan', 'data' => []],
+            ['name' => 'Permintaan Informasi', 'data' => []],
         ];
-        $categories = $chart['categories'];
-    }
+        $categories = [];
 
-    return view('pages.super-admin.home', [
-        'totalToday' => $totalToday['total'],
-        'umumToday' => $totalToday['umum'],
-        'pengaduanToday' => $totalToday['pengaduan'],
-        'permintaanInformasiToday' => $totalToday['permintaan_informasi'],
-        'rekapRange' => $rekapRange,
-        'tanggalRange' => $tanggalRangeDisplay,
-        'series' => $series,
-        'categories' => $categories
-    ]);
-}
+        if ($tanggalRange) {
+            [$start, $end] = $rekapService->parseRangeTanggal($tanggalRange);
 
-public function detailByKlasifikasi(Request $request)
-{
-    $klasifikasi = $request->input('klasifikasi');
-    $tanggalRange = $request->input('tanggal_range');
-    $query = SuratMasuk::query();
+            $rekapRange = $rekapService->getRekapitulasiSurat($start->copy()->startOfDay(), $end->copy()->endOfDay());
 
-    if ($klasifikasi) {
-        $query->where('klasifikasi_surat', $klasifikasi);
-    }
+            $tanggalRangeDisplay = $start->translatedFormat('F Y') . ' - ' . $end->translatedFormat('F Y');
 
-    if ($tanggalRange) {
-        $dates = explode(' to ', $tanggalRange);
-        if (count($dates) === 2) {
-            $start = Carbon::parse($dates[0])->startOfDay();
-            $end = Carbon::parse($dates[1])->endOfDay();
-            $query->whereBetween('created_at', [$start, $end]);
+            $chart = $rekapService->getChartSeries($start, $end);
+            $series = [
+                ['name' => 'Umum', 'data' => $chart['series']['umum']],
+                ['name' => 'Pengaduan', 'data' => $chart['series']['pengaduan']],
+                ['name' => 'Permintaan Informasi', 'data' => $chart['series']['permintaan_informasi']],
+            ];
+            $categories = $chart['categories'];
         }
-    } else {
-        $query->whereDate('created_at', now()->toDateString()); // Default: Hari ini
+
+        return view('pages.super-admin.home', [
+            'totalToday' => $totalToday['total'],
+            'umumToday' => $totalToday['umum'],
+            'pengaduanToday' => $totalToday['pengaduan'],
+            'permintaanInformasiToday' => $totalToday['permintaan_informasi'],
+            'rekapRange' => $rekapRange,
+            'tanggalRange' => $tanggalRangeDisplay,
+            'series' => $series,
+            'categories' => $categories
+        ]);
     }
 
-    $suratList = $query->orderBy('created_at', 'desc')->get();
+    public function detailByKlasifikasi(Request $request)
+    {
+        $klasifikasi = $request->input('klasifikasi');
+        $tanggalRange = $request->input('tanggal_range');
+        $query = SuratMasuk::query();
 
-    return view('pages.super-admin.klasifikasi-surat', [
-        'surats' => $suratList,
-        'klasifikasi' => $klasifikasi,
-        'tanggalRange' => $tanggalRange ?? 'Hari ini',
-    ]);
-}
-
-public function index(Request $request)
-{
-    // Tentukan apakah akan menampilkan surat dengan disposisi atau tanpa disposisi
-    $withDisposisi = $request->boolean('with_disposisi');
-
-    $query = $withDisposisi
-        ? SuratMasuk::has('disposisis')
-        : SuratMasuk::doesntHave('disposisis');
-
-    // Filter berdasarkan berbagai parameter
-    if ($request->filled('nomor_agenda')) {
-        $query->where('nomor_agenda', 'like', '%' . $request->nomor_agenda . '%');
-    }
-
-    if ($request->filled('nomor_surat')) {
-        $query->where('nomor_surat', 'like', '%' . $request->nomor_surat . '%');
-    }
-
-    if ($request->filled('pengirim')) {
-        $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
-    }
-
-    // Filter tanggal surat
-    if ($request->filled('filter_tanggal_surat')) {
-        $range = explode(' to ', $request->filter_tanggal_surat);
-        if (count($range) === 2) {
-            $query->whereBetween('tanggal_surat', [$range[0], $range[1]]);
-        } elseif (count($range) === 1) {
-            $query->whereDate('tanggal_surat', $range[0]);
+        if ($klasifikasi) {
+            $query->where('klasifikasi_surat', $klasifikasi);
         }
-    }
 
-    // Filter tanggal terima
-    if ($request->filled('filter_tanggal_terima')) {
-        $range = explode(' to ', $request->filter_tanggal_terima);
-        if (count($range) === 2) {
-            $query->whereBetween('tanggal_terima', [$range[0], $range[1]]);
-        } elseif (count($range) === 1) {
-            $query->whereDate('tanggal_terima', $range[0]);
+        if ($tanggalRange) {
+            $dates = explode(' to ', $tanggalRange);
+            if (count($dates) === 2) {
+                $start = Carbon::parse($dates[0])->startOfDay();
+                $end = Carbon::parse($dates[1])->endOfDay();
+                $query->whereBetween('created_at', [$start, $end]);
+            }
+        } else {
+            $query->whereDate('created_at', now()->toDateString()); // Default: Hari ini
         }
+
+        $suratList = $query->orderBy('created_at', 'desc')->get();
+
+        return view('pages.super-admin.klasifikasi-surat', [
+            'surats' => $suratList,
+            'klasifikasi' => $klasifikasi,
+            'tanggalRange' => $tanggalRange ?? 'Hari ini',
+        ]);
     }
 
-    if ($request->filled('perihal')) {
-        $query->where('perihal', 'like', '%' . $request->perihal . '%');
+    public function index(Request $request)
+    {
+        // Tentukan apakah akan menampilkan surat dengan disposisi atau tanpa disposisi
+        $withDisposisi = $request->boolean('with_disposisi');
+
+        $query = $withDisposisi
+            ? SuratMasuk::has('disposisis')
+            : SuratMasuk::doesntHave('disposisis');
+
+        // Filter berdasarkan berbagai parameter
+        if ($request->filled('nomor_agenda')) {
+            $query->where('nomor_agenda', 'like', '%' . $request->nomor_agenda . '%');
+        }
+
+        if ($request->filled('nomor_surat')) {
+            $query->where('nomor_surat', 'like', '%' . $request->nomor_surat . '%');
+        }
+
+        if ($request->filled('pengirim')) {
+            $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
+        }
+
+        // Filter tanggal surat
+        if ($request->filled('filter_tanggal_surat')) {
+            $range = explode(' to ', $request->filter_tanggal_surat);
+            if (count($range) === 2) {
+                $query->whereBetween('tanggal_surat', [$range[0], $range[1]]);
+            } elseif (count($range) === 1) {
+                $query->whereDate('tanggal_surat', $range[0]);
+            }
+        }
+
+        // Filter tanggal terima
+        if ($request->filled('filter_tanggal_terima')) {
+            $range = explode(' to ', $request->filter_tanggal_terima);
+            if (count($range) === 2) {
+                $query->whereBetween('tanggal_terima', [$range[0], $range[1]]);
+            } elseif (count($range) === 1) {
+                $query->whereDate('tanggal_terima', $range[0]);
+            }
+        }
+
+        if ($request->filled('perihal')) {
+            $query->where('perihal', 'like', '%' . $request->perihal . '%');
+        }
+
+        if ($request->filled('klasifikasi_surat')) {
+            $query->where('klasifikasi_surat', $request->klasifikasi_surat);
+        }
+
+        if ($request->filled('sifat')) {
+            $query->where('sifat', $request->sifat);
+        }
+
+        // Pagination dan kirim data ke view
+        $surats = $query->orderBy('created_at', 'desc')
+            ->paginate(8)
+            ->appends($request->query());
+
+        return view('pages.super-admin.surat-masuk', compact('surats'));
     }
 
-    if ($request->filled('klasifikasi_surat')) {
-        $query->where('klasifikasi_surat', $request->klasifikasi_surat);
+    public function tambah()
+    {
+        return view('pages.super-admin.tambah-surat-masuk');
     }
-
-    if ($request->filled('sifat')) {
-        $query->where('sifat', $request->sifat);
-    }
-
-    // Pagination dan kirim data ke view
-    $surats = $query->orderBy('created_at', 'desc')
-                    ->paginate(8)
-                    ->appends($request->query());
-
-    return view('pages.super-admin.surat-masuk', compact('surats'));
-}
 
 
     public function store(Request $request)
@@ -186,80 +191,78 @@ public function index(Request $request)
 
         $surat = SuratMasuk::create($validated);
 
-        return redirect()->route('surat.index')->with('success', 'Surat berhasil ditambahkan!');
+        return redirect()->route('surat.tambah')->with('success', 'Surat berhasil ditambahkan!');
     }
 
-    
-   public function show($id)
-{
-    $surat = SuratMasuk::with([
-        'disposisis.pengirim.divisi', 
-        'disposisis.pengirim.role',      // Jika User punya relasi role() -> belongsTo(Role::class)
-        'disposisis.penerima.divisi', 
-        'disposisis.penerima.role'
-    ])->findOrFail($id);
 
-    $users = User::with(['divisi', 'role'])->get();
+    public function show($id)
+    {
+        $surat = SuratMasuk::with([
+            'disposisis.pengirim.divisi',
+            'disposisis.pengirim.role',      // Jika User punya relasi role() -> belongsTo(Role::class)
+            'disposisis.penerima.divisi',
+            'disposisis.penerima.role'
+        ])->findOrFail($id);
 
-    $daftarUser = $users->filter(function ($user) {
-        if ($user->divisi) {
-            return $user->role && $user->role->name === 'Katimja';
-        }
-        return true;
-    })->map(function ($user) {
-        if ($user->divisi && $user->role && $user->role->name === 'Katimja') {
-            return [
-                'value' => $user->id,
-                'display' => $user->divisi->nama_divisi,
-            ];
-        } else {
-            $role = optional($user->role)->name ?? 'Tanpa Role';
-            return [
-                'value' => $user->id,
-                'display' => $role,
-            ];
-        }
-    });
+        $users = User::with(['divisi', 'role'])->get();
 
-    return view('pages.super-admin.detail-surat', compact('surat', 'daftarUser'));
-}
+        $daftarUser = $users->filter(function ($user) {
+            if ($user->divisi) {
+                return $user->role && $user->role->name === 'Katimja';
+            }
+            return true;
+        })->map(function ($user) {
+            if ($user->divisi && $user->role && $user->role->name === 'Katimja') {
+                return [
+                    'value' => $user->id,
+                    'display' => $user->divisi->nama_divisi,
+                ];
+            } else {
+                $role = optional($user->role)->name ?? 'Tanpa Role';
+                return [
+                    'value' => $user->id,
+                    'display' => $role,
+                ];
+            }
+        });
 
+        return view('pages.super-admin.detail-surat', compact('surat', 'daftarUser'));
+    }
 
-    
     public function edit(SuratMasuk $surat)
     {
         return view('pages.super-admin.edit-surat', compact('surat'));
     }
-    
-public function update(Request $request, SuratMasuk $surat)
-{
-    $validated = $request->validate([
-        'nomor_agenda'     => 'nullable|string',
-        'nomor_surat'      => 'required|string',
-        'pengirim'         => 'required|string',
-        'tanggal_surat'    => 'required|date',
-        'tanggal_terima'   => 'required|date',
-        'perihal'          => 'required|string',
-        'klasifikasi_surat'=> 'nullable|string',
-        'sifat'            => 'nullable|string',
-        'file_path'        => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
-    ]);
 
-    if ($request->hasFile('file_path')) {
-        // Hapus file lama jika ada
-        if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
-            Storage::disk('public')->delete($surat->file_path);
+    public function update(Request $request, SuratMasuk $surat)
+    {
+        $validated = $request->validate([
+            'nomor_agenda' => 'nullable|string',
+            'nomor_surat' => 'required|string',
+            'pengirim' => 'required|string',
+            'tanggal_surat' => 'required|date',
+            'tanggal_terima' => 'required|date',
+            'perihal' => 'required|string',
+            'klasifikasi_surat' => 'nullable|string',
+            'sifat' => 'nullable|string',
+            'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
+        ]);
+
+        if ($request->hasFile('file_path')) {
+            // Hapus file lama jika ada
+            if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
+                Storage::disk('public')->delete($surat->file_path);
+            }
+
+            // Simpan file baru
+            $path = $request->file('file_path')->store('surat', 'public');
+            $validated['file_path'] = $path;
         }
 
-        // Simpan file baru
-        $path = $request->file('file_path')->store('surat', 'public');
-        $validated['file_path'] = $path;
+        $surat->update($validated);
+
+        return redirect()->route('surat.show', ['id' => $surat->id])->with('success', 'Surat berhasil diperbarui!');
     }
 
-    $surat->update($validated);
 
-    return redirect()->route('surat.show', ['id' => $surat->id])->with('success', 'Surat berhasil diperbarui!');
-}
-
-    
 }
