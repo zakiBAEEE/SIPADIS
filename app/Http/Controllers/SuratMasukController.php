@@ -217,22 +217,16 @@ class SuratMasukController extends Controller
 
             $surat = SuratMasuk::create($validated);
 
-            // Anda bisa menambahkan pengecekan tambahan di sini jika perlu,
-            // tapi biasanya jika create() tidak melempar exception, itu dianggap berhasil.
             if ($surat) {
                 return redirect()->route('surat.tambah')->with('success', 'Surat berhasil ditambahkan!');
             } else {
-                // Skenario ini jarang terjadi jika tidak ada exception,
-                // tapi bisa untuk logika kustom jika create() bisa mengembalikan null/false tanpa exception
                 return redirect()->route('surat.tambah')->with('error', 'Gagal menambahkan surat. Data tidak valid atau ada masalah lain.');
             }
 
         } catch (\Illuminate\Database\QueryException $e) {
-            // Menangkap error spesifik dari database query
             Log::error('Database error saat menambahkan surat: ' . $e->getMessage()); // Catat error untuk debugging
             return redirect()->route('surat.tambah')->with('error', 'Gagal menambahkan surat karena masalah database. Silakan coba lagi atau hubungi administrator.');
         } catch (\Exception $e) {
-            // Menangkap semua jenis error lain yang mungkin terjadi
             Log::error('Error umum saat menambahkan surat: ' . $e->getMessage()); // Catat error untuk debugging
             return redirect()->route('surat.tambah')->with('error', 'Terjadi kesalahan yang tidak terduga saat menambahkan surat.');
         }
@@ -242,7 +236,7 @@ class SuratMasukController extends Controller
     {
         $surat = SuratMasuk::with([
             'disposisis.pengirim.divisi',
-            'disposisis.pengirim.role',      // Jika User punya relasi role() -> belongsTo(Role::class)
+            'disposisis.pengirim.role',     
             'disposisis.penerima.divisi',
             'disposisis.penerima.role'
         ])->findOrFail($id);
