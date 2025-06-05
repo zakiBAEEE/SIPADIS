@@ -8,7 +8,7 @@
 
 <div>
     @if ($label)
-        <label for="{{ $id }}" class="font-sans text-sm text-slate-800 dark:text-white font-bold mb-2 block">
+        <label for="{{ $id }}" class="font-sans text-sm text-slate-800 font-bold mb-2 block">
             {{ $label }}
         </label>
     @endif

@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label class="block font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">
+                            <label class="block font-sans text-sm text-slate-800 font-bold mb-2">
                                 Logo Saat Ini:
                             </label>
                             <img src="{{ asset('storage/' . $lembaga->logo) }}" alt="Preview Dokumen"

@@ -36,7 +36,7 @@
                             <div class="mb-4 space-y-1.5 w-1/2">
                                 <div>
                                     <label for="email"
-                                        class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Nomor
+                                        class="font-sans  text-sm text-slate-800 font-bold mb-2"> Nomor
                                         Surat</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -48,7 +48,7 @@
                             <div class="mb-4 space-y-1.5 w-1/3">
                                 <div>
                                     <label for="email"
-                                        class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Tanggal
+                                        class="font-sans  text-sm text-slate-800 font-bold mb-2"> Tanggal
                                         Surat</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -61,7 +61,7 @@
                             <div class="mb-4 space-y-1.5 w-1/3">
                                 <div>
                                     <label for="email"
-                                        class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2"> Tanggal
+                                        class="font-sans  text-sm text-slate-800 font-bold mb-2"> Tanggal
                                         Terima</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -76,7 +76,7 @@
                             <div class="mb-4 space-y-1.5 w-1/2">
                                 <div>
                                     <label for="email"
-                                        class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
+                                        class="font-sans  text-sm text-slate-800 font-bold mb-2">
                                         Pengirim</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -88,7 +88,7 @@
                             <div class="mb-4 space-y-1.5 w-1/3">
                                 <div>
                                     <label for="email"
-                                        class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
+                                        class="font-sans  text-sm text-slate-800 font-bold mb-2">
                                         Klasifikasi</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -100,7 +100,7 @@
                             <div class="mb-4 space-y-1.5 w-1/3">
                                 <div>
                                     <label for="email"
-                                        class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
+                                        class="font-sans  text-sm text-slate-800 font-bold mb-2">
                                         Sifat</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -113,7 +113,7 @@
                         <div class="mb-4 space-y-1.5 w-1/3">
                             <div>
                                 <label for="email"
-                                    class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">
+                                    class="font-sans  text-sm text-slate-800 font-bold mb-2">
                                     Perihal</label>
                                 <div class="relative w-full">
                                     <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -123,7 +123,7 @@
                             </div>
                         </div>
                         <div class="space-y-1.5">
-                            <p class="font-sans  text-sm text-slate-800 dark:text-white font-bold mb-2">Preview Dokumen:</p>
+                            <p class="font-sans  text-sm text-slate-800 font-bold mb-2">Preview Dokumen:</p>
                             @if ($surat->file_path)
                                 <div class="mt-4">
                                     @if (Str::endsWith($surat->file_path, '.pdf'))

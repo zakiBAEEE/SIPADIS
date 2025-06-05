@@ -111,7 +111,7 @@
                             {{-- Preview Dokumen yang Sudah Diunggah --}}
                             @if ($surat->file_path)
                                 <div class="mb-4">
-                                    <label class="block font-sans text-sm text-slate-800 dark:text-white font-bold mb-2">
+                                    <label class="block font-sans text-sm text-slate-800 font-bold mb-2">
                                         Dokumen Saat Ini:
                                     </label>
 
