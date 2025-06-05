@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Log;
 use App\Services\SuratMasukService; // <--- TAMBAHKAN BARIS INI
 use App\Services\SuratRekapitulasiService;
 use App\Models\SuratMasuk;
@@ -170,6 +170,31 @@ class SuratMasukController extends Controller
     }
 
 
+    // public function store(Request $request)
+
+    // {
+    //     $validated = $request->validate([
+    //         'nomor_agenda' => 'nullable|string',
+    //         'nomor_surat' => 'required|string',
+    //         'pengirim' => 'required|string',
+    //         'tanggal_surat' => 'required|date',
+    //         'tanggal_terima' => 'required|date',
+    //         'perihal' => 'required|string',
+    //         'klasifikasi_surat' => 'nullable|string',
+    //         'sifat' => 'nullable|string',
+    //         'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
+    //     ]);
+
+    //     if ($request->hasFile('file_path')) {
+    //         $path = $request->file('file_path')->store('surat', 'public');
+    //         $validated['file_path'] = $path; // ini yang disimpan ke DB
+    //     }
+
+    //     $surat = SuratMasuk::create($validated);
+
+    //     return redirect()->route('surat.tambah')->with('success', 'Surat berhasil ditambahkan!');
+    // }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -184,16 +209,34 @@ class SuratMasukController extends Controller
             'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
         ]);
 
-        if ($request->hasFile('file_path')) {
-            $path = $request->file('file_path')->store('surat', 'public');
-            $validated['file_path'] = $path; // ini yang disimpan ke DB
+        try {
+            if ($request->hasFile('file_path')) {
+                $path = $request->file('file_path')->store('surat', 'public');
+                $validated['file_path'] = $path;
+            }
+
+            $surat = SuratMasuk::create($validated);
+
+            // Anda bisa menambahkan pengecekan tambahan di sini jika perlu,
+            // tapi biasanya jika create() tidak melempar exception, itu dianggap berhasil.
+            if ($surat) {
+                return redirect()->route('surat.tambah')->with('success', 'Surat berhasil ditambahkan!');
+            } else {
+                // Skenario ini jarang terjadi jika tidak ada exception,
+                // tapi bisa untuk logika kustom jika create() bisa mengembalikan null/false tanpa exception
+                return redirect()->route('surat.tambah')->with('error', 'Gagal menambahkan surat. Data tidak valid atau ada masalah lain.');
+            }
+
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Menangkap error spesifik dari database query
+            Log::error('Database error saat menambahkan surat: ' . $e->getMessage()); // Catat error untuk debugging
+            return redirect()->route('surat.tambah')->with('error', 'Gagal menambahkan surat karena masalah database. Silakan coba lagi atau hubungi administrator.');
+        } catch (\Exception $e) {
+            // Menangkap semua jenis error lain yang mungkin terjadi
+            Log::error('Error umum saat menambahkan surat: ' . $e->getMessage()); // Catat error untuk debugging
+            return redirect()->route('surat.tambah')->with('error', 'Terjadi kesalahan yang tidak terduga saat menambahkan surat.');
         }
-
-        $surat = SuratMasuk::create($validated);
-
-        return redirect()->route('surat.tambah')->with('success', 'Surat berhasil ditambahkan!');
     }
-
 
     public function show($id)
     {
