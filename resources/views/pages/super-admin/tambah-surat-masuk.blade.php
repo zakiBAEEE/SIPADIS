@@ -1,6 +1,17 @@
 @extends('layouts.super-admin-layout')
 
 @section('content')
+    @if (session('success'))
+        <div class="mb-4 rounded-lg bg-green-100 px-6 py-5 text-base text-green-700" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="mb-4 rounded-lg bg-red-100 px-6 py-5 text-base text-red-700" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="bg-white w-full h-full rounded-xl shadow-neutral-400 shadow-lg overflow-scroll p-4">
         <div class="bg-white rounded-lg w-full transition-transform duration-300 ease-out scale-100">
             <div class="pt-4 px-4 flex justify-between items-start">
