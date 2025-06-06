@@ -275,5 +275,30 @@ class SuratMasukController extends Controller
         return redirect()->route('surat.show', ['id' => $surat->id])->with('success', 'Surat berhasil diperbarui!');
     }
 
-    
+    public function destroy(SuratMasuk $surat)
+    {
+        if (auth()->user()->role->name !== 'Admin') {
+            return redirect()->route('surat.index')->with('error', 'Anda tidak memiliki izin untuk menghapus surat.');
+        }
+        try {
+            if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
+                Storage::disk('public')->delete($surat->file_path);
+            }
+            $surat->disposisis()->delete();
+            $surat->delete();
+
+            return redirect()->route('surat.index')->with('success', 'Surat berhasil dihapus beserta seluruh disposisinya.');
+
+        } catch (\Exception $e) {
+            Log::error('Error saat menghapus surat: ' . $e->getMessage());
+
+            return redirect()->route('surat.index')->with('error', 'Gagal menghapus surat. Terjadi kesalahan pada server.');
+        }
+    }
 }
+
+
+
+
+
+

@@ -72,7 +72,15 @@
                             <a href="{{ route('surat.edit', ['surat' => $surat->id]) }}">
                                 @include('components.base.ikon-edit')
                             </a>
-                            <a href="">@include('components.base.ikon-hapus')</a>
+                            <form method="POST" action="{{ route('surat.destroy', $surat->id) }}"
+                                class="inline-block ml-4"
+                                onsubmit="return confirm('PENTING: Menghapus surat ini akan menghapus seluruh data disposisi terkait. Apakah Anda yakin ingin melanjutkan?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-900">
+                                    @include('components.base.ikon-hapus')
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>
