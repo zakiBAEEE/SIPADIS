@@ -43,7 +43,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Pegawai
     Route::get('/pegawai', [UserController::class, 'index'])->name('pegawai.index');
-    Route::get('/pegawai/tambah', [UserController::class, 'create'])->name('pegawai.create');
     Route::post('/pegawai', [UserController::class, 'store'])->name('pegawai.store');
     Route::get('/pegawai/{user}/edit', [UserController::class, 'edit'])->name('pegawai.edit');
     Route::put('/pegawai/{user}', [UserController::class, 'update'])->name('pegawai.update');

@@ -23,19 +23,6 @@ class UserController extends Controller
         return view('pages.super-admin.pegawai', compact('users'));
     }
 
-    /**
-     * Menampilkan form untuk menambah pengguna baru.
-     */
-    public function create()
-    {
-        $roles = Role::all();
-        $divisis = Divisi::all();
-        return view('pages.super-admin.pegawai-tambah', compact('roles', 'divisis'));
-    }
-
-    /**
-     * Menyimpan pengguna baru ke database.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -56,13 +43,6 @@ class UserController extends Controller
     /**
      * Menampilkan form untuk mengedit data pengguna.
      */
-    public function edit(User $user) // Menggunakan Route Model Binding
-    {
-        $roles = Role::all();
-        $divisis = Divisi::all();
-        return view('pages.super-admin.pegawai-edit', compact('user', 'roles', 'divisis'));
-    }
-
     /**
      * Memperbarui data pengguna di database.
      */
