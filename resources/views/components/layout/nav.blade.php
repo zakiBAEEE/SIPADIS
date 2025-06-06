@@ -28,6 +28,21 @@
             </li>
 
             <li>
+                <a href="{{ route('surat.tambah') }}"
+                    class="flex items-center py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in aria-disabled:opacity-50 aria-disabled:pointer-events-none bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">
+                    <span class="grid place-items-center shrink-0 me-2.5">
+                        <svg width="1.5em" height="1.5em" stroke-width="1.5" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" color="currentColor" class="h-[18px] w-[18px]">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3 9.75L12 3l9 6.75M4.5 10.5v8.25a.75.75 0 00.75.75h4.5v-5.25a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V19.5h4.5a.75.75 0 00.75-.75V10.5"
+                                stroke="currentColor" />
+                        </svg>
+                    </span>
+                    Tambah Surat
+                </a>
+            </li>
+
+            <li>
                 <div data-toggle="collapse" data-target="#suratmasukcollapselist" aria-expanded="false"
                     aria-controls="sidebarCollapseList"
                     class="flex items-center justify-between min-w-60 cursor-pointer py-1.5 px-2.5 rounded-md align-middle transition-all duration-300 ease-in text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">
@@ -66,19 +81,13 @@
                     id="suratmasukcollapselist">
                     <ul class="flex flex-col gap-0.5 min-w-60">
                         <li>
-                            <a href="{{ route('surat.tambah') }}"
-                                class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">Tambah
-                                Surat</a>
+                            <a href="{{ route('surat.denganDisposisi') }}"
+                                class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">Terdisposisi</a>
                         </li>
                         <li>
-                            <a href="{{route('surat.denganDisposisi')}}"
-                                class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">Dengan
-                                Disposisi</a>
-                        </li>
-                        <li>
-                            <a href="{{route('surat.tanpaDisposisi')}}"
-                                class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">Tanpa
-                                Disposisi</a>
+                            <a href="{{ route('surat.tanpaDisposisi') }}"
+                                class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">Belum
+                                Terdisposisi</a>
                         </li>
                     </ul>
                 </div>
