@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/disposisi/{id}/cetak', [DisposisiController::class, 'cetak'])->name('disposisi.cetak');
    // Route::get('/disposisi/{disposisi}/edit', [DisposisiController::class, 'edit'])->name('disposisi.edit');
     Route::put('/disposisi/{disposisi}', [DisposisiController::class, 'update'])->name('disposisi.update');
+    Route::delete('/disposisi/{disposisi}', [DisposisiController::class, 'destroy'])->name('disposisi.destroy');
 
 }); 
 

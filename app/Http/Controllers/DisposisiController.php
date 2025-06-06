@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Controllers\SuratMasukController;
 use App\Models\SuratMasuk;
 use App\Models\Disposisi;
+use Illuminate\Support\Facades\Log;
 
 use App\Models\Lembaga;
 
@@ -110,9 +111,27 @@ class DisposisiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Disposisi $disposisi)
     {
-        //
+        // 1. Otorisasi: Pastikan hanya pengguna yang berhak yang bisa menghapus.
+        //    Contoh: hanya pengirim disposisi asli atau super admin.
+        $user = auth()->user();
+        if ($user->id !== $disposisi->dari_user_id && $user->role->name !== 'Admin') {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus disposisi ini.');
+        }
+
+        // 2. Proses Hapus dan Redirect
+        try {
+            $disposisi->delete(); // Menghapus record disposisi dari database
+
+            // Kembali ke halaman sebelumnya dengan pesan sukses
+            return redirect()->back()->with('success', 'Disposisi berhasil dihapus.');
+
+        } catch (\Exception $e) {
+            // Jika terjadi error, catat di log dan kembali dengan pesan error
+            Log::error('Gagal menghapus disposisi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus disposisi.');
+        }
     }
 
     public function cetak($id)

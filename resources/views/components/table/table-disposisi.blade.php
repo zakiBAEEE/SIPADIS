@@ -55,7 +55,7 @@
                             </button>
 
                             {{-- FORM HAPUS --}}
-                            <form method="POST" action=""
+                            <form method="POST" action="{{ route('disposisi.destroy', $disposisi->id) }}"
                                 onsubmit="return confirm('Apakah Anda yakin ingin menghapus disposisi ini?');">
                                 @csrf
                                 @method('DELETE')
