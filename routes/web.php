@@ -43,6 +43,11 @@ Route::middleware(['auth'])->group(function () {
 
     // Pegawai
     Route::get('/pegawai', [UserController::class, 'index'])->name('pegawai.index');
+    Route::get('/pegawai/tambah', [UserController::class, 'create'])->name('pegawai.create');
+    Route::post('/pegawai', [UserController::class, 'store'])->name('pegawai.store');
+    Route::get('/pegawai/{user}/edit', [UserController::class, 'edit'])->name('pegawai.edit');
+    Route::put('/pegawai/{user}', [UserController::class, 'update'])->name('pegawai.update');
+    Route::delete('/pegawai/{user}', [UserController::class, 'destroy'])->name('pegawai.destroy');
 
     // Tim Kerja
     Route::get('/tim-kerja', [TimKerjaController::class, 'index'])->name('timKerja.index');
@@ -53,11 +58,11 @@ Route::middleware(['auth'])->group(function () {
     // Disposisi
     Route::post('/surat-masuk/{suratId}/disposisi', [DisposisiController::class, 'store'])->name('disposisi.store');
     Route::get('/disposisi/{id}/cetak', [DisposisiController::class, 'cetak'])->name('disposisi.cetak');
-   // Route::get('/disposisi/{disposisi}/edit', [DisposisiController::class, 'edit'])->name('disposisi.edit');
+    // Route::get('/disposisi/{disposisi}/edit', [DisposisiController::class, 'edit'])->name('disposisi.edit');
     Route::put('/disposisi/{disposisi}', [DisposisiController::class, 'update'])->name('disposisi.update');
     Route::delete('/disposisi/{disposisi}', [DisposisiController::class, 'destroy'])->name('disposisi.destroy');
 
-}); 
+});
 
 
 require __DIR__ . '/auth.php';
