@@ -24,7 +24,6 @@
             <hr class="w-full border-t border-gray-300 my-1" />
             <form action="{{ route('lembaga.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
                 <div class="flex flex-col gap-7">
                     <div class="flex flex-col">
                         <div class="flex flex-row gap-x-5">

@@ -198,7 +198,7 @@ class SuratMasukController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nomor_agenda' => 'nullable|string',
+            'nomor_agenda' => 'required|string',
             'nomor_surat' => 'required|string',
             'pengirim' => 'required|string',
             'tanggal_surat' => 'required|date',
@@ -236,7 +236,7 @@ class SuratMasukController extends Controller
     {
         $surat = SuratMasuk::with([
             'disposisis.pengirim.divisi',
-            'disposisis.pengirim.role',     
+            'disposisis.pengirim.role',
             'disposisis.penerima.divisi',
             'disposisis.penerima.role'
         ])->findOrFail($id);
