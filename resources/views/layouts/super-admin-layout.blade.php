@@ -16,6 +16,7 @@
     <div class=" p-4 min-w-4/5">
         @yield('content')
     </div>
+    @stack('scripts')
 </body>
 
 </html>

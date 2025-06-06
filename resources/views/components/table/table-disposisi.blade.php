@@ -20,6 +20,7 @@
                 </th>
             </tr>
         </thead>
+
         <tbody class="group text-sm text-slate-800">
             @forelse ($surat->disposisis as $disposisi)
                 <tr class="even:bg-slate-100">
@@ -44,12 +45,18 @@
                         @endif
                     </td>
                     <td class="p-3">
-                        <div class="flex flex-row gap-x-1">
-                            <a href="">
+                        <div class="flex flex-row gap-x-3 items-center">
+                            {{-- TOMBOL EDIT YANG MEMICU MODAL --}}
+                            <button type="button" class="js-edit-disposisi-btn text-yellow-600 hover:text-yellow-900"
+                                data-update-url="{{ route('disposisi.update', $disposisi->id) }}"
+                                data-tanggal="{{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->format('Y-m-d') }}"
+                                data-ke_user_id="{{ $disposisi->ke_user_id }}" data-catatan="{{ $disposisi->catatan }}">
                                 @include('components.base.ikon-edit')
-                            </a>
-                            <form method="POST" action="" class="inline-block ml-4"
-                                onsubmit="return confirm('PENTING: Menghapus surat ini akan menghapus seluruh data disposisi terkait. Apakah Anda yakin ingin melanjutkan?');">
+                            </button>
+
+                            {{-- FORM HAPUS --}}
+                            <form method="POST" action=""
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus disposisi ini?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-900">
@@ -61,11 +68,11 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center p-3">Belum ada disposisi.</td>
+                    {{-- Menggunakan colspan="5" karena sekarang ada 5 kolom --}}
+                    <td colspan="5" class="text-center p-3">Belum ada disposisi.</td>
                 </tr>
             @endforelse
         </tbody>
-
-
     </table>
 </div>
+@include('components.layout.modal-edit-disposisi', ['users' => $daftarUser])

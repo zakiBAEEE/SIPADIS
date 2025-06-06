@@ -35,8 +35,7 @@
                         <div class="flex flex-row gap-3">
                             <div class="mb-4 space-y-1.5 w-1/2">
                                 <div>
-                                    <label for="email"
-                                        class="font-sans  text-sm text-slate-800 font-bold mb-2"> Nomor
+                                    <label for="email" class="font-sans  text-sm text-slate-800 font-bold mb-2"> Nomor
                                         Surat</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -47,8 +46,7 @@
                             </div>
                             <div class="mb-4 space-y-1.5 w-1/3">
                                 <div>
-                                    <label for="email"
-                                        class="font-sans  text-sm text-slate-800 font-bold mb-2"> Tanggal
+                                    <label for="email" class="font-sans  text-sm text-slate-800 font-bold mb-2"> Tanggal
                                         Surat</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -60,8 +58,7 @@
                             </div>
                             <div class="mb-4 space-y-1.5 w-1/3">
                                 <div>
-                                    <label for="email"
-                                        class="font-sans  text-sm text-slate-800 font-bold mb-2"> Tanggal
+                                    <label for="email" class="font-sans  text-sm text-slate-800 font-bold mb-2"> Tanggal
                                         Terima</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -75,8 +72,7 @@
                         <div class="flex flex-row gap-3 items-center">
                             <div class="mb-4 space-y-1.5 w-1/2">
                                 <div>
-                                    <label for="email"
-                                        class="font-sans  text-sm text-slate-800 font-bold mb-2">
+                                    <label for="email" class="font-sans  text-sm text-slate-800 font-bold mb-2">
                                         Pengirim</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -87,8 +83,7 @@
                             </div>
                             <div class="mb-4 space-y-1.5 w-1/3">
                                 <div>
-                                    <label for="email"
-                                        class="font-sans  text-sm text-slate-800 font-bold mb-2">
+                                    <label for="email" class="font-sans  text-sm text-slate-800 font-bold mb-2">
                                         Klasifikasi</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -99,8 +94,7 @@
                             </div>
                             <div class="mb-4 space-y-1.5 w-1/3">
                                 <div>
-                                    <label for="email"
-                                        class="font-sans  text-sm text-slate-800 font-bold mb-2">
+                                    <label for="email" class="font-sans  text-sm text-slate-800 font-bold mb-2">
                                         Sifat</label>
                                     <div class="relative w-full">
                                         <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -112,8 +106,7 @@
                         </div>
                         <div class="mb-4 space-y-1.5 w-1/3">
                             <div>
-                                <label for="email"
-                                    class="font-sans  text-sm text-slate-800 font-bold mb-2">
+                                <label for="email" class="font-sans  text-sm text-slate-800 font-bold mb-2">
                                     Perihal</label>
                                 <div class="relative w-full">
                                     <h6 class="font-sans text-base font-light antialiased md:text-lg lg:text-xl"
@@ -155,3 +148,37 @@
         </div>
     </div>
 @endsection
+
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editButtons = document.querySelectorAll('.js-edit-disposisi-btn');
+            const modal = document.getElementById('modalEditDisposisi');
+            if (!modal) return;
+
+            const form = document.getElementById('formEditDisposisi');
+            const inputTanggal = document.getElementById('edit_tanggal_disposisi');
+            const selectTujuan = document.getElementById('edit_ke_user_id');
+            const textareaCatatan = document.getElementById('edit_catatan');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const data = this.dataset;
+                    form.action = data.updateUrl;
+                    inputTanggal.value = data.tanggal;
+                    selectTujuan.value = data.ke_user_id;
+                    textareaCatatan.value = data.catatan;
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                });
+            });
+
+            const dismissButtons = modal.querySelectorAll('[data-dismiss="modal"]');
+            dismissButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                });
+            });
+        });
+    </script>
+@endpush

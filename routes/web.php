@@ -53,9 +53,10 @@ Route::middleware(['auth'])->group(function () {
     // Disposisi
     Route::post('/surat-masuk/{suratId}/disposisi', [DisposisiController::class, 'store'])->name('disposisi.store');
     Route::get('/disposisi/{id}/cetak', [DisposisiController::class, 'cetak'])->name('disposisi.cetak');
+   // Route::get('/disposisi/{disposisi}/edit', [DisposisiController::class, 'edit'])->name('disposisi.edit');
+    Route::put('/disposisi/{disposisi}', [DisposisiController::class, 'update'])->name('disposisi.update');
 
-}); // Akhir dari Route::middleware(['auth'])->group
+}); 
 
-// Memuat rute autentikasi (login, logout, dll.) dari Breeze
-// Rute di dalam auth.php akan mengatur middleware 'guest' atau 'auth' mereka sendiri.
+
 require __DIR__ . '/auth.php';

@@ -17,7 +17,7 @@ class DisposisiController extends Controller
      */
     public function index($suratId)
     {
-       
+
     }
 
     /**
@@ -25,7 +25,7 @@ class DisposisiController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     public function store(Request $request, $suratId)
@@ -41,7 +41,7 @@ class DisposisiController extends Controller
         Disposisi::create($validated);
         return redirect()->back()->with('success', 'Disposisi berhasil disimpan.');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -54,17 +54,57 @@ class DisposisiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Disposisi $disposisi)
     {
-        //
+        // Otorisasi sederhana: Pastikan hanya admin atau pengirim asli yang bisa edit
+        $user = auth()->user();
+        if ($user->id !== $disposisi->dari_user_id && $user->role->name !== 'Super Admin Surat') {
+            abort(403, 'AKSES DITOLAK');
+        }
+
+        // Ambil semua user untuk pilihan dropdown 'KEPADA'
+        $users = User::orderBy('name')->get();
+
+        return view('pages.super-admin.disposisi-edit', compact('disposisi', 'users'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Memperbarui disposisi yang ada di database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Disposisi  $disposisi
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Disposisi $disposisi)
     {
-        //
+        // Otorisasi sederhana: Sama seperti di metode edit
+        $user = auth()->user();
+        if ($user->id !== $disposisi->dari_user_id && $user->role->name !== 'Admin') {
+            abort(403, 'AKSES DITOLAK');
+        }
+
+        $validated = $request->validate([
+            // User pengirim tidak bisa diubah, jadi tidak divalidasi
+            'ke_user_id' => 'required|exists:users,id',
+            'catatan' => 'nullable|string',
+            'tanggal_disposisi' => 'required|date',
+        ]);
+
+        // Pastikan pengguna tidak mendisposisikan ke diri sendiri
+        if ($disposisi->dari_user_id == $request->ke_user_id) {
+            return redirect()->back()->withInput()->with('error', 'Tidak bisa mendisposisikan surat ke diri sendiri.');
+        }
+
+        try {
+            $disposisi->update($validated);
+
+            // Redirect ke halaman detail surat setelah berhasil update
+            return redirect()->route('surat.show', $disposisi->surat_id)->with('success', 'Disposisi berhasil diperbarui.');
+
+        } catch (\Exception $e) {
+            Log::error('Gagal memperbarui disposisi: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat memperbarui disposisi.');
+        }
     }
 
     /**
@@ -75,21 +115,21 @@ class DisposisiController extends Controller
         //
     }
 
-public function cetak($id)
-{
-    // Ambil surat beserta semua disposisinya sekaligus
-    $surat = SuratMasuk::with(['disposisis.pengirim', 'disposisis.penerima'])->findOrFail($id);
-    
-    // Ambil data lembaga untuk kop surat
-    $lembaga = Lembaga::first();
+    public function cetak($id)
+    {
+        // Ambil surat beserta semua disposisinya sekaligus
+        $surat = SuratMasuk::with(['disposisis.pengirim', 'disposisis.penerima'])->findOrFail($id);
 
-    // Kirim ke view cetak
-    return view('pages.super-admin.disposisi-cetak', [
-        'surat' => $surat,
-        'disposisis' => $surat->disposisis,
-        'lembaga' => $lembaga,
-    ]);
-}
+        // Ambil data lembaga untuk kop surat
+        $lembaga = Lembaga::first();
+
+        // Kirim ke view cetak
+        return view('pages.super-admin.disposisi-cetak', [
+            'surat' => $surat,
+            'disposisis' => $surat->disposisis,
+            'lembaga' => $lembaga,
+        ]);
+    }
 
 
 }
