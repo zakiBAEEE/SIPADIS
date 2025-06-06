@@ -15,6 +15,9 @@
                 <th class="px-2.5 py-2 text-start font-bold">
                     Tujuan Disposisi
                 </th>
+                <th class="px-2.5 py-2 text-start font-bold">
+                    Aksi
+                </th>
             </tr>
         </thead>
         <tbody class="group text-sm text-slate-800">
@@ -39,6 +42,21 @@
                         @else
                             {{ $disposisi->penerima->role->name ?? '-' }}
                         @endif
+                    </td>
+                    <td class="p-3">
+                        <div class="flex flex-row gap-x-1">
+                            <a href="">
+                                @include('components.base.ikon-edit')
+                            </a>
+                            <form method="POST" action="" class="inline-block ml-4"
+                                onsubmit="return confirm('PENTING: Menghapus surat ini akan menghapus seluruh data disposisi terkait. Apakah Anda yakin ingin melanjutkan?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-900">
+                                    @include('components.base.ikon-hapus')
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @empty
