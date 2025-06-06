@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Controllers\SuratMasukController;
 use App\Models\SuratMasuk;
 use App\Models\Disposisi;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\Lembaga;
