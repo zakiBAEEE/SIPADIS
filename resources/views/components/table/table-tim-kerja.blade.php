@@ -25,10 +25,10 @@
                     </td>
                     <td class="p-3">
                         <div class="flex flex-row gap-x-1">
-
-
-                            @include('components.layout.modal-edit-tim-kerja', ['id' => $item->id])
-
+                            @include('components.layout.modal-edit-tim-kerja', [
+                                'id' => $item->id,
+                                'namaDivisi' => $item->nama_divisi,
+                            ])
                             <form action="{{ route('tim-kerja.destroy', $item->id) }}" method="POST"
                                 onsubmit="return confirm('Yakin ingin menghapus tim kerja ini?')">
                                 @csrf

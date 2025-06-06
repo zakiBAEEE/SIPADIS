@@ -13,12 +13,12 @@ class LembagaSeeder extends Seeder
     public function run(): void
     {
         DB::table('lembaga')->insert([
-            'nama_kementerian' => 'Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi',
-            'nama_lembaga' => 'LLDIKTI Wilayah II',
+            'nama_kementerian' => 'KEMENTERIAN PENDIDIKAN SAINS, DAN TEKNOLOGI',
+            'nama_lembaga' => 'LEMBAGA LAYANAN PENDIDIKAN TINGGI WILAYAH 2',
             'email' => 'info@lldikti2.id',
-            'alamat' => 'Jl. Srijaya Negara Bukit Besar, Palembang, Sumatera Selatan',
-            'telepon' => '(0711) 5641450',
-            'website' => 'https://lldikti2.kemdikbud.go.id',
+            'alamat' => 'Jl. Srijaya Negara No. 883 Palembang 30153',
+            'telepon' => '0822-8204-0372',
+            'website' => 'https://lldiktiwilayah2.ristekdikti.go.id',
             'kota' => 'Palembang',
             'provinsi' => 'Sumatera Selatan',
             'kepala_kantor' => 'Ishak Iskandar',
