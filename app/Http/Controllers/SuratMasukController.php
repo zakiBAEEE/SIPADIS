@@ -337,7 +337,7 @@ class SuratMasukController extends Controller
     public function destroy(SuratMasuk $surat)
     {
         // Saya mengganti 'Admin' menjadi 'Super Admin Surat' sesuai seeder Anda, sesuaikan jika perlu
-        if (auth()->user()->role->name !== 'Super Admin Surat') {
+        if (auth()->user()->role->name !== 'Admin') {
             // Ganti redirect()->route(...) dengan redirect()->back()
             return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus surat.');
         }
