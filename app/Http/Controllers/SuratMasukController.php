@@ -164,36 +164,10 @@ class SuratMasukController extends Controller
         return view('pages.super-admin.surat-masuk', compact('surats'));
     }
 
-    public function tambah()
+    public function add()
     {
         return view('pages.super-admin.tambah-surat-masuk');
     }
-
-
-    // public function store(Request $request)
-
-    // {
-    //     $validated = $request->validate([
-    //         'nomor_agenda' => 'nullable|string',
-    //         'nomor_surat' => 'required|string',
-    //         'pengirim' => 'required|string',
-    //         'tanggal_surat' => 'required|date',
-    //         'tanggal_terima' => 'required|date',
-    //         'perihal' => 'required|string',
-    //         'klasifikasi_surat' => 'nullable|string',
-    //         'sifat' => 'nullable|string',
-    //         'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
-    //     ]);
-
-    //     if ($request->hasFile('file_path')) {
-    //         $path = $request->file('file_path')->store('surat', 'public');
-    //         $validated['file_path'] = $path; // ini yang disimpan ke DB
-    //     }
-
-    //     $surat = SuratMasuk::create($validated);
-
-    //     return redirect()->route('surat.tambah')->with('success', 'Surat berhasil ditambahkan!');
-    // }
 
     public function store(Request $request)
     {
@@ -300,4 +274,6 @@ class SuratMasukController extends Controller
 
         return redirect()->route('surat.show', ['id' => $surat->id])->with('success', 'Surat berhasil diperbarui!');
     }
+
+    
 }

@@ -43,12 +43,6 @@
                                 <div class="flex flex-row w-full gap-3">
                                     <div class="flex flex-col w-1/2 gap-3">
                                         @include('components.base.input-surat', [
-                                            'label' => 'Email',
-                                            'placeholder' => 'Masukkan Email',
-                                            'name' => 'email',
-                                            'value' => old('email', $lembaga->email ?? ''),
-                                        ])
-                                        @include('components.base.input-surat', [
                                             'label' => 'Alamat',
                                             'placeholder' => 'Masukkan Alamat',
                                             'name' => 'alamat',

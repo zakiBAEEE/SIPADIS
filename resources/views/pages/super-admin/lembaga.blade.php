@@ -35,10 +35,6 @@
                             <div class="flex flex-row w-full gap-3">
                                 <div class="flex flex-col w-1/2 gap-3">
                                     @include('components.base.input-display', [
-                                        'label' => 'Email',
-                                        'value' => $lembaga->email,
-                                    ])
-                                    @include('components.base.input-display', [
                                         'label' => 'Alamat',
                                         'value' => $lembaga->alamat,
                                     ])
