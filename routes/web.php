@@ -16,11 +16,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [SuratMasukController::class, 'dashboard'])->name('surat.home');
 
     // Surat Masuk
-    Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat.index');
+    Route::get('/surat-masuk-disposisi', [SuratMasukController::class, 'suratDenganDisposisi'])->name('surat.denganDisposisi');
+
+    Route::get('/surat-masuk-tanpa-disposisi', [SuratMasukController::class, 'suratTanpaDisposisi'])->name('surat.tanpaDisposisi');
+
     Route::get('/surat-masuk/{id}', [SuratMasukController::class, 'show'])->name('surat.show');
 
     Route::get('/surat-masuk-tambah', [SuratMasukController::class, 'add'])->name('surat.tambah');
-    
+
     Route::delete('/surat-masuk/{surat}', [SuratMasukController::class, 'destroy'])->name('surat.destroy');
 
     Route::post('/surat-masuk', [SuratMasukController::class, 'store'])->name('surat.store');

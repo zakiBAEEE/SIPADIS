@@ -102,14 +102,9 @@ class SuratMasukController extends Controller
         ]);
     }
 
-    public function index(Request $request)
+    public function suratTanpaDisposisi(Request $request)
     {
-        // Tentukan apakah akan menampilkan surat dengan disposisi atau tanpa disposisi
-        $withDisposisi = $request->boolean('with_disposisi');
-
-        $query = $withDisposisi
-            ? SuratMasuk::has('disposisis')
-            : SuratMasuk::doesntHave('disposisis');
+        $query = SuratMasuk::doesntHave('disposisis');
 
         // Filter berdasarkan berbagai parameter
         if ($request->filled('nomor_agenda')) {
@@ -161,7 +156,70 @@ class SuratMasukController extends Controller
             ->paginate(8)
             ->appends($request->query());
 
-        return view('pages.super-admin.surat-masuk', compact('surats'));
+
+        return view('pages.super-admin.surat-masuk-tanpa-disposisi', compact('surats'));
+
+    }
+
+    public function suratDenganDisposisi(Request $request)
+    {
+
+        $query = SuratMasuk::has('disposisis');
+
+
+        // Filter berdasarkan berbagai parameter
+        if ($request->filled('nomor_agenda')) {
+            $query->where('nomor_agenda', 'like', '%' . $request->nomor_agenda . '%');
+        }
+
+        if ($request->filled('nomor_surat')) {
+            $query->where('nomor_surat', 'like', '%' . $request->nomor_surat . '%');
+        }
+
+        if ($request->filled('pengirim')) {
+            $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
+        }
+
+        // Filter tanggal surat
+        if ($request->filled('filter_tanggal_surat')) {
+            $range = explode(' to ', $request->filter_tanggal_surat);
+            if (count($range) === 2) {
+                $query->whereBetween('tanggal_surat', [$range[0], $range[1]]);
+            } elseif (count($range) === 1) {
+                $query->whereDate('tanggal_surat', $range[0]);
+            }
+        }
+
+        // Filter tanggal terima
+        if ($request->filled('filter_tanggal_terima')) {
+            $range = explode(' to ', $request->filter_tanggal_terima);
+            if (count($range) === 2) {
+                $query->whereBetween('tanggal_terima', [$range[0], $range[1]]);
+            } elseif (count($range) === 1) {
+                $query->whereDate('tanggal_terima', $range[0]);
+            }
+        }
+
+        if ($request->filled('perihal')) {
+            $query->where('perihal', 'like', '%' . $request->perihal . '%');
+        }
+
+        if ($request->filled('klasifikasi_surat')) {
+            $query->where('klasifikasi_surat', $request->klasifikasi_surat);
+        }
+
+        if ($request->filled('sifat')) {
+            $query->where('sifat', $request->sifat);
+        }
+
+        // Pagination dan kirim data ke view
+        $surats = $query->orderBy('created_at', 'desc')
+            ->paginate(8)
+            ->appends($request->query());
+
+
+        return view('pages.super-admin.surat-masuk-dengan-disposisi', compact('surats'));
+
     }
 
     public function add()
@@ -275,26 +333,39 @@ class SuratMasukController extends Controller
         return redirect()->route('surat.show', ['id' => $surat->id])->with('success', 'Surat berhasil diperbarui!');
     }
 
+
     public function destroy(SuratMasuk $surat)
     {
-        if (auth()->user()->role->name !== 'Admin') {
-            return redirect()->route('surat.index')->with('error', 'Anda tidak memiliki izin untuk menghapus surat.');
+        // Saya mengganti 'Admin' menjadi 'Super Admin Surat' sesuai seeder Anda, sesuaikan jika perlu
+        if (auth()->user()->role->name !== 'Super Admin Surat') {
+            // Ganti redirect()->route(...) dengan redirect()->back()
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus surat.');
         }
+
         try {
+            // Hapus file terkait dari storage jika ada
             if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
                 Storage::disk('public')->delete($surat->file_path);
             }
+
+            // Hapus semua data disposisi yang terkait
             $surat->disposisis()->delete();
+
+            // Hapus data surat itu sendiri
             $surat->delete();
 
-            return redirect()->route('surat.index')->with('success', 'Surat berhasil dihapus beserta seluruh disposisinya.');
+            // Ganti redirect()->route(...) dengan redirect()->back()
+            return redirect()->back()->with('success', 'Surat berhasil dihapus beserta seluruh disposisinya.');
 
         } catch (\Exception $e) {
             Log::error('Error saat menghapus surat: ' . $e->getMessage());
 
-            return redirect()->route('surat.index')->with('error', 'Gagal menghapus surat. Terjadi kesalahan pada server.');
+            // Ganti redirect()->route(...) dengan redirect()->back()
+            return redirect()->back()->with('error', 'Gagal menghapus surat. Terjadi kesalahan pada server.');
         }
     }
+
+    // ...
 }
 
 
