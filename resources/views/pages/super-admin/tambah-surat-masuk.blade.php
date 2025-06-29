@@ -34,6 +34,16 @@
             <form action="{{ route('surat.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @include('components.form.form-surat-masuk')
+                <div class="px-4 mb-2">
+                    @include('components.base.dropdown', [
+                        'label' => 'Jenis Pengelolaan',
+                        'name' => 'jenis_pengelolaan',
+                        'value' => ['Disposisi' => 'Disposisi', 'Arsip' => 'Arsip'],
+                        'selected' => old('jenis_pengelolaan'),
+                    ])
+
+                </div>
+
                 <div class="px-4">
                     @include('components.base.file-picker', [
                         'label' => 'Upload Surat',

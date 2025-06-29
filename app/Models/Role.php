@@ -12,4 +12,10 @@ class Role extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function disposisiDikirim()
+    {
+        return $this->hasMany(Disposisi::class, 'dari_role_id');
+    }
+
 }

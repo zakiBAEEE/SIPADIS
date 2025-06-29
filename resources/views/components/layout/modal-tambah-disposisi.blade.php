@@ -31,18 +31,27 @@
                             ])
                         </div>
                         <div class=" w-1/3">
-                            @include('components.base.dropdown', [
-                                'label' => 'Pengirim',
-                                'value' => $daftarUser->values()->toArray(),
-                                'name' => 'dari_user_id',
-                            ])
 
+                            <label for="dari_role_id" class="font-sans text-sm text-slate-800 font-bold mb-2 block">
+                                Pengirim
+                            </label>
+                            <select name="dari_role_id" id="dari_role_id"
+                                class="w-full bg-transparent text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 ring ring-transparent hover:ring-slate-800/10 focus:ring-slate-800/10 hover:border-slate-800 shadow-sm focus:shadow cursor-pointer appearance-none">
+
+                                <option disabled selected>Pilih salah satu</option>
+                                @foreach ($rolesPengirim as $role)
+                                    <option value="{{ $role->id }}"
+                                        {{ old('dari_role_id') == $role->id ? 'selected' : '' }}>
+                                        {{ $role->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class=" w-1/3">
                             @include('components.base.dropdown', [
                                 'label' => 'Tujuan Disposisi',
-                                'value' => $daftarUser->values()->toArray(),
-                                'name' => 'ke_user_id',
+                                'value' => $daftarPelakuDisposisi->values()->toArray(),
+                                'name' => 'penerima',
                             ])
                         </div>
                     </div>

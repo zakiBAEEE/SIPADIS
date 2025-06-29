@@ -77,13 +77,13 @@
                     id="suratmasukcollapselist">
                     <ul class="flex flex-col gap-0.5 min-w-60">
                         <li>
-                            <a href="{{ route('surat.denganDisposisi') }}"
-                                class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">Terdisposisi</a>
+                            <a href="{{ route('surat.untukDisposisi') }}"
+                                class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">Disposisi</a>
                         </li>
                         <li>
-                            <a href="{{ route('surat.tanpaDisposisi') }}"
-                                class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">Belum
-                                Terdisposisi</a>
+                            <a href="{{ route('surat.untukArsip') }}"
+                                class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">
+                                Arsip</a>
                         </li>
                     </ul>
                 </div>
@@ -156,10 +156,6 @@
                 <div class="overflow-hidden transition-[max-height] duration-300 ease-in-out max-h-0"
                     id="organisasicollapselist">
                     <ul class="flex flex-col gap-0.5 min-w-60">
-                        <li>
-                            <a href="/pegawai"
-                                class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">Pegawai</a>
-                        </li>
                         <li>
                             <a href="/tim-kerja"
                                 class="pl-10 flex items-center cursor-pointer py-1.5 px-2.5 rounded-md align-middle select-none font-sans transition-all duration-300 ease-in bg-transparent text-slate-600 hover:text-slate-800 hover:bg-slate-200 focus:bg-slate-200 focus:text-slate-800">Tim

@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-4 space-y-1.5 w-1/3">
+                            <div class="mb-4 space-y-1.5">
                                 <div>
                                     <div class="relative w-full">
                                         @include('components.base.input-surat', [

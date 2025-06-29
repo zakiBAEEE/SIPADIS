@@ -16,9 +16,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [SuratMasukController::class, 'dashboard'])->name('surat.home');
 
     // Surat Masuk
-    Route::get('/surat-masuk-disposisi', [SuratMasukController::class, 'suratDenganDisposisi'])->name('surat.denganDisposisi');
+    Route::get('/surat-masuk-disposisi', [SuratMasukController::class, 'suratUntukDisposisi'])->name('surat.untukDisposisi');
 
-    Route::get('/surat-masuk-tanpa-disposisi', [SuratMasukController::class, 'suratTanpaDisposisi'])->name('surat.tanpaDisposisi');
+    Route::get('/surat-masuk-arsip', [SuratMasukController::class, 'suratUntukArsip'])->name('surat.untukArsip');
 
     Route::get('/surat-masuk/{id}', [SuratMasukController::class, 'show'])->name('surat.show');
 
@@ -40,13 +40,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga.index');
     Route::get('/lembaga/edit', [LembagaController::class, 'edit'])->name('lembaga.edit');
     Route::post('/lembaga/update', [LembagaController::class, 'update'])->name('lembaga.update');
-
-    // Pegawai
-    Route::get('/pegawai', [UserController::class, 'index'])->name('pegawai.index');
-    Route::post('/pegawai', [UserController::class, 'store'])->name('pegawai.store');
-    Route::get('/pegawai/{user}/edit', [UserController::class, 'edit'])->name('pegawai.edit');
-    Route::put('/pegawai/{user}', [UserController::class, 'update'])->name('pegawai.update');
-    Route::delete('/pegawai/{user}', [UserController::class, 'destroy'])->name('pegawai.destroy');
 
     // Tim Kerja
     Route::get('/tim-kerja', [TimKerjaController::class, 'index'])->name('timKerja.index');

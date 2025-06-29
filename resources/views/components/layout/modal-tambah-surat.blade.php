@@ -25,6 +25,18 @@
             <form action="{{ route('surat.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @include('components.form.form-surat-masuk')
+                <div class="mb-4">
+                    <label for="jenis_pengelolaan" class="block text-sm font-bold text-slate-700">Jenis
+                        Pengelolaan</label>
+                    <select name="jenis_pengelolaan" id="jenis_pengelolaan"
+                        class="w-full mt-1 p-2 border rounded-md text-sm">
+                        <option value="disposisi" {{ old('jenis_pengelolaan') == 'disposisi' ? 'selected' : '' }}>Untuk
+                            Disposisi</option>
+                        <option value="arsip" {{ old('jenis_pengelolaan') == 'arsip' ? 'selected' : '' }}>Untuk Arsip
+                        </option>
+                    </select>
+                </div>
+
                 <div class="px-4">
                     @include('components.base.file-picker', [
                         'label' => 'Upload Surat',

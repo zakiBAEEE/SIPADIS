@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Divisi;
+use App\Models\Role;
 use Illuminate\Support\Facades\Log;
 use App\Services\SuratMasukService; // <--- TAMBAHKAN BARIS INI
 use App\Services\SuratRekapitulasiService;
@@ -102,14 +104,9 @@ class SuratMasukController extends Controller
         ]);
     }
 
-    public function suratTanpaDisposisi(Request $request)
+    public function suratUntukArsip(Request $request)
     {
-        $query = SuratMasuk::doesntHave('disposisis');
-
-        // Filter berdasarkan berbagai parameter
-        if ($request->filled('nomor_agenda')) {
-            $query->where('nomor_agenda', 'like', '%' . $request->nomor_agenda . '%');
-        }
+        $query = SuratMasuk::where('jenis_pengelolaan', 'Arsip');
 
         if ($request->filled('nomor_surat')) {
             $query->where('nomor_surat', 'like', '%' . $request->nomor_surat . '%');
@@ -157,20 +154,16 @@ class SuratMasukController extends Controller
             ->appends($request->query());
 
 
-        return view('pages.super-admin.surat-masuk-tanpa-disposisi', compact('surats'));
+        return view('pages.super-admin.surat-masuk-untuk-arsip', compact('surats'));
 
     }
 
-    public function suratDenganDisposisi(Request $request)
+    public function suratUntukDisposisi(Request $request)
     {
 
-        $query = SuratMasuk::has('disposisis');
+        $query = SuratMasuk::where('jenis_pengelolaan', 'Disposisi');
 
 
-        // Filter berdasarkan berbagai parameter
-        if ($request->filled('nomor_agenda')) {
-            $query->where('nomor_agenda', 'like', '%' . $request->nomor_agenda . '%');
-        }
 
         if ($request->filled('nomor_surat')) {
             $query->where('nomor_surat', 'like', '%' . $request->nomor_surat . '%');
@@ -218,7 +211,7 @@ class SuratMasukController extends Controller
             ->appends($request->query());
 
 
-        return view('pages.super-admin.surat-masuk-dengan-disposisi', compact('surats'));
+        return view('pages.super-admin.surat-masuk-untuk-disposisi', compact('surats'));
 
     }
 
@@ -229,8 +222,9 @@ class SuratMasukController extends Controller
 
     public function store(Request $request)
     {
+
+
         $validated = $request->validate([
-            'nomor_agenda' => 'required|string',
             'nomor_surat' => 'required|string',
             'pengirim' => 'required|string',
             'tanggal_surat' => 'required|date',
@@ -238,65 +232,82 @@ class SuratMasukController extends Controller
             'perihal' => 'required|string',
             'klasifikasi_surat' => 'nullable|string',
             'sifat' => 'nullable|string',
+            'jenis_pengelolaan' => 'required|in:Disposisi,Arsip', // ✅ Validasi enum baru
             'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
         ]);
 
         try {
+            // Handle file upload
             if ($request->hasFile('file_path')) {
                 $path = $request->file('file_path')->store('surat', 'public');
                 $validated['file_path'] = $path;
             }
 
+            // Ambil tahun sekarang
+            $tahun = now()->format('Y');
+
+            // Hitung jumlah surat masuk di tahun ini
+            $jumlahSuratTahunIni = SuratMasuk::whereYear('created_at', $tahun)->count();
+
+            // Nomor urut berikutnya (increment)
+            $nomorUrut = str_pad($jumlahSuratTahunIni + 1, 3, '0', STR_PAD_LEFT);
+
+            // Susun nomor surat
+            $idSurat = "{$nomorUrut}-TU-{$tahun}";
+            $validated['id'] = $idSurat;
+
+            // Simpan
             $surat = SuratMasuk::create($validated);
 
             if ($surat) {
                 return redirect()->route('surat.tambah')->with('success', 'Surat berhasil ditambahkan!');
             } else {
-                return redirect()->route('surat.tambah')->with('error', 'Gagal menambahkan surat. Data tidak valid atau ada masalah lain.');
+                return redirect()->route('surat.tambah')->with('error', 'Gagal menambahkan surat.');
             }
 
         } catch (\Illuminate\Database\QueryException $e) {
-            Log::error('Database error saat menambahkan surat: ' . $e->getMessage()); // Catat error untuk debugging
-            return redirect()->route('surat.tambah')->with('error', 'Gagal menambahkan surat karena masalah database. Silakan coba lagi atau hubungi administrator.');
+            Log::error('Database error saat menambahkan surat: ' . $e->getMessage());
+            return redirect()->route('surat.tambah')->with('error', 'Gagal menambahkan surat karena masalah database.');
         } catch (\Exception $e) {
-            Log::error('Error umum saat menambahkan surat: ' . $e->getMessage()); // Catat error untuk debugging
-            return redirect()->route('surat.tambah')->with('error', 'Terjadi kesalahan yang tidak terduga saat menambahkan surat.');
+            Log::error('Error umum saat menambahkan surat: ' . $e->getMessage());
+            return redirect()->route('surat.tambah')->with('error', 'Terjadi kesalahan tak terduga saat menambahkan surat.');
         }
     }
+
 
     public function show($id)
     {
         $surat = SuratMasuk::with([
-            'disposisis.pengirim.divisi',
-            'disposisis.pengirim.role',
-            'disposisis.penerima.divisi',
-            'disposisis.penerima.role'
+            'disposisis.dariRole',
+            'disposisis.penerima' // karena morph
         ])->findOrFail($id);
 
-        $users = User::with(['divisi', 'role'])->get();
+        // Untuk dropdown PENGIRIM: Khusus role saja (misal: Kepala LLDIKTI, KBU)
+        $rolesPengirim = Role::whereIn('name', ['KBU', 'Kepala LLDIKTI'])->get();
 
-        $daftarUser = $users->filter(function ($user) {
-            if ($user->divisi) {
-                return $user->role && $user->role->name === 'Katimja';
-            }
-            return true;
-        })->map(function ($user) {
-            if ($user->divisi && $user->role && $user->role->name === 'Katimja') {
-                return [
-                    'value' => $user->id,
-                    'display' => $user->divisi->nama_divisi,
-                ];
-            } else {
-                $role = optional($user->role)->name ?? 'Tanpa Role';
-                return [
-                    'value' => $user->id,
-                    'display' => $role,
-                ];
-            }
+
+
+        // Untuk dropdown PENERIMA: campuran Divisi dan Role
+        $divisis = Divisi::all()->map(function ($divisi) {
+            return [
+                'value' => 'Divisi:' . $divisi->id,
+                'display' => $divisi->nama_divisi,
+            ];
         });
 
-        return view('pages.super-admin.detail-surat', compact('surat', 'daftarUser'));
+        $rolesPenerima = Role::whereIn('name', ['KBU', 'Kepala LLDIKTI'])->get()->map(function ($role) {
+            return [
+                'value' => 'Role:' . $role->id,
+                'display' => $role->name,
+            ];
+        });
+
+        $daftarPelakuDisposisi = $rolesPenerima->merge($divisis); // untuk dropdown penerima
+
+
+        return view('pages.super-admin.detail-surat', compact('surat', 'daftarPelakuDisposisi', 'rolesPengirim'));
     }
+
 
     public function edit(SuratMasuk $surat)
     {
@@ -306,7 +317,6 @@ class SuratMasukController extends Controller
     public function update(Request $request, SuratMasuk $surat)
     {
         $validated = $request->validate([
-            'nomor_agenda' => 'nullable|string',
             'nomor_surat' => 'required|string',
             'pengirim' => 'required|string',
             'tanggal_surat' => 'required|date',
@@ -332,7 +342,6 @@ class SuratMasukController extends Controller
 
         return redirect()->route('surat.show', ['id' => $surat->id])->with('success', 'Surat berhasil diperbarui!');
     }
-
 
     public function destroy(SuratMasuk $surat)
     {
@@ -365,7 +374,6 @@ class SuratMasukController extends Controller
         }
     }
 
-    // ...
 }
 
 

@@ -27,34 +27,47 @@
                     <td class="p-3">
                         {{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->translatedFormat('d F Y') }}
                     </td>
+
+                    {{-- PENGIRIM --}}
                     <td class="p-3">
-                        @if ($disposisi->pengirim && $disposisi->pengirim->divisi)
-                            {{ $disposisi->pengirim->divisi->nama_divisi }}
-                        @else
-                            {{ $disposisi->pengirim->role->name ?? '-' }}
-                        @endif
+                        {{ $disposisi->dariRole->name ?? '-' }}
                     </td>
+
+                    {{-- CATATAN --}}
                     <td class="p-3">
-                        {{ $disposisi->catatan }}
+                        {{ $disposisi->catatan ?? '-' }}
                     </td>
+
+                    {{-- PENERIMA --}}
                     <td class="p-3">
-                        @if ($disposisi->penerima && $disposisi->penerima->divisi)
-                            {{ $disposisi->penerima->divisi->nama_divisi }}
-                        @else
-                            {{ $disposisi->penerima->role->name ?? '-' }}
-                        @endif
+                        @switch(class_basename($disposisi->penerima_type))
+                            @case('Divisi')
+                                {{ $disposisi->penerima->nama_divisi ?? '-' }}
+                            @break
+
+                            @case('Role')
+                                {{ $disposisi->penerima->name ?? '-' }}
+                            @break
+
+                            @default
+                                -
+                        @endswitch
                     </td>
+
+                    {{-- AKSI --}}
                     <td class="p-3">
                         <div class="flex flex-row gap-x-3 items-center">
-                            {{-- TOMBOL EDIT YANG MEMICU MODAL --}}
+
+                            {{-- Tombol edit --}}
                             <button type="button" class="js-edit-disposisi-btn text-yellow-600 hover:text-yellow-900"
                                 data-update-url="{{ route('disposisi.update', $disposisi->id) }}"
                                 data-tanggal="{{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->format('Y-m-d') }}"
-                                data-ke_user_id="{{ $disposisi->ke_user_id }}" data-catatan="{{ $disposisi->catatan }}">
+                                data-penerima="{{ class_basename($disposisi->penerima_type) . ':' . $disposisi->penerima_id }}"
+                                data-catatan="{{ $disposisi->catatan }}">
                                 @include('components.base.ikon-edit')
                             </button>
 
-                            {{-- FORM HAPUS --}}
+                            {{-- Tombol hapus --}}
                             <form method="POST" action="{{ route('disposisi.destroy', $disposisi->id) }}"
                                 onsubmit="return confirm('Apakah Anda yakin ingin menghapus disposisi ini?');">
                                 @csrf
@@ -66,13 +79,13 @@
                         </div>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    {{-- Menggunakan colspan="5" karena sekarang ada 5 kolom --}}
-                    <td colspan="5" class="text-center p-3">Belum ada disposisi.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-</div>
-@include('components.layout.modal-edit-disposisi', ['users' => $daftarUser])
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center p-3">Belum ada disposisi.</td>
+                    </tr>
+                @endforelse
+
+            </tbody>
+        </table>
+    </div>
+    @include('components.layout.modal-edit-disposisi', ['users' => $daftarPelakuDisposisi])

@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('surat_masuk', function (Blueprint $table) {
-            $table->id();
-            $table->string('nomor_agenda', 100);
+            $table->string('id')->primary();
             $table->string('nomor_surat', 100);
             $table->string('pengirim', 255);
             $table->date('tanggal_surat');
@@ -23,6 +22,7 @@ return new class extends Migration
             $table->string('sifat', 100)->nullable(); // <--- Tambahan di sini
             $table->string('file_path')->nullable();
             $table->enum('status', ['draft', 'diverifikasi', 'diproses', 'diarsipkan'])->default('draft');
+            $table->enum('jenis_pengelolaan', ['Disposisi', 'Arsip'])->default('disposisi');
             $table->timestamps();
         });
     }

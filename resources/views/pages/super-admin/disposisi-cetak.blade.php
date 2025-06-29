@@ -42,7 +42,7 @@
             <div class="flex flex-wrap">
                 <div class="w-full md:w-1/2 flex items-start border-b border-gray-200">
                     <div class="w-40 font-bold p-2 bg-gray-50">No. Agenda</div>
-                    <div class="flex-1 p-2">: {{ $surat->nomor_agenda }}</div>
+                    <div class="flex-1 p-2">: {{ $surat->id }}</div>
                 </div>
                 <div class="w-full md:w-1/2 flex items-start border-b border-gray-200">
                     <div class="w-40 font-bold p-2 bg-gray-50">Tanggal Diterima</div>
@@ -86,61 +86,56 @@
                     <th class="border border-black px-2 py-2 text-left w-[10%]">PARAF</th>
                 </tr>
             </thead>
-            <tbody>
-                @php
-                    $maxDataRows = 5; // Maksimal baris data yang ditampilkan
-                    $totalRowsToDisplay = 5; // Jumlah total baris yang ingin ditampilkan (termasuk kosong)
-                    
-                    // Ambil maksimal 5 data disposisi pertama
-                    $actualDataRows = $disposisis->take($maxDataRows);
-                    $dataRowsCount = $actualDataRows->count();
-                    $emptyRowsNeeded = $totalRowsToDisplay - $dataRowsCount;
+           <tbody>
+    @php
+        $maxDataRows = 5;
+        $totalRowsToDisplay = 5;
 
-                    // Estimasi padding vertikal per sel agar 5 baris memenuhi ruang.
-                    // Anda mungkin perlu menyesuaikan nilai 'py-8' atau 'py-10' ini 
-                    // berdasarkan tinggi keseluruhan yang diinginkan dan tinggi header tabel.
-                    // Contoh: py-8 (padding atas & bawah 2rem = 32px, total 64px)
-                    // atau py-10 (padding atas & bawah 2.5rem = 40px, total 80px)
-                    $cellVerticalPadding = 'py-8'; // Coba dengan nilai ini, atau sesuaikan
-                @endphp
+        $actualDataRows = $disposisis->take($maxDataRows);
+        $dataRowsCount = $actualDataRows->count();
+        $emptyRowsNeeded = $totalRowsToDisplay - $dataRowsCount;
 
-                @foreach ($actualDataRows as $disposisi)
-                    <tr class="align-top">
-                        <td class="border border-black px-2 {{ $cellVerticalPadding }}">
-                            {{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->format('d M Y') }}
-                        </td>
-                        <td class="border border-black px-2 {{ $cellVerticalPadding }}">
-                            @if ($disposisi->penerima && $disposisi->penerima->divisi)
-                                {{ $disposisi->penerima->divisi->nama_divisi }}
-                            @else
-                                {{ $disposisi->penerima->role->name ?? '-' }}
-                            @endif
-                        </td>
-                        <td class="border border-black px-2 {{ $cellVerticalPadding }}">{{ $disposisi->catatan }}</td>
-                        <td class="border border-black px-2 {{ $cellVerticalPadding }}">
-                            @if ($disposisi->pengirim && $disposisi->pengirim->divisi)
-                                {{ $disposisi->pengirim->divisi->nama_divisi }}
-                            @else
-                                {{ $disposisi->pengirim->role->name ?? '-' }}
-                            @endif
-                        </td>
-                        <td class="border border-black px-2 {{ $cellVerticalPadding }}"></td>
-                    </tr>
-                @endforeach
+        $cellVerticalPadding = 'py-8';
+    @endphp
 
-                {{-- Tambahkan baris kosong jika data kurang dari totalRowsToDisplay --}}
-                @if ($emptyRowsNeeded > 0)
-                    @for ($i = 0; $i < $emptyRowsNeeded; $i++)
-                        <tr class="align-top">
-                            <td class="border border-black px-2 {{ $cellVerticalPadding }}">&nbsp;</td>
-                            <td class="border border-black px-2 {{ $cellVerticalPadding }}"></td>
-                            <td class="border border-black px-2 {{ $cellVerticalPadding }}"></td>
-                            <td class="border border-black px-2 {{ $cellVerticalPadding }}"></td>
-                            <td class="border border-black px-2 {{ $cellVerticalPadding }}"></td>
-                        </tr>
-                    @endfor
-                @endif
-            </tbody>
+    @foreach ($actualDataRows as $disposisi)
+        <tr class="align-top">
+            <td class="border border-black px-2 {{ $cellVerticalPadding }}">
+                {{ \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->format('d M Y') }}
+            </td>
+
+            {{-- Tujuan Disposisi (penerima: bisa Divisi atau Role) --}}
+            <td class="border border-black px-2 {{ $cellVerticalPadding }}">
+                {{ $disposisi->penerima->nama_divisi ?? $disposisi->penerima->name ?? '-' }}
+            </td>
+
+            {{-- Isi Disposisi --}}
+            <td class="border border-black px-2 {{ $cellVerticalPadding }}">
+                {{ $disposisi->catatan }}
+            </td>
+
+            {{-- Pengirim (dari_role_id, relasi ke Role) --}}
+            <td class="border border-black px-2 {{ $cellVerticalPadding }}">
+                {{ $disposisi->dariRole->name ?? '-' }}
+            </td>
+
+            {{-- Kolom kosong (misalnya untuk tanda tangan) --}}
+            <td class="border border-black px-2 {{ $cellVerticalPadding }}"></td>
+        </tr>
+    @endforeach
+
+    {{-- Tambahkan baris kosong --}}
+    @for ($i = 0; $i < $emptyRowsNeeded; $i++)
+        <tr class="align-top">
+            <td class="border border-black px-2 {{ $cellVerticalPadding }}">&nbsp;</td>
+            <td class="border border-black px-2 {{ $cellVerticalPadding }}"></td>
+            <td class="border border-black px-2 {{ $cellVerticalPadding }}"></td>
+            <td class="border border-black px-2 {{ $cellVerticalPadding }}"></td>
+            <td class="border border-black px-2 {{ $cellVerticalPadding }}"></td>
+        </tr>
+    @endfor
+</tbody>
+
         </table>
     </div>
 </body>

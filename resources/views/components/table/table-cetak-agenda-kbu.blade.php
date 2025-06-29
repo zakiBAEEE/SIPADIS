@@ -15,12 +15,7 @@
             <input type="hidden" name="mode" value="semua">
             <div class="flex flex-col gap-2">
                 <div class="mb-4 space-y-1.5 w-full">
-                    @include('components.base.input-surat', [
-                        'label' => 'Nomor Agenda',
-                        'placeholder' => 'Masukkan Nomor Agenda',
-                        'name' => 'nomor_agenda',
-                        'value' => request('nomor_agenda'),
-                    ])
+                   
                 </div>
 
                 <div class="flex flex-row gap-3">
