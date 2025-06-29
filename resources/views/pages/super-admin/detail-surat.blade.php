@@ -20,13 +20,15 @@
                     <a href="#"
                         class="tab-link text-sm active inline-block py-2 px-4 text-slate-800 transition-colors duration-300 mr-1"
                         data-tab-target="tab1-group4">
-                        Metadata
+                        Data
                     </a>
-                    <a href="#"
-                        class="tab-link text-sm inline-block py-2 px-4 text-slate-800 transition-colors duration-300 mr-1"
-                        data-tab-target="tab2-group4">
-                        Disposisi
-                    </a>
+                    @if ($surat->jenis_pengelolaan === 'Disposisi')
+                        <a href="#"
+                            class="tab-link text-sm inline-block py-2 px-4 text-slate-800 transition-colors duration-300 mr-1"
+                            data-tab-target="tab2-group4">
+                            Disposisi
+                        </a>
+                    @endif
                 </div>
             </div>
             <div class="mt-4 tab-content-container">
@@ -133,17 +135,21 @@
                         </div>
                     </div>
                 </div>
-                <div id="tab2-group4" class="tab-content text-slate-800 hidden">
-                    <div class="flex justify-end">
-                        <div class="flex flex-row gap-2">
-                            @include('components.base.tombol-print-disposisi', ['surat' => $surat])
-                            @include('components.layout.modal-tambah-disposisi')
+                @if ($surat->jenis_pengelolaan === 'Disposisi')
+                    <div id="tab2-group4" class="tab-content text-slate-800 hidden">
+                        <div class="flex justify-end">
+                            <div class="flex flex-row gap-2">
+                                @include('components.base.tombol-print-disposisi', ['surat' => $surat])
+                                @include('components.layout.modal-tambah-disposisi')
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            @include('components.table.table-disposisi', [
+                                'disposisis' => $surat->disposisis,
+                            ])
                         </div>
                     </div>
-                    <div class="p-4">
-                        @include('components.table.table-disposisi', ['disposisis' => $surat->disposisis])
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
