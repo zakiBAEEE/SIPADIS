@@ -20,6 +20,7 @@ class SuratMasuk extends Model
         'perihal',
         'klasifikasi_surat',
         'sifat',
+        'jenis_pengelolaan',
         'file_path',
     ];
 

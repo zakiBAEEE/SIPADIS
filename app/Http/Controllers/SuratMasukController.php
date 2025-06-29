@@ -223,7 +223,7 @@ class SuratMasukController extends Controller
     public function store(Request $request)
     {
 
-
+        // dd($request->all());
         $validated = $request->validate([
             'nomor_surat' => 'required|string',
             'pengirim' => 'required|string',
