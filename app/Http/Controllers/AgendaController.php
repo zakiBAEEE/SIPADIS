@@ -55,36 +55,36 @@ class AgendaController extends Controller
 
 
 
-    // public function agendaKepala(Request $request)
-    // {
-    //     // Ambil ID Role Kepala LLDIKTI
-    //     $kepalaRoleId = Role::where('name', 'Kepala LLDIKTI')->value('id');
+    public function agendaKepala(Request $request)
+    {
+        // Ambil ID Role Kepala LLDIKTI
+        $kepalaRoleId = Role::where('name', 'Kepala LLDIKTI')->value('id');
 
-    //     if (!$kepalaRoleId) {
-    //         abort(500, 'Role Kepala LLDIKTI tidak ditemukan.');
-    //     }
+        if (!$kepalaRoleId) {
+            abort(500, 'Role Kepala LLDIKTI tidak ditemukan.');
+        }
 
-    //     // Ambil ID surat yang disposisi pertamanya dari Kepala
-    //     $suratIds = Disposisi::select('surat_id', DB::raw('MIN(id) as first_disposisi_id'))
-    //         ->groupBy('surat_id')
-    //         ->pluck('first_disposisi_id');
+        // Ambil ID surat yang disposisi pertamanya dari Kepala
+        $suratIds = Disposisi::select('surat_id', DB::raw('MIN(id) as first_disposisi_id'))
+            ->groupBy('surat_id')
+            ->pluck('first_disposisi_id');
 
-    //     // Ambil disposisi pertama yang dikirim oleh Kepala
-    //     $disposisiKepala = Disposisi::whereIn('id', $suratIds)
-    //         ->where('dari_role_id', $kepalaRoleId)
-    //         ->pluck('surat_id');
+        // Ambil disposisi pertama yang dikirim oleh Kepala
+        $disposisiKepala = Disposisi::whereIn('id', $suratIds)
+            ->where('dari_role_id', $kepalaRoleId)
+            ->pluck('surat_id');
 
-    //     // Ambil surat masuk yang ID-nya ada di daftar tersebut
-    //     $query = SuratMasuk::whereIn('id', $disposisiKepala)
-    //         ->orderBy('tanggal_terima', 'desc');
+        // Ambil surat masuk yang ID-nya ada di daftar tersebut
+        $query = SuratMasuk::whereIn('id', $disposisiKepala)
+            ->orderBy('tanggal_terima', 'desc');
 
-    //     // Pagination dan tampilkan
-    //     $suratMasuk = $query->paginate(10)->appends($request->query());
+        // Pagination dan tampilkan
+        $suratMasuk = $query->paginate(10)->appends($request->query());
 
-    //     return view('pages.super-admin.agenda-kepala', [
-    //         'suratMasuk' => $suratMasuk,
-    //     ]);
-    // }
+        return view('pages.super-admin.agenda-kepala', [
+            'suratMasuk' => $suratMasuk,
+        ]);
+    }
 
 
     public function printAgendaKbu(Request $request)

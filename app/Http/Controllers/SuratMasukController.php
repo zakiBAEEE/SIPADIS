@@ -344,7 +344,6 @@ class SuratMasukController extends Controller
 
             $surat->disposisis()->delete();
 
-            // Hapus data surat itu sendiri
             $surat->delete();
 
             return redirect()->back()->with('success', 'Surat berhasil dihapus beserta seluruh disposisinya.');
@@ -360,7 +359,3 @@ class SuratMasukController extends Controller
 
 
 
-
-
-
-// 
