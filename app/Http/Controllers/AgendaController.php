@@ -95,18 +95,17 @@ class AgendaController extends Controller
             abort(500, 'Role Kepala LLDIKTI tidak ditemukan.');
         }
 
-        // Ambil disposisi pertama dari setiap surat yang pengirimnya Kepala
-        $firstDisposisiDariKepala = Disposisi::select('id', 'surat_id')
+        // Ambil disposisi PERTAMA dari setiap surat
+        $firstDisposisiPerSurat = Disposisi::selectRaw('MIN(id) as id')
+            ->groupBy('surat_id');
+
+        // Ambil ID surat dari disposisi PERTAMA yang ditulis oleh Kepala
+        $suratIds = Disposisi::whereIn('id', $firstDisposisiPerSurat)
             ->where('dari_role_id', $kepalaRoleId)
-            ->whereIn('id', function ($query) {
-                $query->selectRaw('MIN(id)')
-                    ->from('disposisis')
-                    ->groupBy('surat_id');
-            })
             ->pluck('surat_id');
 
-        // Ambil surat masuk berdasarkan disposisi pertama dari kepala
-        $query = SuratMasuk::whereIn('id', $firstDisposisiDariKepala)
+        // Ambil surat-surat tersebut
+        $query = SuratMasuk::whereIn('id', $suratIds)
             ->orderBy('tanggal_terima', 'desc');
 
         $suratMasuk = $query->paginate(10)->appends($request->query());
@@ -115,6 +114,7 @@ class AgendaController extends Controller
             'suratMasuk' => $suratMasuk,
         ]);
     }
+
 
 
 
