@@ -222,8 +222,8 @@ class SuratMasukController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all()); // ← Jangan aktif saat testing simpan
 
-        // dd($request->all());
         $validated = $request->validate([
             'nomor_surat' => 'required|string',
             'pengirim' => 'required|string',
@@ -232,31 +232,22 @@ class SuratMasukController extends Controller
             'perihal' => 'required|string',
             'klasifikasi_surat' => 'nullable|string',
             'sifat' => 'nullable|string',
-            'jenis_pengelolaan' => 'required|in:Disposisi,Arsip', // ✅ Validasi enum baru
+            'jenis_pengelolaan' => 'required|in:Disposisi,Arsip',
             'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
         ]);
 
         try {
-            // Handle file upload
             if ($request->hasFile('file_path')) {
                 $path = $request->file('file_path')->store('surat', 'public');
                 $validated['file_path'] = $path;
             }
 
-            // Ambil tahun sekarang
             $tahun = now()->format('Y');
-
-            // Hitung jumlah surat masuk di tahun ini
             $jumlahSuratTahunIni = SuratMasuk::whereYear('created_at', $tahun)->count();
-
-            // Nomor urut berikutnya (increment)
             $nomorUrut = str_pad($jumlahSuratTahunIni + 1, 3, '0', STR_PAD_LEFT);
-
-            // Susun nomor surat
             $idSurat = "{$nomorUrut}-TU-{$tahun}";
             $validated['id'] = $idSurat;
 
-            // Simpan
             $surat = SuratMasuk::create($validated);
 
             if ($surat) {
@@ -273,6 +264,7 @@ class SuratMasukController extends Controller
             return redirect()->route('surat.tambah')->with('error', 'Terjadi kesalahan tak terduga saat menambahkan surat.');
         }
     }
+
 
 
     public function show($id)
@@ -345,31 +337,21 @@ class SuratMasukController extends Controller
 
     public function destroy(SuratMasuk $surat)
     {
-        // Saya mengganti 'Admin' menjadi 'Super Admin Surat' sesuai seeder Anda, sesuaikan jika perlu
-        if (auth()->user()->role->name !== 'Admin') {
-            // Ganti redirect()->route(...) dengan redirect()->back()
-            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus surat.');
-        }
-
         try {
-            // Hapus file terkait dari storage jika ada
             if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
                 Storage::disk('public')->delete($surat->file_path);
             }
 
-            // Hapus semua data disposisi yang terkait
             $surat->disposisis()->delete();
 
             // Hapus data surat itu sendiri
             $surat->delete();
 
-            // Ganti redirect()->route(...) dengan redirect()->back()
             return redirect()->back()->with('success', 'Surat berhasil dihapus beserta seluruh disposisinya.');
 
         } catch (\Exception $e) {
             Log::error('Error saat menghapus surat: ' . $e->getMessage());
 
-            // Ganti redirect()->route(...) dengan redirect()->back()
             return redirect()->back()->with('error', 'Gagal menghapus surat. Terjadi kesalahan pada server.');
         }
     }

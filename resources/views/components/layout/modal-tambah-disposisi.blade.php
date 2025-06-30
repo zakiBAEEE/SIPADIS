@@ -21,7 +21,7 @@
             <form action="{{ route('disposisi.store', $surat->id) }}" method="POST">
                 @csrf
                 <div class="p-4 flex flex-col gap-2">
-                    <div class="flex flex-row gap-2 justify-evenly">
+                    <div class="flex flex-row gap-2 justify-evenly items-center">
                         <div class=" w-1/3">
                             @include('components.base.datepicker', [
                                 'id' => 'tanggal_disposisi',
@@ -31,7 +31,6 @@
                             ])
                         </div>
                         <div class=" w-1/3">
-
                             <label for="dari_role_id" class="font-sans text-sm text-slate-800 font-bold mb-2 block">
                                 Pengirim
                             </label>

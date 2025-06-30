@@ -19,7 +19,7 @@
         <hr class="w-full border-t border-gray-300 my-4" />
         <div>
             <div class="flex-col transition-[max-height] duration-300 ease-in-out max-h-0 mt-1" id="collapseFilterAgendaKbu">
-                <form action="{{ route('surat.agendaKbu') }}" method="GET">
+                <form action="{{ route('surat.agendaKepala') }}" method="GET">
                     <div class="px-4 py-2">
                         <div class="mb-4 space-y-1.5 w-full">
                         </div>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <div class="flex flex-row justify-end mb-5 gap-4 flex-wrap"> {{-- Tambahkan flex-wrap untuk responsivitas tombol --}}
-                        <a href="{{ route('surat.agendaKbu') }}"
+                        <a href="{{ route('surat.agendaKepala') }}"
                             class="inline-flex items-center justify-center border font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-1 px-2 shadow-sm hover:shadow bg-red-800 border-red-800 text-slate-50 hover:bg-slate-700 hover:border-slate-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor" stroke-width="2">
@@ -108,7 +108,7 @@
                             Terapkan Filter
                         </button>
 
-                         <button type="submit" name="mode"  value="terima" 
+                        <button type="submit" name="mode" value="terima"
                             formaction="{{ route('surat.printAgendaKepala') }}" {{-- Mengarah ke route printAgenda --}} formmethod="GET"
                             {{-- Pastikan method GET --}} formtarget="_blank" {{-- Opsional: buka di tab baru --}}
                             class="inline-flex items-center justify-center border font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-1 px-2 shadow-sm hover:shadow bg-green-700 border-green-700 text-slate-50 hover:bg-green-600 hover:border-green-600">

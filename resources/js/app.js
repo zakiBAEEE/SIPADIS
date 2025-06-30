@@ -4,14 +4,13 @@ import './components/filepond';
 import { initMaterialTailwind } from '@material-tailwind/html';
 import Alpine from 'alpinejs';
 import { initializeCharts } from './components/initChart';
+import { initializeAlerts } from './components/alert-handler';
 
 window.Alpine = Alpine;
-
 Alpine.start();
 
-
-
-// Initialize all components in your app
-initMaterialTailwind();
-initializeCharts();
-
+document.addEventListener('DOMContentLoaded', () => {
+    initializeAlerts();
+    initializeCharts();
+    initMaterialTailwind();
+});

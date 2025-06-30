@@ -9,7 +9,7 @@
 
 <div>
     <label for="{{ $id }}"
-        class="font-sans text-sm text-slate-800 font-bold mb-2">{{ $label }}</label>
+        class="font-sans text-sm text-slate-800 font-bold mb-2 block">{{ $label }}</label>
     <div class="relative w-full">
         <input type="text" id="{{ $id }}" name="{{ $name }}" placeholder="{{ $placeholder }}"
             value="{{ old($name, $value) }}"

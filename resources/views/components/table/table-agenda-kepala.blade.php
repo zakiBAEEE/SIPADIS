@@ -48,27 +48,33 @@
                             {{ $surat->perihal }}
                         </td>
 
+                        {{-- Kolom Tujuan Disposisi --}}
                         <td class="p-3">
-                            @if ($disposisi->penerima)
-                                @php
-                                    $penerima = $disposisi->penerima;
-                                    $penerimaRole = $penerima->role->name ?? null;
-                                @endphp
-                                {{ $penerimaRole === 'katimja' ? $penerima->divisi->nama_divisi ?? '-' : ucfirst($penerimaRole ?? '-') }}
+                            @php
+                                $penerima = $disposisi->penerima;
+                            @endphp
+                            @if ($penerima instanceof \App\Models\Divisi)
+                                {{ $penerima->nama_divisi }}
+                            @elseif ($penerima instanceof \App\Models\Role)
+                                {{ $penerima->name }}
                             @else
                                 -
                             @endif
                         </td>
 
+                        {{-- Kolom Catatan --}}
                         <td class="p-3">
                             {{ $disposisi->catatan ?? '-' }}
                         </td>
 
+                        {{-- Kolom Pengirim --}}
                         <td class="p-3">
+                            {{ $disposisi->dariRole->name ?? '-' }}
                         </td>
                     </tr>
                 @endforeach
             @endforeach
+
         </tbody>
     </table>
 </div>

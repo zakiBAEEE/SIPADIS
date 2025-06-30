@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Disposisi;
+use App\Models\Role;
+use App\Models\SuratMasuk;
 use Illuminate\Http\Request;
 use App\Services\SuratMasukService;
 use App\Services\DisposisisFilterService;
+use Illuminate\Support\Facades\DB;
 
 class AgendaController extends Controller
 {
@@ -29,24 +33,59 @@ class AgendaController extends Controller
         ]);
     }
 
-    public function agendaKepala(Request $request)
-    {
-        // Panggil service untuk mendapatkan query surat dengan disposisi
-        $query = $this->suratMasukWithDisposisi->suratMasukWithDisposisi($request);
+    // public function agendaKepala(Request $request)
 
-        // Lakukan pemrosesan pagination pertama
-        $suratMasuk = $query->orderBy('tanggal_terima')->paginate(10)->appends($request->query());
+    // {
+    //     // Panggil service untuk mendapatkan query surat dengan disposisi
+    //     $query = $this->suratMasukWithDisposisi->suratMasukWithDisposisi($request);
 
-        // Terapkan filter berdasarkan disposisi kepala, namun pastikan pagination tetap terjaga
-        $filteredSuratMasuk = $this->disposisisFilterService->filterByKepalaDisposisi($suratMasuk->getCollection());
+    //     // Lakukan pemrosesan pagination pertama
+    //     $suratMasuk = $query->orderBy('tanggal_terima')->paginate(10)->appends($request->query());
 
-        // Kembalikan pagination dengan data yang sudah difilter
-        $suratMasuk->setCollection($filteredSuratMasuk);
+    //     // Terapkan filter berdasarkan disposisi kepala, namun pastikan pagination tetap terjaga
+    //     $filteredSuratMasuk = $this->disposisisFilterService->filterByKepalaDisposisi($suratMasuk->getCollection());
 
-        return view('pages.super-admin.agenda-kepala', [
-            'suratMasuk' => $suratMasuk,
-        ]);
-    }
+    //     // Kembalikan pagination dengan data yang sudah difilter
+    //     $suratMasuk->setCollection($filteredSuratMasuk);
+
+    //     return view('pages.super-admin.agenda-kepala', [
+    //         'suratMasuk' => $suratMasuk,
+    //     ]);
+    // }
+
+
+
+    // public function agendaKepala(Request $request)
+    // {
+    //     // Ambil ID Role Kepala LLDIKTI
+    //     $kepalaRoleId = Role::where('name', 'Kepala LLDIKTI')->value('id');
+
+    //     if (!$kepalaRoleId) {
+    //         abort(500, 'Role Kepala LLDIKTI tidak ditemukan.');
+    //     }
+
+    //     // Ambil ID surat yang disposisi pertamanya dari Kepala
+    //     $suratIds = Disposisi::select('surat_id', DB::raw('MIN(id) as first_disposisi_id'))
+    //         ->groupBy('surat_id')
+    //         ->pluck('first_disposisi_id');
+
+    //     // Ambil disposisi pertama yang dikirim oleh Kepala
+    //     $disposisiKepala = Disposisi::whereIn('id', $suratIds)
+    //         ->where('dari_role_id', $kepalaRoleId)
+    //         ->pluck('surat_id');
+
+    //     // Ambil surat masuk yang ID-nya ada di daftar tersebut
+    //     $query = SuratMasuk::whereIn('id', $disposisiKepala)
+    //         ->orderBy('tanggal_terima', 'desc');
+
+    //     // Pagination dan tampilkan
+    //     $suratMasuk = $query->paginate(10)->appends($request->query());
+
+    //     return view('pages.super-admin.agenda-kepala', [
+    //         'suratMasuk' => $suratMasuk,
+    //     ]);
+    // }
+
 
     public function printAgendaKbu(Request $request)
     {
