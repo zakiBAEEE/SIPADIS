@@ -225,13 +225,66 @@ class AgendaController extends Controller
 
     public function printAgendaKbu(Request $request)
     {
-        $query = $this->suratMasukWithDisposisi->suratMasukWithDisposisi($request);
-        $suratMasuk = $query->orderBy('tanggal_terima')->get();
+        // Ambil ID Role KBU dan Kepala
+        $kbuRoleId = Role::where('name', 'KBU')->value('id');
+        $kepalaRoleId = Role::where('name', 'Kepala LLDIKTI')->value('id');
 
-        return view('pages.super-admin.print-agenda-kbu', [
-            'suratMasuk' => $suratMasuk,
-            'tanggalRange' => null,
-        ]);
+        if (!$kbuRoleId || !$kepalaRoleId) {
+            abort(500, 'Role KBU atau Kepala LLDIKTI tidak ditemukan.');
+        }
+
+        // Surat yang memiliki disposisi yang melibatkan KBU
+        $query = SuratMasuk::with(['disposisis.dariRole', 'disposisis.penerima'])
+            ->whereHas('disposisis', function ($q) use ($kbuRoleId, $kepalaRoleId) {
+                $q->where(function ($sub) use ($kbuRoleId, $kepalaRoleId) {
+                    $sub->where('dari_role_id', $kbuRoleId)
+                        ->orWhere(function ($q2) use ($kbuRoleId) {
+                            $q2->where('penerima_type', Role::class)
+                                ->where('penerima_id', $kbuRoleId);
+                        })
+                        ->orWhere(function ($q3) use ($kbuRoleId, $kepalaRoleId) {
+                            $q3->where('dari_role_id', $kepalaRoleId)
+                                ->where('penerima_type', Role::class)
+                                ->where('penerima_id', $kbuRoleId);
+                        });
+                });
+            });
+
+        // ====== FILTER UMUM ======
+        $filterable = [
+            'nomor_surat' => 'like',
+            'pengirim' => 'like',
+            'klasifikasi_surat' => '=',
+            'sifat' => '='
+        ];
+
+        foreach ($filterable as $field => $operator) {
+            if ($request->filled($field)) {
+                $value = $request->input($field);
+                $query->where($field, $operator, $operator === 'like' ? "%$value%" : $value);
+            }
+        }
+
+        // Filter: tanggal surat
+        if ($request->filled('filter_tanggal_surat')) {
+            $range = explode(' to ', $request->filter_tanggal_surat);
+            $query->when(count($range) === 2, fn($q) => $q->whereBetween('tanggal_surat', [$range[0], $range[1]]))
+                ->when(count($range) === 1, fn($q) => $q->whereDate('tanggal_surat', $range[0]));
+        }
+
+        // Filter: tanggal terima
+        if ($request->filled('filter_tanggal_terima')) {
+            $range = explode(' to ', $request->filter_tanggal_terima);
+            $query->when(count($range) === 2, fn($q) => $q->whereBetween('tanggal_terima', [$range[0], $range[1]]))
+                ->when(count($range) === 1, fn($q) => $q->whereDate('tanggal_terima', $range[0]));
+        }
+
+        // Ambil hasil dan paginasi
+        $suratMasuk = $query->orderBy('tanggal_terima', 'desc')
+            ->paginate(10)
+            ->appends($request->query());
+
+        return view('pages.super-admin.print-agenda-kbu', compact('suratMasuk'));
     }
 
     public function printAgendaKepala(Request $request)
