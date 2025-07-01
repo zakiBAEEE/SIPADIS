@@ -17,7 +17,6 @@ return new class extends Migration {
             // Pengirim dari role tertentu (misalnya Kepala LLDIKTI atau KBU)
             $table->foreignId('dari_role_id')->constrained('roles')->onDelete('restrict');
 
-            // Penerima fleksibel (bisa role, bisa divisi)
             $table->morphs('penerima'); // menghasilkan: penerima_type, penerima_id
 
             $table->text('catatan')->nullable();

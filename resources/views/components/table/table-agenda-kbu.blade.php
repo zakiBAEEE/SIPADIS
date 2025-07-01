@@ -1,117 +1,80 @@
-<div
-    class="relative flex flex-col w-full max-h-[400px] overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border h-[400px]">
-
+<div class="relative flex flex-col w-full max-h-[400px] overflow-scroll text-gray-700 bg-white shadow-md rounded-lg bg-clip-border h-[400px]">
     <table class="w-full text-left table-auto text-slate-800 min-w-0">
-        {{-- THEAD YANG DIMODIFIKASI --}}
+        {{-- THEAD --}}
         <thead>
             <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
                 @php
                     $headers = ['No. Agenda', 'Tgl Terima', 'Pengirim', 'Tgl Srt', 'No Srt', 'Perihal'];
-
                     for ($i = 1; $i <= 3; $i++) {
-                        $headers[] = 'Disposisi';
+                        $headers[] = 'Pengirim Disposisi';
                         $headers[] = 'Tgl';
-                        $headers[] = 'Tujuan Disposisi';
+                        $headers[] = 'Tujuan';
                         $headers[] = 'Instruksi';
-                        
                     }
                 @endphp
                 @foreach ($headers as $header)
                     <th class="p-3 text-left">
-                        
-                        <p class="text-sm leading-none font-semibold whitespace-normal break-words">
-                            {{ $header }}
-                        </p>
+                        <p class="text-sm font-semibold whitespace-normal break-words">{{ $header }}</p>
                     </th>
                 @endforeach
             </tr>
         </thead>
-        {{-- Akhir THEAD YANG DIMODIFIKASI --}}
 
-      {{-- Pastikan ini adalah bagian dari tabel yang sama dengan <thead> yang sudah dimodifikasi sebelumnya --}}
-<tbody>
-    @foreach ($suratMasuk as $surat)
-        {{-- Modifikasi kelas pada <tr> --}}
-        <tr class="hover:bg-slate-50">
+        {{-- TBODY --}}
+        <tbody>
+            @foreach ($suratMasuk as $surat)
+                <tr class="hover:bg-slate-50 cursor-pointer" onclick="window.location='{{ route('surat.show', $surat->id) }}'">
+                    {{-- Informasi Surat --}}
+                    <td class="p-3"><p class="text-sm">{{ $surat->id }}</p></td>
+                    <td class="p-3"><p class="text-sm">{{ $surat->tanggal_terima ? \Carbon\Carbon::parse($surat->tanggal_terima)->translatedFormat('d M Y') : '-' }}</p></td>
+                    <td class="p-3"><p class="text-sm">{{ $surat->pengirim }}</p></td>
+                    <td class="p-3"><p class="text-sm">{{ $surat->tanggal_surat ? \Carbon\Carbon::parse($surat->tanggal_surat)->translatedFormat('d M Y') : '-' }}</p></td>
+                    <td class="p-3"><p class="text-sm">{{ $surat->nomor_surat }}</p></td>
+                    <td class="p-3"><p class="text-sm">{{ $surat->perihal }}</p></td>
 
-            {{-- Modifikasi kelas pada <td> dan pembungkusan konten dengan <p> --}}
-            <td class="p-3">
-                <p class="text-sm">{{ $surat->id ?? '-' }}</p>
-            </td>
-            <td class="p-3">
-                <p class="text-sm">{{ $surat->tanggal_terima ? \Carbon\Carbon::parse($surat->tanggal_terima)->translatedFormat('d M Y') : '-' }}</p>
-            </td>
-            <td class="p-3">
-                <p class="text-sm">{{ $surat->pengirim ?? '-' }}</p>
-            </td>
-            <td class="p-3">
-                <p class="text-sm">{{ $surat->tanggal_surat ? \Carbon\Carbon::parse($surat->tanggal_surat)->translatedFormat('d M Y') : '-' }}</p>
-            </td>
-            <td class="p-3">
-                <p class="text-sm">{{ $surat->nomor_surat ?? '-' }}</p>
-            </td>
-            <td class="p-3">
-                <p class="text-sm">{{ $surat->perihal ?? '-' }}</p>
-            </td>
+                    {{-- Ambil maksimal 3 disposisi --}}
+                    @php
+                        $disposisis = $surat->disposisis->take(3);
+                    @endphp
 
-            @php
-                $disposisis = $surat->disposisis->take(3);
-            @endphp
+                    @for ($i = 0; $i < 3; $i++)
+                        @php
+                            $disposisi = $disposisis[$i] ?? null;
+                        @endphp
 
-            @for ($i = 0; $i < 3; $i++)
-                @php
-                    $disposisi = $disposisis[$i] ?? null;
-                @endphp
+                        {{-- Pengirim Disposisi --}}
+                        <td class="p-3 text-sm">
+                            @if ($disposisi && $disposisi->dariRole)
+                                {{ $disposisi->dariRole->name }}
+                            @else
+                                -
+                            @endif
+                        </td>
 
-                {{-- Kolom Disposisi (Pengirim) --}}
-                <td class="p-3">
-                    <p class="text-sm">
-                        @if ($disposisi && $disposisi->pengirim)
-                            @php
-                                $pengirim = $disposisi->pengirim;
-                                $pengirimRole = $pengirim->role->name ?? null;
-                            @endphp
-                            {{ $pengirimRole === 'katimja' ? ($pengirim->divisi->nama_divisi ?? '-') : ucfirst($pengirimRole ?? '-') }}
-                        @else
-                            -
-                        @endif
-                    </p>
-                </td>
+                        {{-- Tanggal Disposisi --}}
+                        <td class="p-3 text-sm">
+                            {{ $disposisi && $disposisi->tanggal_disposisi ? $disposisi->tanggal_disposisi->translatedFormat('d M Y') : '-' }}
+                        </td>
 
-                {{-- Kolom Tanggal Disposisi --}}
-                <td class="p-3">
-                    <p class="text-sm">
-                        {{ $disposisi && $disposisi->tanggal_disposisi ? \Carbon\Carbon::parse($disposisi->tanggal_disposisi)->translatedFormat('d M Y') : '-' }}
-                    </p>
-                </td>
+                        {{-- Tujuan Disposisi --}}
+                        <td class="p-3 text-sm">
+                            @php $penerima = $disposisi?->penerima; @endphp
+                            @if ($penerima instanceof \App\Models\Divisi)
+                                {{ $penerima->nama_divisi }}
+                            @elseif ($penerima instanceof \App\Models\Role)
+                                {{ $penerima->name }}
+                            @else
+                                -
+                            @endif
+                        </td>
 
-                {{-- Kolom Tujuan Disposisi --}}
-                <td class="p-3">
-                    <p class="text-sm">
-                        @if ($disposisi && $disposisi->penerima)
-                            @php
-                                $penerima = $disposisi->penerima;
-                                $penerimaRole = $penerima->role->name ?? null;
-                            @endphp
-                            {{ $penerimaRole === 'katimja' ? ($penerima->divisi->nama_divisi ?? '-') : ucfirst($penerimaRole ?? '-') }}
-                        @else
-                            -
-                        @endif
-                    </p>
-                </td>
-
-                {{-- Kolom Instruksi --}}
-                <td class="p-3">
-                    <p class="text-sm">{{ $disposisi?->catatan ?? '-' }}</p>
-                </td>
-
-                {{-- Kolom Paraf --}}
-                <td class="p-3">
-                    <p class="text-sm">&nbsp;</p> {{-- Menggunakan &nbsp; agar sel tetap memiliki tinggi yang konsisten --}}
-                </td>
-            @endfor
-        </tr>
-    @endforeach
-</tbody>
+                        {{-- Instruksi --}}
+                        <td class="p-3 text-sm">
+                            {{ $disposisi->catatan ?? '-' }}
+                        </td>
+                    @endfor
+                </tr>
+            @endforeach
+        </tbody>
     </table>
 </div>
