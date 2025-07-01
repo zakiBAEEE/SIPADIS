@@ -36,85 +36,29 @@ class AgendaController extends Controller
     // public function agendaKepala(Request $request)
 
     // {
-    //     // Panggil service untuk mendapatkan query surat dengan disposisi
-    //     $query = $this->suratMasukWithDisposisi->suratMasukWithDisposisi($request);
-
-    //     // Lakukan pemrosesan pagination pertama
-    //     $suratMasuk = $query->orderBy('tanggal_terima')->paginate(10)->appends($request->query());
-
-    //     // Terapkan filter berdasarkan disposisi kepala, namun pastikan pagination tetap terjaga
-    //     $filteredSuratMasuk = $this->disposisisFilterService->filterByKepalaDisposisi($suratMasuk->getCollection());
-
-    //     // Kembalikan pagination dengan data yang sudah difilter
-    //     $suratMasuk->setCollection($filteredSuratMasuk);
-
-    //     return view('pages.super-admin.agenda-kepala', [
-    //         'suratMasuk' => $suratMasuk,
-    //     ]);
-    // }
-
-
-
-    // public function agendaKepala(Request $request)
-    // {
-    //     // Ambil ID Role Kepala LLDIKTI
     //     $kepalaRoleId = Role::where('name', 'Kepala LLDIKTI')->value('id');
-
     //     if (!$kepalaRoleId) {
     //         abort(500, 'Role Kepala LLDIKTI tidak ditemukan.');
     //     }
 
-    //     // Ambil ID surat yang disposisi pertamanya dari Kepala
-    //     $suratIds = Disposisi::select('surat_id', DB::raw('MIN(id) as first_disposisi_id'))
-    //         ->groupBy('surat_id')
-    //         ->pluck('first_disposisi_id');
-
-    //     // Ambil disposisi pertama yang dikirim oleh Kepala
-    //     $disposisiKepala = Disposisi::whereIn('id', $suratIds)
-    //         ->where('dari_role_id', $kepalaRoleId)
-    //         ->pluck('surat_id');
-
-    //     // Ambil surat masuk yang ID-nya ada di daftar tersebut
-    //     $query = SuratMasuk::whereIn('id', $disposisiKepala)
-    //         ->orderBy('tanggal_terima', 'desc');
-
-    //     // Pagination dan tampilkan
-    //     $suratMasuk = $query->paginate(10)->appends($request->query());
-
-    //     return view('pages.super-admin.agenda-kepala', [
-    //         'suratMasuk' => $suratMasuk,
-    //     ]);
-    // }
-
-    // public function agendaKepala(Request $request)
-    // {
-
-    //     $kepalaRoleId = Role::where('name', 'Kepala LLDIKTI')->value('id');
-
-    //     if (!$kepalaRoleId) {
-    //         abort(500, 'Role Kepala LLDIKTI tidak ditemukan.');
-    //     }
-
-    //     // Ambil disposisi PERTAMA dari setiap surat
-    //     $firstDisposisiPerSurat = Disposisi::selectRaw('MIN(id) as id')
+    //     // Ambil disposisi pertama untuk setiap surat
+    //     $firstDisposisiPerSurat = Disposisi::select('surat_id', DB::raw('MIN(id) as id'))
     //         ->groupBy('surat_id');
 
-    //     // Ambil ID surat dari disposisi PERTAMA yang ditulis oleh Kepala
-    //     $suratIds = Disposisi::whereIn('id', $firstDisposisiPerSurat)
-    //         ->where('dari_role_id', $kepalaRoleId)
-    //         ->pluck('surat_id');
+    //     // Join dengan disposisi asli agar bisa disaring berdasarkan pengirim (Kepala)
+    //     $disposisiKepalaIds = DB::table(DB::raw("({$firstDisposisiPerSurat->toSql()}) as sub"))
+    //         ->mergeBindings($firstDisposisiPerSurat->getQuery())
+    //         ->join('disposisis', 'disposisis.id', '=', 'sub.id')
+    //         ->where('disposisis.dari_role_id', $kepalaRoleId)
+    //         ->pluck('disposisis.surat_id');
 
-    //     // Ambil surat-surat tersebut
-    //     $query = SuratMasuk::whereIn('id', $suratIds)
-    //         ->orderBy('tanggal_terima', 'desc');
+    //     $suratMasuk = SuratMasuk::whereIn('id', $disposisiKepalaIds)
+    //         ->orderBy('tanggal_terima', 'desc')
+    //         ->paginate(10)
+    //         ->appends($request->query());
 
-    //     $suratMasuk = $query->paginate(10)->appends($request->query());
-
-    //     return view('pages.super-admin.agenda-kepala', [
-    //         'suratMasuk' => $suratMasuk,
-    //     ]);
+    //     return view('pages.super-admin.agenda-kepala', compact('suratMasuk'));
     // }
-
 
     public function agendaKepala(Request $request)
     {
@@ -127,20 +71,64 @@ class AgendaController extends Controller
         $firstDisposisiPerSurat = Disposisi::select('surat_id', DB::raw('MIN(id) as id'))
             ->groupBy('surat_id');
 
-        // Join dengan disposisi asli agar bisa disaring berdasarkan pengirim (Kepala)
+        // Join dengan disposisi untuk ambil hanya disposisi pertama dari Kepala
         $disposisiKepalaIds = DB::table(DB::raw("({$firstDisposisiPerSurat->toSql()}) as sub"))
             ->mergeBindings($firstDisposisiPerSurat->getQuery())
             ->join('disposisis', 'disposisis.id', '=', 'sub.id')
             ->where('disposisis.dari_role_id', $kepalaRoleId)
             ->pluck('disposisis.surat_id');
 
-        $suratMasuk = SuratMasuk::whereIn('id', $disposisiKepalaIds)
-            ->orderBy('tanggal_terima', 'desc')
+        // Mulai query SuratMasuk yang sesuai
+        $query = SuratMasuk::whereIn('id', $disposisiKepalaIds);
+
+        // Filter: nomor surat
+        if ($request->filled('nomor_surat')) {
+            $query->where('nomor_surat', 'like', '%' . $request->nomor_surat . '%');
+        }
+
+        // Filter: pengirim
+        if ($request->filled('pengirim')) {
+            $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
+        }
+
+        // Filter: tanggal surat
+        if ($request->filled('filter_tanggal_surat')) {
+            $range = explode(' to ', $request->filter_tanggal_surat);
+            if (count($range) === 2) {
+                $query->whereBetween('tanggal_surat', [$range[0], $range[1]]);
+            } elseif (count($range) === 1) {
+                $query->whereDate('tanggal_surat', $range[0]);
+            }
+        }
+
+        // Filter: tanggal terima
+        if ($request->filled('filter_tanggal_terima')) {
+            $range = explode(' to ', $request->filter_tanggal_terima);
+            if (count($range) === 2) {
+                $query->whereBetween('tanggal_terima', [$range[0], $range[1]]);
+            } elseif (count($range) === 1) {
+                $query->whereDate('tanggal_terima', $range[0]);
+            }
+        }
+
+        // Filter: klasifikasi surat
+        if ($request->filled('klasifikasi_surat')) {
+            $query->where('klasifikasi_surat', $request->klasifikasi_surat);
+        }
+
+        // Filter: sifat surat
+        if ($request->filled('sifat')) {
+            $query->where('sifat', $request->sifat);
+        }
+
+        // Akhir query
+        $suratMasuk = $query->orderBy('tanggal_terima', 'desc')
             ->paginate(10)
             ->appends($request->query());
 
         return view('pages.super-admin.agenda-kepala', compact('suratMasuk'));
     }
+
 
     public function printAgendaKbu(Request $request)
     {

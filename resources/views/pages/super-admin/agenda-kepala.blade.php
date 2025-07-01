@@ -116,7 +116,7 @@
                                     d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v3a2 2 0 002 2h6a2 2 0 002-2v-3h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v3h6v-3z"
                                     clip-rule="evenodd" />
                             </svg>
-                            Cetak Agenda Terima
+                            Cetak Agenda 
                         </button>
                     </div>
                 </form>
