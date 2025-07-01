@@ -14,7 +14,7 @@
         </div>
         <hr class="w-full border-t border-gray-300 my-4" />
         <div>
-            @include('components.layout.collapse-filter')
+            {{-- @include('components.layout.collapse-filter') --}}
         </div>
         @include('components.table.table', ['surats' => $surats])
         <div class="mt-4 flex flex-row justify-end">
