@@ -18,10 +18,45 @@ class DisposisiController extends Controller
 {
 
 
+    // public function store(Request $request, $suratId)
+
+    // {
+
+
+    //     $validated = $request->validate([
+    //         'dari_role_id' => 'required|exists:roles,id',
+    //         'penerima' => 'required|string',
+    //         'catatan' => 'nullable|string',
+    //         'tanggal_disposisi' => 'required|date',
+    //     ]);
+
+    //     // Pisahkan penerima_type dan penerima_id
+    //     [$type, $id] = explode(':', $request->penerima);
+
+    //     $typeMap = [
+    //         'Role' => Role::class,
+    //         'Divisi' => Divisi::class,
+    //     ];
+
+    //     if (!isset($typeMap[$type])) {
+    //         return back()->with('error', 'Tipe penerima tidak valid.');
+    //     }
+
+    //     Disposisi::create([
+    //         'surat_id' => $suratId,
+    //         'dari_role_id' => $validated['dari_role_id'],
+    //         'penerima_type' => $typeMap[$type],
+    //         'penerima_id' => $id,
+    //         'catatan' => $validated['catatan'],
+    //         'tanggal_disposisi' => $validated['tanggal_disposisi'],
+    //     ]);
+
+    //     return redirect()->back()->with('success', 'Disposisi berhasil disimpan.');
+    // }
+
     public function store(Request $request, $suratId)
     {
-
-        
+        // Validasi inputan form
         $validated = $request->validate([
             'dari_role_id' => 'required|exists:roles,id',
             'penerima' => 'required|string',
@@ -32,15 +67,27 @@ class DisposisiController extends Controller
         // Pisahkan penerima_type dan penerima_id
         [$type, $id] = explode(':', $request->penerima);
 
+        // Mapping tipe penerima ke model
         $typeMap = [
             'Role' => Role::class,
             'Divisi' => Divisi::class,
         ];
 
+        // Cek apakah tipe penerima valid
         if (!isset($typeMap[$type])) {
             return back()->with('error', 'Tipe penerima tidak valid.');
         }
 
+        // Validasi agar pengirim disposisi hanya bisa satu kali per surat
+        $existingDisposisi = Disposisi::where('surat_id', $suratId)
+            ->where('dari_role_id', $validated['dari_role_id'])
+            ->exists();
+
+        if ($existingDisposisi) {
+            return back()->with('error', 'Anda sudah mengirim disposisi untuk surat ini.');
+        }
+
+        // Simpan disposisi baru
         Disposisi::create([
             'surat_id' => $suratId,
             'dari_role_id' => $validated['dari_role_id'],
@@ -50,8 +97,10 @@ class DisposisiController extends Controller
             'tanggal_disposisi' => $validated['tanggal_disposisi'],
         ]);
 
+        // Redirect dengan pesan sukses
         return redirect()->back()->with('success', 'Disposisi berhasil disimpan.');
     }
+
 
 
     public function edit(Disposisi $disposisi)
