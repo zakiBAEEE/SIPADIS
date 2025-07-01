@@ -21,7 +21,7 @@ class DisposisiController extends Controller
     public function store(Request $request, $suratId)
     {
 
-
+        
         $validated = $request->validate([
             'dari_role_id' => 'required|exists:roles,id',
             'penerima' => 'required|string',

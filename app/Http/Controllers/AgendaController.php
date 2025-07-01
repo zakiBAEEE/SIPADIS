@@ -88,7 +88,7 @@ class AgendaController extends Controller
 
     public function agendaKepala(Request $request)
     {
-        // Ambil ID Role Kepala LLDIKTI
+        
         $kepalaRoleId = Role::where('name', 'Kepala LLDIKTI')->value('id');
 
         if (!$kepalaRoleId) {

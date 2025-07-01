@@ -222,8 +222,8 @@ class SuratMasukController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all()); // ← Jangan aktif saat testing simpan
 
+        // dd($request->all());
         $validated = $request->validate([
             'nomor_surat' => 'required|string',
             'pengirim' => 'required|string',
@@ -243,11 +243,23 @@ class SuratMasukController extends Controller
             }
 
             $tahun = now()->format('Y');
-            $jumlahSuratTahunIni = SuratMasuk::whereYear('created_at', $tahun)->count();
-            $nomorUrut = str_pad($jumlahSuratTahunIni + 1, 3, '0', STR_PAD_LEFT);
+
+            // Ambil ID terakhir yang masih ada untuk tahun ini
+            $lastId = SuratMasuk::where('id', 'like', '%-TU-' . $tahun)
+                ->orderByDesc('id')
+                ->first();
+
+            if ($lastId) {
+                // Ambil nomor urut dari bagian depan ID, misalnya: "005-TU-2025"
+                $lastUrut = (int) explode('-', $lastId->id)[0];
+                $nomorUrut = str_pad($lastUrut + 1, 3, '0', STR_PAD_LEFT);
+            } else {
+                // Kalau belum ada surat tahun ini
+                $nomorUrut = '001';
+            }
+
             $idSurat = "{$nomorUrut}-TU-{$tahun}";
             $validated['id'] = $idSurat;
-
             $surat = SuratMasuk::create($validated);
 
             if ($surat) {
@@ -257,7 +269,8 @@ class SuratMasukController extends Controller
             }
 
         } catch (\Illuminate\Database\QueryException $e) {
-            Log::error('Database error saat menambahkan surat: ' . $e->getMessage());
+            dd($e->getMessage()); // Tampilkan error MySQL langsung di browser
+
             return redirect()->route('surat.tambah')->with('error', 'Gagal menambahkan surat karena masalah database.');
         } catch (\Exception $e) {
             Log::error('Error umum saat menambahkan surat: ' . $e->getMessage());
