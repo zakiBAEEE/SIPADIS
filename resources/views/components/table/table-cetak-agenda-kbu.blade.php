@@ -1,100 +1,81 @@
-@extends('layouts.super-admin-layout')
+<div class="px-6 py-4">
+    <h2 class="text-xl font-bold text-center mb-4">AGENDA DISPOSISI KBU</h2>
 
-@section('content')
-    <div class="bg-white w-full h-full rounded-xl shadow-neutral-400 shadow-lg overflow-scroll p-4">
-        <div class="flex flex-row justify-between items-center w-full">
-            <div>
-                <h4 class="font-sans text-xl font-bold text-gray-600 md:text-2xl">Cetak Agenda Surat Masuk</h4>
-                <h6 class="font-sans text-base font-bold text-gray-600 md:text-lg">LLDIKTI Wilayah 2</h6>
-            </div>
-        </div>
+    <div class="overflow-x-auto">
+        <table class="w-full border border-slate-400 text-sm">
+            <thead>
+                <tr class="bg-slate-100 text-left text-slate-700">
+                    @php
+                        $headers = ['No. Agenda', 'Tgl Terima', 'Pengirim', 'Tgl Srt', 'No Srt', 'Perihal'];
+                        for ($i = 1; $i <= 3; $i++) {
+                            $headers[] = 'Pengirim Disposisi';
+                            $headers[] = 'Tgl';
+                            $headers[] = 'Tujuan';
+                            $headers[] = 'Instruksi';
+                            $headers[] = 'Paraf';
+                        }
+                    @endphp
+                    @foreach ($headers as $header)
+                        <th class="border border-slate-400 px-2 py-2">{{ $header }}</th>
+                    @endforeach
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($suratMasuk as $surat)
+                    <tr class="even:bg-slate-50">
+                        {{-- Informasi Surat --}}
+                        <td class="border border-slate-300 px-2 py-1">{{ $surat->id }}</td>
+                        <td class="border border-slate-300 px-2 py-1">
+                            {{ \Carbon\Carbon::parse($surat->tanggal_terima)->format('d-m-Y') }}
+                        </td>
+                        <td class="border border-slate-300 px-2 py-1">{{ $surat->pengirim }}</td>
+                        <td class="border border-slate-300 px-2 py-1">
+                            {{ \Carbon\Carbon::parse($surat->tanggal_surat)->format('d-m-Y') }}
+                        </td>
+                        <td class="border border-slate-300 px-2 py-1">{{ $surat->nomor_surat }}</td>
+                        <td class="border border-slate-300 px-2 py-1">{{ $surat->perihal }}</td>
 
-        <hr class="w-full border-t border-gray-300 my-4" />
+                        {{-- Maksimal 3 disposisi --}}
+                        @php
+                            $disposisis = $surat->disposisis->take(3);
+                        @endphp
 
-        <form action="{{ route('print.agenda.terima') }}" method="GET" target="_blank">
-            <input type="hidden" name="mode" value="semua">
-            <div class="flex flex-col gap-2">
-                <div class="mb-4 space-y-1.5 w-full">
-                   
-                </div>
+                        @for ($i = 0; $i < 3; $i++)
+                            @php $disposisi = $disposisis[$i] ?? null; @endphp
 
-                <div class="flex flex-row gap-3">
-                    <div class="mb-4 space-y-1.5 w-1/2">
-                        @include('components.base.input-surat', [
-                            'label' => 'Nomor Surat',
-                            'placeholder' => 'Masukkan Nomor Surat',
-                            'name' => 'nomor_surat',
-                            'value' => request('nomor_surat'),
-                        ])
-                    </div>
-                    <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.base.datepicker', [
-                            'label' => 'Tanggal Surat',
-                            'placeholder' => 'Pilih Tanggal Surat',
-                            'id' => 'cetak-agenda-tanggal-surat',
-                            'name' => 'cetak-agenda-tanggal-surat',
-                            'value' => request('cetak-agenda-tanggal-surat'),
-                        ])
-                    </div>
-                    <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.base.datepicker', [
-                            'label' => 'Tanggal Terima',
-                            'placeholder' => 'Pilih Tanggal Terima',
-                            'id' => 'cetak-agenda-tanggal-terima',
-                            'name' => 'cetak-agenda-tanggal-terima',
-                            'value' => request('cetak-agenda-tanggal-terima'),
-                        ])
-                    </div>
-                </div>
+                            {{-- Pengirim --}}
+                            <td class="border border-slate-300 px-2 py-1">
+                                {{ $disposisi?->dariRole->name ?? '-' }}
+                            </td>
 
-                <div class="flex flex-row gap-3 items-center">
-                    <div class="mb-4 space-y-1.5 w-1/2">
-                        @include('components.base.input-surat', [
-                            'label' => 'Pengirim',
-                            'placeholder' => 'Masukkan Pengirim Surat',
-                            'name' => 'pengirim',
-                            'value' => request('pengirim'),
-                        ])
-                    </div>
-                    <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.base.dropdown', [
-                            'label' => 'Klasifikasi',
-                            'value' => ['Umum', 'Pengaduan', 'Permintaan Informasi'],
-                            'name' => 'klasifikasi_surat',
-                            'selected' => request('klasifikasi_surat'),
-                        ])
-                    </div>
-                    <div class="mb-4 space-y-1.5 w-1/3">
-                        @include('components.base.dropdown', [
-                            'label' => 'Sifat',
-                            'value' => ['Rahasia', 'Penting', 'Segera', 'Rutin'],
-                            'name' => 'sifat',
-                            'selected' => request('sifat'),
-                        ])
-                    </div>
-                </div>
+                            {{-- Tanggal --}}
+                            <td class="border border-slate-300 px-2 py-1">
+                                {{ $disposisi?->tanggal_disposisi?->format('d-m-Y') ?? '-' }}
+                            </td>
 
-                <div class="space-y-1.5 mb-4">
-                    @include('components.base.input-surat', [
-                        'label' => 'Perihal',
-                        'placeholder' => 'Masukkan Perihal Surat',
-                        'name' => 'perihal',
-                        'value' => request('perihal'),
-                    ])
-                </div>
+                            {{-- Tujuan --}}
+                            <td class="border border-slate-300 px-2 py-1">
+                                @php $penerima = $disposisi?->penerima; @endphp
+                                @if ($penerima instanceof \App\Models\Divisi)
+                                    {{ $penerima->nama_divisi }}
+                                @elseif ($penerima instanceof \App\Models\Role)
+                                    {{ $penerima->name }}
+                                @else
+                                    -
+                                @endif
+                            </td>
 
-                <div class="flex flex-row justify-end mb-5 gap-4">
-                    <a href="{{ route('surat.cetakAgenda') }}"
-                        class="inline-flex items-center border font-sans text-sm font-medium rounded-md py-1 px-2 shadow-sm bg-red-800 border-red-800 text-white hover:bg-slate-700 hover:border-slate-700">
-                        Reset
-                    </a>
-                    <button type="submit"
-                        class="inline-flex items-center border font-sans text-sm font-medium rounded-md py-1 px-2 shadow-sm border-slate-800 text-slate-800 hover:shadow-md">
-                        @include('components.base.ikon-print')
-                        Cetak Agenda Surat
-                    </button>
-                </div>
-            </div>
-        </form>
+                            {{-- Instruksi --}}
+                            <td class="border border-slate-300 px-2 py-1">
+                                {{ $disposisi?->catatan ?? '-' }}
+                            </td>
+
+                            {{-- Paraf --}}
+                            <td class="border border-slate-300 px-2 py-1">&nbsp;</td>
+                        @endfor
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-@endsection
+</div>
