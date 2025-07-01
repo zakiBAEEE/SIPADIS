@@ -13,7 +13,7 @@
                         $headers[] = 'Tgl';
                         $headers[] = 'Tujuan Disposisi';
                         $headers[] = 'Instruksi';
-                        $headers[] = 'Paraf';
+                        
                     }
                 @endphp
                 @foreach ($headers as $header)
