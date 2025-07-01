@@ -13,7 +13,6 @@
                         'Perihal',
                         'Tujuan Disposisi',
                         'Instruksi',
-                        'Paraf',
                     ];
                 @endphp
                 @foreach ($headers as $header)
@@ -66,15 +65,9 @@
                         <td class="p-3">
                             {{ $disposisi->catatan ?? '-' }}
                         </td>
-
-                        {{-- Kolom Pengirim --}}
-                        <td class="p-3">
-                            {{ $disposisi->dariRole->name ?? '-' }}
-                        </td>
                     </tr>
                 @endforeach
             @endforeach
-
         </tbody>
     </table>
 </div>

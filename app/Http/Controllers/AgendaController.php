@@ -86,37 +86,61 @@ class AgendaController extends Controller
     //     ]);
     // }
 
+    // public function agendaKepala(Request $request)
+    // {
+
+    //     $kepalaRoleId = Role::where('name', 'Kepala LLDIKTI')->value('id');
+
+    //     if (!$kepalaRoleId) {
+    //         abort(500, 'Role Kepala LLDIKTI tidak ditemukan.');
+    //     }
+
+    //     // Ambil disposisi PERTAMA dari setiap surat
+    //     $firstDisposisiPerSurat = Disposisi::selectRaw('MIN(id) as id')
+    //         ->groupBy('surat_id');
+
+    //     // Ambil ID surat dari disposisi PERTAMA yang ditulis oleh Kepala
+    //     $suratIds = Disposisi::whereIn('id', $firstDisposisiPerSurat)
+    //         ->where('dari_role_id', $kepalaRoleId)
+    //         ->pluck('surat_id');
+
+    //     // Ambil surat-surat tersebut
+    //     $query = SuratMasuk::whereIn('id', $suratIds)
+    //         ->orderBy('tanggal_terima', 'desc');
+
+    //     $suratMasuk = $query->paginate(10)->appends($request->query());
+
+    //     return view('pages.super-admin.agenda-kepala', [
+    //         'suratMasuk' => $suratMasuk,
+    //     ]);
+    // }
+
+
     public function agendaKepala(Request $request)
     {
-        
         $kepalaRoleId = Role::where('name', 'Kepala LLDIKTI')->value('id');
-
         if (!$kepalaRoleId) {
             abort(500, 'Role Kepala LLDIKTI tidak ditemukan.');
         }
 
-        // Ambil disposisi PERTAMA dari setiap surat
-        $firstDisposisiPerSurat = Disposisi::selectRaw('MIN(id) as id')
+        // Ambil disposisi pertama untuk setiap surat
+        $firstDisposisiPerSurat = Disposisi::select('surat_id', DB::raw('MIN(id) as id'))
             ->groupBy('surat_id');
 
-        // Ambil ID surat dari disposisi PERTAMA yang ditulis oleh Kepala
-        $suratIds = Disposisi::whereIn('id', $firstDisposisiPerSurat)
-            ->where('dari_role_id', $kepalaRoleId)
-            ->pluck('surat_id');
+        // Join dengan disposisi asli agar bisa disaring berdasarkan pengirim (Kepala)
+        $disposisiKepalaIds = DB::table(DB::raw("({$firstDisposisiPerSurat->toSql()}) as sub"))
+            ->mergeBindings($firstDisposisiPerSurat->getQuery())
+            ->join('disposisis', 'disposisis.id', '=', 'sub.id')
+            ->where('disposisis.dari_role_id', $kepalaRoleId)
+            ->pluck('disposisis.surat_id');
 
-        // Ambil surat-surat tersebut
-        $query = SuratMasuk::whereIn('id', $suratIds)
-            ->orderBy('tanggal_terima', 'desc');
+        $suratMasuk = SuratMasuk::whereIn('id', $disposisiKepalaIds)
+            ->orderBy('tanggal_terima', 'desc')
+            ->paginate(10)
+            ->appends($request->query());
 
-        $suratMasuk = $query->paginate(10)->appends($request->query());
-
-        return view('pages.super-admin.agenda-kepala', [
-            'suratMasuk' => $suratMasuk,
-        ]);
+        return view('pages.super-admin.agenda-kepala', compact('suratMasuk'));
     }
-
-
-
 
     public function printAgendaKbu(Request $request)
     {
