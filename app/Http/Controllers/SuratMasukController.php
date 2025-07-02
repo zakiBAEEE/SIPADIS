@@ -55,6 +55,38 @@ class SuratMasukController extends Controller
     }
 
 
+    // public function detailByKlasifikasi(Request $request)
+    // {
+    //     $klasifikasi = $request->input('klasifikasi');
+    //     $tanggalRange = $request->input('tanggal_range');
+    //     $query = SuratMasuk::query();
+
+    //     if ($klasifikasi) {
+    //         $query->where('klasifikasi_surat', $klasifikasi);
+    //     }
+
+    //     if ($tanggalRange) {
+    //         $dates = explode(' to ', $tanggalRange);
+    //         if (count($dates) === 2) {
+    //             $start = Carbon::parse($dates[0])->startOfDay();
+    //             $end = Carbon::parse($dates[1])->endOfDay();
+    //             $query->whereBetween('created_at', [$start, $end]);
+    //         }
+    //     } else {
+    //         $query->whereDate('created_at', now()->toDateString()); // Default: Hari ini
+    //     }
+
+    //     $surats = $query->orderBy('created_at', 'desc')
+    //         ->paginate(8)
+    //         ->appends($request->query()); // supaya parameter tetap ikut saat navigasi halaman
+
+    //     return view('pages.super-admin.klasifikasi-surat', [
+    //         'surats' => $surats,
+    //         'klasifikasi' => $klasifikasi,
+    //         'tanggalRange' => $tanggalRange ?? 'Hari ini',
+    //     ]);
+    // }
+
     public function detailByKlasifikasi(Request $request)
     {
         $klasifikasi = $request->input('klasifikasi');
@@ -76,9 +108,31 @@ class SuratMasukController extends Controller
             $query->whereDate('created_at', now()->toDateString()); // Default: Hari ini
         }
 
+        // Filter tambahan dari form pencarian
+        if ($request->filled('nomor_surat')) {
+            $query->where('nomor_surat', 'like', '%' . $request->nomor_surat . '%');
+        }
+
+        if ($request->filled('pengirim')) {
+            $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
+        }
+
+        if ($request->filled('perihal')) {
+            $query->where('perihal', 'like', '%' . $request->perihal . '%');
+        }
+
+        if ($request->filled('klasifikasi_surat')) {
+            $query->where('klasifikasi_surat', $request->klasifikasi_surat);
+        }
+
+        if ($request->filled('sifat')) {
+            $query->where('sifat', $request->sifat);
+        }
+
+        // Pagination + mempertahankan parameter query
         $surats = $query->orderBy('created_at', 'desc')
             ->paginate(8)
-            ->appends($request->query()); // supaya parameter tetap ikut saat navigasi halaman
+            ->appends($request->query());
 
         return view('pages.super-admin.klasifikasi-surat', [
             'surats' => $surats,
@@ -86,6 +140,7 @@ class SuratMasukController extends Controller
             'tanggalRange' => $tanggalRange ?? 'Hari ini',
         ]);
     }
+
 
     public function suratUntukArsip(Request $request)
     {

@@ -34,7 +34,6 @@
                     </div>
                 </form>
             </div>
-
         </div>
         @include('components.table.table', ['surats' => $surats])
         <div class="mt-4 flex flex-row justify-end">
