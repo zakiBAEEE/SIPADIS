@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Divisi;
 use App\Models\Role;
 use Illuminate\Support\Facades\Log;
-use App\Services\SuratMasukService; 
+use App\Services\SuratMasukService;
 use App\Services\SuratRekapitulasiService;
 use App\Models\SuratMasuk;
 use App\Models\User;
@@ -25,11 +25,10 @@ class SuratMasukController extends Controller
         $this->suratMasukService = $suratMasukService;
     }
 
-
-
     public function dashboard(Request $request)
     {
         $tanggalRange = $request->input('tanggal_range');
+        $groupBy = $request->input('group_by', 'daily'); // default harian
 
         if ($tanggalRange) {
             $range = explode(' to ', $tanggalRange);
@@ -45,7 +44,7 @@ class SuratMasukController extends Controller
         }
 
         $rekapRange = $this->rekapitulasiService->hitungRekapSurat(clone $query);
-        $chartData = $this->rekapitulasiService->getChartData(clone $query);
+        $chartData = $this->rekapitulasiService->getChartData(clone $query, $groupBy); // <-- tambahan groupBy
 
         return view('pages.super-admin.home', [
             'tanggalRange' => $tanggalRange,
