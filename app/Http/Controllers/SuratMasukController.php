@@ -89,10 +89,10 @@ class SuratMasukController extends Controller
     private function hitungRekapSurat($query)
     {
         return [
-            'total' => $query->count(),
-            'umum' => $query->where('klasifikasi_surat', 'Umum')->count(),
-            'pengaduan' => $query->where('klasifikasi_surat', 'Pengaduan')->count(),
-            'permintaan_informasi' => $query->where('klasifikasi_surat', 'Permintaan Informasi')->count(),
+            'total' => (clone $query)->count(),
+            'umum' => (clone $query)->where('klasifikasi_surat', 'Umum')->count(),
+            'pengaduan' => (clone $query)->where('klasifikasi_surat', 'Pengaduan')->count(),
+            'permintaan_informasi' => (clone $query)->where('klasifikasi_surat', 'Permintaan Informasi')->count(),
         ];
     }
 
