@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Divisi;
 use App\Models\Role;
 use Illuminate\Support\Facades\Log;
-use App\Services\SuratMasukService; // <--- TAMBAHKAN BARIS INI
+use App\Services\SuratMasukService; 
 use App\Services\SuratRekapitulasiService;
 use App\Models\SuratMasuk;
 use App\Models\User;
@@ -16,118 +16,16 @@ use Carbon\Carbon;
 class SuratMasukController extends Controller
 {
 
-    protected $rekapService;
+    protected $rekapitulasiService;
     protected $suratMasukService;
 
-    public function __construct(SuratRekapitulasiService $rekapService, SuratMasukService $suratMasukService)
+    public function __construct(SuratRekapitulasiService $rekapitulasiService, SuratMasukService $suratMasukService)
     {
-        $this->rekapService = $rekapService;
+        $this->rekapitulasiService = $rekapitulasiService;
         $this->suratMasukService = $suratMasukService;
     }
 
-    // public function dashboard(Request $request)
-    // {
-    //     $todayStart = now()->startOfDay();
-    //     $todayEnd = now()->endOfDay();
 
-    //     $rekapService = new SuratRekapitulasiService();
-
-    //     $totalToday = $rekapService->getRekapitulasiSurat($todayStart, $todayEnd);
-
-    //     $tanggalRange = $request->input('tanggal_range');
-    //     $rekapRange = null;
-    //     $tanggalRangeDisplay = 'Per Hari ini';
-
-    //     // Default chart values
-    //     $series = [
-    //         ['name' => 'Umum', 'data' => []],
-    //         ['name' => 'Pengaduan', 'data' => []],
-    //         ['name' => 'Permintaan Informasi', 'data' => []],
-    //     ];
-    //     $categories = [];
-
-    //     if ($tanggalRange) {
-    //         [$start, $end] = $rekapService->parseRangeTanggal($tanggalRange);
-
-    //         $rekapRange = $rekapService->getRekapitulasiSurat($start->copy()->startOfDay(), $end->copy()->endOfDay());
-
-    //         $tanggalRangeDisplay = $start->translatedFormat('F Y') . ' - ' . $end->translatedFormat('F Y');
-
-    //         $chart = $rekapService->getChartSeries($start, $end);
-    //         $series = [
-    //             ['name' => 'Umum', 'data' => $chart['series']['umum']],
-    //             ['name' => 'Pengaduan', 'data' => $chart['series']['pengaduan']],
-    //             ['name' => 'Permintaan Informasi', 'data' => $chart['series']['permintaan_informasi']],
-    //         ];
-    //         $categories = $chart['categories'];
-    //     }
-
-    //     return view('pages.super-admin.home', [
-    //         'totalToday' => $totalToday['total'],
-    //         'umumToday' => $totalToday['umum'],
-    //         'pengaduanToday' => $totalToday['pengaduan'],
-    //         'permintaanInformasiToday' => $totalToday['permintaan_informasi'],
-    //         'rekapRange' => $rekapRange,
-    //         'tanggalRange' => $tanggalRangeDisplay,
-    //         'series' => $series,
-    //         'categories' => $categories
-    //     ]);
-    // }
-
-    private function getChartData($query)
-    {
-        // Ambil data jumlah surat berdasarkan tanggal dan klasifikasi
-        $data = $query->selectRaw('DATE(tanggal_terima) as tanggal, klasifikasi_surat, COUNT(*) as total')
-            ->groupBy('tanggal', 'klasifikasi_surat')
-            ->orderBy('tanggal')
-            ->get();
-
-        // Ambil semua tanggal unik yang ada
-        $tanggalList = $data->pluck('tanggal')->unique()->values()->sort()->values();
-
-        // Daftar klasifikasi yang ingin ditampilkan
-        $klasifikasiList = ['Umum', 'Pengaduan', 'Permintaan Informasi'];
-
-        // Format tanggal jadi ['01 Jul', '02 Jul', dst]
-        $categories = $tanggalList->map(fn($tgl) => \Carbon\Carbon::parse($tgl)->translatedFormat('d M'))->toArray();
-
-        // Siapkan struktur series
-        $series = [];
-
-        foreach ($klasifikasiList as $klasifikasi) {
-            $dataPerKlasifikasi = [];
-
-            foreach ($tanggalList as $tanggal) {
-                $count = $data->firstWhere(
-                    fn($item) =>
-                    $item->tanggal == $tanggal && $item->klasifikasi_surat == $klasifikasi
-                )?->total ?? 0;
-
-                $dataPerKlasifikasi[] = $count;
-            }
-
-            $series[] = [
-                'name' => $klasifikasi,
-                'data' => $dataPerKlasifikasi
-            ];
-        }
-
-        return [
-            'categories' => $categories,
-            'series' => $series,
-        ];
-    }
-
-
-    private function hitungRekapSurat($query)
-    {
-        return [
-            'total' => (clone $query)->count(),
-            'umum' => (clone $query)->where('klasifikasi_surat', 'Umum')->count(),
-            'pengaduan' => (clone $query)->where('klasifikasi_surat', 'Pengaduan')->count(),
-            'permintaan_informasi' => (clone $query)->where('klasifikasi_surat', 'Permintaan Informasi')->count(),
-        ];
-    }
 
     public function dashboard(Request $request)
     {
@@ -146,8 +44,8 @@ class SuratMasukController extends Controller
             $query = SuratMasuk::whereDate('tanggal_terima', $startDate);
         }
 
-        $rekapRange = $this->hitungRekapSurat(clone $query);
-        $chartData = $this->getChartData(clone $query);
+        $rekapRange = $this->rekapitulasiService->hitungRekapSurat(clone $query);
+        $chartData = $this->rekapitulasiService->getChartData(clone $query);
 
         return view('pages.super-admin.home', [
             'tanggalRange' => $tanggalRange,

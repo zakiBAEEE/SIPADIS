@@ -7,52 +7,37 @@ use Carbon\Carbon;
 
 class SuratRekapitulasiService
 {
-    public function getRekapitulasiSurat($start, $end)
+    public function getChartData($query)
     {
-        return [
-            'total' => SuratMasuk::whereBetween('created_at', [$start, $end])->count(),
-            'umum' => SuratMasuk::whereBetween('created_at', [$start, $end])
-                ->where('klasifikasi_surat', 'umum')->count(),
-            'pengaduan' => SuratMasuk::whereBetween('created_at', [$start, $end])
-                ->where('klasifikasi_surat', 'pengaduan')->count(),
-            'permintaan_informasi' => SuratMasuk::whereBetween('created_at', [$start, $end])
-                ->where('klasifikasi_surat', 'permintaan informasi')->count(),
-        ];
-    }
+        $data = $query->selectRaw('DATE(tanggal_terima) as tanggal, klasifikasi_surat, COUNT(*) as total')
+            ->groupBy('tanggal', 'klasifikasi_surat')
+            ->orderBy('tanggal')
+            ->get();
 
-    public function parseRangeTanggal($range)
-    {
-        $dates = explode(' to ', $range);
-        if (count($dates) === 2) {
-            return [
-                Carbon::parse($dates[0])->startOfMonth(),
-                Carbon::parse($dates[1])->endOfMonth(),
-            ];
-        }
-        return [null, null];
-    }
+        $tanggalList = $data->pluck('tanggal')->unique()->values()->sort()->values();
 
-    public function getChartSeries($start, $end)
-    {
-        Carbon::setLocale('id');
-        $categories = [];
-        $series = [
-            'umum' => [],
-            'pengaduan' => [],
-            'permintaan_informasi' => [],
-        ];
+        $klasifikasiList = ['Umum', 'Pengaduan', 'Permintaan Informasi'];
 
-        for ($date = $start->copy(); $date->lte($end); $date->addMonth()) {
-            $bulanStart = $date->copy()->startOfMonth();
-            $bulanEnd = $date->copy()->endOfMonth();
-            $categories[] = $date->translatedFormat('F Y');
+        $categories = $tanggalList->map(fn($tgl) => \Carbon\Carbon::parse($tgl)->translatedFormat('d M'))->toArray();
 
-            foreach (array_keys($series) as $jenis) {
-                $jumlah = SuratMasuk::whereBetween('created_at', [$bulanStart, $bulanEnd])
-                    ->where('klasifikasi_surat', $jenis)
-                    ->count();
-                $series[$jenis][] = $jumlah;
+        $series = [];
+
+        foreach ($klasifikasiList as $klasifikasi) {
+            $dataPerKlasifikasi = [];
+
+            foreach ($tanggalList as $tanggal) {
+                $count = $data->firstWhere(
+                    fn($item) =>
+                    $item->tanggal == $tanggal && $item->klasifikasi_surat == $klasifikasi
+                )?->total ?? 0;
+
+                $dataPerKlasifikasi[] = $count;
             }
+
+            $series[] = [
+                'name' => $klasifikasi,
+                'data' => $dataPerKlasifikasi
+            ];
         }
 
         return [
@@ -60,4 +45,16 @@ class SuratRekapitulasiService
             'series' => $series,
         ];
     }
+
+
+    public function hitungRekapSurat($query)
+    {
+        return [
+            'total' => (clone $query)->count(),
+            'umum' => (clone $query)->where('klasifikasi_surat', 'Umum')->count(),
+            'pengaduan' => (clone $query)->where('klasifikasi_surat', 'Pengaduan')->count(),
+            'permintaan_informasi' => (clone $query)->where('klasifikasi_surat', 'Permintaan Informasi')->count(),
+        ];
+    }
+
 }
