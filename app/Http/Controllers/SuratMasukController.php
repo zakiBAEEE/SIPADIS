@@ -76,16 +76,49 @@ class SuratMasukController extends Controller
 
     private function getChartData($query)
     {
-        $data = $query->selectRaw('DATE(tanggal_terima) as tanggal, COUNT(*) as total')
-            ->groupBy('tanggal')
+        // Ambil data jumlah surat berdasarkan tanggal dan klasifikasi
+        $data = $query->selectRaw('DATE(tanggal_terima) as tanggal, klasifikasi_surat, COUNT(*) as total')
+            ->groupBy('tanggal', 'klasifikasi_surat')
             ->orderBy('tanggal')
             ->get();
 
+        // Ambil semua tanggal unik yang ada
+        $tanggalList = $data->pluck('tanggal')->unique()->values()->sort()->values();
+
+        // Daftar klasifikasi yang ingin ditampilkan
+        $klasifikasiList = ['Umum', 'Pengaduan', 'Permintaan Informasi'];
+
+        // Format tanggal jadi ['01 Jul', '02 Jul', dst]
+        $categories = $tanggalList->map(fn($tgl) => \Carbon\Carbon::parse($tgl)->translatedFormat('d M'))->toArray();
+
+        // Siapkan struktur series
+        $series = [];
+
+        foreach ($klasifikasiList as $klasifikasi) {
+            $dataPerKlasifikasi = [];
+
+            foreach ($tanggalList as $tanggal) {
+                $count = $data->firstWhere(
+                    fn($item) =>
+                    $item->tanggal == $tanggal && $item->klasifikasi_surat == $klasifikasi
+                )?->total ?? 0;
+
+                $dataPerKlasifikasi[] = $count;
+            }
+
+            $series[] = [
+                'name' => $klasifikasi,
+                'data' => $dataPerKlasifikasi
+            ];
+        }
+
         return [
-            'categories' => $data->pluck('tanggal')->map(fn($tgl) => \Carbon\Carbon::parse($tgl)->translatedFormat('d M'))->toArray(),
-            'series' => $data->pluck('total')->toArray(),
+            'categories' => $categories,
+            'series' => $series,
         ];
     }
+
+
     private function hitungRekapSurat($query)
     {
         return [
