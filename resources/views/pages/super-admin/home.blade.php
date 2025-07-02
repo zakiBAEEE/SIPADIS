@@ -25,10 +25,10 @@
                         class="flatpickr w-full px-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="Select Date Range" value="{{ $tanggalRange ?? '' }}" />
                 </div>
-                <div>
-                    <label for="group_by">Tampilkan Per</label>
+                <div class="flex flex-col">
+                    <label for="group_by" class="block text-gray-700 text-sm font-semibold mb-2">Tampilkan Per</label>
                     <select name="group_by" id="group_by"
-                        class="border border-gray-300 rounded-md px-2 py-1 focus:ring-blue-500 focus:border-blue-500">
+                        class="w-full px-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="daily" {{ request('group_by') === 'daily' ? 'selected' : '' }}>Harian</option>
                         <option value="weekly" {{ request('group_by') === 'weekly' ? 'selected' : '' }}>Mingguan</option>
                         <option value="monthly" {{ request('group_by') === 'monthly' ? 'selected' : '' }}>Bulanan</option>
