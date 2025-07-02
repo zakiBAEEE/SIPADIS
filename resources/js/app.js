@@ -13,6 +13,8 @@ Alpine.start();
 
 document.addEventListener('DOMContentLoaded', () => {
     handleFormReset('#filterSuratKlasifikasi form', '#filterSuratKlasifikasi button[type="reset"]');
+    handleFormReset('#filterSuratDisposisi form', '#resetDisposisiForm');
+    handleFormReset('#filterSuratTanpaDisposisi form', '#resetDisposisiForm');
     initializeAlerts();
     initializeCharts();
     initMaterialTailwind();
