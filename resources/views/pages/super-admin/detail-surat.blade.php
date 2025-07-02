@@ -56,16 +56,6 @@
                             class="flex border font-medium font-sans text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md p-1 shadow-sm hover:shadow-md  border-orange-400 text-slate-800  bg-orange-300 flex-row items-center gap-1 cursor-pointer">
                             @include('components.base.ikon-edit') Edit Data Surat
                         </button>
-                        <form method="POST" action="{{ route('surat.destroy', $surat->id) }}"
-                            onsubmit="return confirm('PENTING: Menghapus surat ini akan menghapus seluruh data disposisi terkait. Apakah Anda yakin ingin melanjutkan?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="flex items-center gap-2 p-1 text-sm font-semibold text-red-700 bg-red-100 border border-red-300 rounded-md shadow-sm transition-colors duration-300 hover:bg-red-200 hover:text-red-900">
-                                @include('components.base.ikon-hapus')
-                                <span>Hapus Surat</span>
-                            </button>
-                        </form>
                     </div>
                     <div class="p-4">
                         <div class="flex flex-row gap-3">
