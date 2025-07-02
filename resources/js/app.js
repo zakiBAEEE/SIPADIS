@@ -6,6 +6,7 @@ import Alpine from 'alpinejs';
 import { initializeCharts } from './components/initChart';
 import { initializeAlerts } from './components/alert-handler';
 import { handleFormReset } from './components/resetForm';
+import { initSidebarToggle } from './components/sidebarToggle';
 
 
 window.Alpine = Alpine;
@@ -18,4 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeAlerts();
     initializeCharts();
     initMaterialTailwind();
+    initSidebarToggle();
+
 });

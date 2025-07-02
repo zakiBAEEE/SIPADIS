@@ -21,8 +21,6 @@
         </div>
     @endif
 
-
-
     <div class="bg-white w-full h-full rounded-xl shadow-neutral-400 shadow-lg overflow-scroll p-4">
         <div class="bg-white rounded-lg w-full transition-transform duration-300 ease-out scale-100">
             <div class="pt-4 px-4 flex justify-between items-start">
