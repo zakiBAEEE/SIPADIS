@@ -65,7 +65,6 @@
                 </p>
             </div>
             <div class="flex flex-row gap-4 items-center justify-evenly">
-
                 @include('components.layout.card-dashboard', [
                     'jenis' => 'total',
                     'count' => $rekapRange['total'] ?? 0,

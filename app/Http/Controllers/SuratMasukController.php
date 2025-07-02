@@ -76,10 +76,12 @@ class SuratMasukController extends Controller
             $query->whereDate('created_at', now()->toDateString()); // Default: Hari ini
         }
 
-        $suratList = $query->orderBy('created_at', 'desc')->get();
+        $surats = $query->orderBy('created_at', 'desc')
+            ->paginate(8)
+            ->appends($request->query()); // supaya parameter tetap ikut saat navigasi halaman
 
         return view('pages.super-admin.klasifikasi-surat', [
-            'surats' => $suratList,
+            'surats' => $surats,
             'klasifikasi' => $klasifikasi,
             'tanggalRange' => $tanggalRange ?? 'Hari ini',
         ]);
