@@ -11,7 +11,7 @@
                 </h6>
             </div>
         </div>
-        <div class="flex flex-col gap-y-4">
+        <div class="flex flex-col gap-y-2">
             <div>
                 <h5 class="font-sans text-lg font-bold antialiased md:text-xl lg:text-xl text-gray-600">Rekapitulasi Surat
                     Masuk</h5>
@@ -36,9 +36,25 @@
                     </a>
                 </div>
             </form>
-
-            {{-- Rekapitulasi Berdasarkan Rentang Tanggal (Jika Ada) --}}
-            <div class="mt-8">
+            
+                <div class="mt-4 px-2">
+                    <p class="text-lg text-gray-600 font-medium">
+                        @if ($tanggalRange)
+                            @php
+                                $range = explode(' to ', $tanggalRange);
+                                $start = \Carbon\Carbon::parse($range[0])->translatedFormat('d M Y');
+                                $end = isset($range[1])
+                                    ? \Carbon\Carbon::parse($range[1])->translatedFormat('d M Y')
+                                    : $start;
+                            @endphp
+                            rekapitulasi surat masuk dari <span class="font-semibold">{{ $start }}</span>
+                            sampai <span class="font-semibold">{{ $end }}</span>.
+                        @else
+                            rekapitulasi surat masuk hari ini
+                            ({{ \Carbon\Carbon::now()->translatedFormat('d M Y') }}).
+                        @endif
+                    </p>
+                </div>
                 <div class="flex flex-row gap-4 items-center justify-evenly">
 
                     @include('components.layout.card-dashboard', [
@@ -71,7 +87,7 @@
                         </a>
                     </div>
                 </div>
-            </div>
+          
 
             @include('components.layout.chart', [
                 'id' => 'suratChartBulanan',
