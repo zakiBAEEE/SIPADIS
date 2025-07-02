@@ -25,54 +25,105 @@ class SuratMasukController extends Controller
         $this->suratMasukService = $suratMasukService;
     }
 
+    // public function dashboard(Request $request)
+    // {
+    //     $todayStart = now()->startOfDay();
+    //     $todayEnd = now()->endOfDay();
+
+    //     $rekapService = new SuratRekapitulasiService();
+
+    //     $totalToday = $rekapService->getRekapitulasiSurat($todayStart, $todayEnd);
+
+    //     $tanggalRange = $request->input('tanggal_range');
+    //     $rekapRange = null;
+    //     $tanggalRangeDisplay = 'Per Hari ini';
+
+    //     // Default chart values
+    //     $series = [
+    //         ['name' => 'Umum', 'data' => []],
+    //         ['name' => 'Pengaduan', 'data' => []],
+    //         ['name' => 'Permintaan Informasi', 'data' => []],
+    //     ];
+    //     $categories = [];
+
+    //     if ($tanggalRange) {
+    //         [$start, $end] = $rekapService->parseRangeTanggal($tanggalRange);
+
+    //         $rekapRange = $rekapService->getRekapitulasiSurat($start->copy()->startOfDay(), $end->copy()->endOfDay());
+
+    //         $tanggalRangeDisplay = $start->translatedFormat('F Y') . ' - ' . $end->translatedFormat('F Y');
+
+    //         $chart = $rekapService->getChartSeries($start, $end);
+    //         $series = [
+    //             ['name' => 'Umum', 'data' => $chart['series']['umum']],
+    //             ['name' => 'Pengaduan', 'data' => $chart['series']['pengaduan']],
+    //             ['name' => 'Permintaan Informasi', 'data' => $chart['series']['permintaan_informasi']],
+    //         ];
+    //         $categories = $chart['categories'];
+    //     }
+
+    //     return view('pages.super-admin.home', [
+    //         'totalToday' => $totalToday['total'],
+    //         'umumToday' => $totalToday['umum'],
+    //         'pengaduanToday' => $totalToday['pengaduan'],
+    //         'permintaanInformasiToday' => $totalToday['permintaan_informasi'],
+    //         'rekapRange' => $rekapRange,
+    //         'tanggalRange' => $tanggalRangeDisplay,
+    //         'series' => $series,
+    //         'categories' => $categories
+    //     ]);
+    // }
+
+    private function getChartData($query)
+    {
+        $data = $query->selectRaw('DATE(tanggal_terima) as tanggal, COUNT(*) as total')
+            ->groupBy('tanggal')
+            ->orderBy('tanggal')
+            ->get();
+
+        return [
+            'categories' => $data->pluck('tanggal')->map(fn($tgl) => \Carbon\Carbon::parse($tgl)->translatedFormat('d M'))->toArray(),
+            'series' => $data->pluck('total')->toArray(),
+        ];
+    }
+    private function hitungRekapSurat($query)
+    {
+        return [
+            'total' => $query->count(),
+            'umum' => $query->where('klasifikasi_surat', 'Umum')->count(),
+            'pengaduan' => $query->where('klasifikasi_surat', 'Pengaduan')->count(),
+            'permintaan_informasi' => $query->where('klasifikasi_surat', 'Permintaan Informasi')->count(),
+        ];
+    }
+
     public function dashboard(Request $request)
     {
-        $todayStart = now()->startOfDay();
-        $todayEnd = now()->endOfDay();
-
-        $rekapService = new SuratRekapitulasiService();
-
-        $totalToday = $rekapService->getRekapitulasiSurat($todayStart, $todayEnd);
-
         $tanggalRange = $request->input('tanggal_range');
-        $rekapRange = null;
-        $tanggalRangeDisplay = 'Per Hari ini';
-
-        // Default chart values
-        $series = [
-            ['name' => 'Umum', 'data' => []],
-            ['name' => 'Pengaduan', 'data' => []],
-            ['name' => 'Permintaan Informasi', 'data' => []],
-        ];
-        $categories = [];
 
         if ($tanggalRange) {
-            [$start, $end] = $rekapService->parseRangeTanggal($tanggalRange);
+            $range = explode(' to ', $tanggalRange);
+            $startDate = $range[0];
+            $endDate = $range[1] ?? $range[0];
 
-            $rekapRange = $rekapService->getRekapitulasiSurat($start->copy()->startOfDay(), $end->copy()->endOfDay());
+            $query = SuratMasuk::whereBetween('tanggal_terima', [$startDate, $endDate]);
+        } else {
+            $startDate = now()->toDateString();
+            $endDate = $startDate;
 
-            $tanggalRangeDisplay = $start->translatedFormat('F Y') . ' - ' . $end->translatedFormat('F Y');
-
-            $chart = $rekapService->getChartSeries($start, $end);
-            $series = [
-                ['name' => 'Umum', 'data' => $chart['series']['umum']],
-                ['name' => 'Pengaduan', 'data' => $chart['series']['pengaduan']],
-                ['name' => 'Permintaan Informasi', 'data' => $chart['series']['permintaan_informasi']],
-            ];
-            $categories = $chart['categories'];
+            $query = SuratMasuk::whereDate('tanggal_terima', $startDate);
         }
 
+        $rekapRange = $this->hitungRekapSurat(clone $query);
+        $chartData = $this->getChartData(clone $query);
+
         return view('pages.super-admin.home', [
-            'totalToday' => $totalToday['total'],
-            'umumToday' => $totalToday['umum'],
-            'pengaduanToday' => $totalToday['pengaduan'],
-            'permintaanInformasiToday' => $totalToday['permintaan_informasi'],
+            'tanggalRange' => $tanggalRange,
             'rekapRange' => $rekapRange,
-            'tanggalRange' => $tanggalRangeDisplay,
-            'series' => $series,
-            'categories' => $categories
+            'series' => $chartData['series'],
+            'categories' => $chartData['categories'],
         ]);
     }
+
 
     public function detailByKlasifikasi(Request $request)
     {

@@ -11,34 +11,6 @@
                 </h6>
             </div>
         </div>
-        <div class="flex flex-col gap-y-2">
-            <div>
-                <h5 class="font-sans text-lg font-bold antialiased md:text-xl lg:text-xl text-gray-600">Hari Ini</h5>
-                <hr class="w-full border-t border-gray-300 my-1" />
-            </div>
-            {{-- Rekapitulasi Harian (Selalu Ada) --}}
-            <div class="flex flex-row gap-4 items-center justify-evenly">
-                @include('components.layout.card-dashboard', ['jenis' => 'total', 'count' => $totalToday])
-                @include('components.base.ikon-panah-kanan')
-                <div class="flex flex-row gap-2">
-                    <a href="{{ route('surat.klasifikasi', ['klasifikasi' => 'Umum', 'tanggal_range' => $tanggalRange]) }}">
-                        @include('components.layout.card-dashboard', [
-                            'jenis' => 'umum',
-                            'count' => $umumToday,
-                        ])
-                    </a>
-                    @include('components.layout.card-dashboard', [
-                        'jenis' => 'pengaduan',
-                        'count' => $pengaduanToday,
-                    ])
-                    @include('components.layout.card-dashboard', [
-                        'jenis' => 'permintaan informasi',
-                        'count' => $permintaanInformasiToday,
-                    ])
-                </div>
-            </div>
-
-        </div>
         <div class="flex flex-col gap-y-4">
             <div>
                 <h5 class="font-sans text-lg font-bold antialiased md:text-xl lg:text-xl text-gray-600">Rekapitulasi Surat
@@ -67,9 +39,6 @@
 
             {{-- Rekapitulasi Berdasarkan Rentang Tanggal (Jika Ada) --}}
             <div class="mt-8">
-                <h2 class="text-lg font-bold text-gray-800 mb-4">
-                    Rekapitulasi Surat Tanggal: {{ $tanggalRange ?? '-' }}
-                </h2>
                 <div class="flex flex-row gap-4 items-center justify-evenly">
 
                     @include('components.layout.card-dashboard', [

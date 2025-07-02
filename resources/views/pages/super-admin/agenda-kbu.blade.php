@@ -86,7 +86,7 @@
                             ])
                         </div>
                     </div>
-                    <div class="flex flex-row justify-end mb-5 gap-4 flex-wrap"> {{-- Tambahkan flex-wrap untuk responsivitas tombol --}}
+                    <div class="flex flex-row justify-end pb-5 gap-4 flex-wrap"> {{-- Tambahkan flex-wrap untuk responsivitas tombol --}}
                         <a href="{{ route('surat.agendaKbu') }}"
                             class="inline-flex items-center justify-center border font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-1 px-2 shadow-sm hover:shadow bg-red-800 border-red-800 text-slate-50 hover:bg-slate-700 hover:border-slate-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
@@ -118,7 +118,7 @@
                                     d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v3a2 2 0 002 2h6a2 2 0 002-2v-3h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v3h6v-3z"
                                     clip-rule="evenodd" />
                             </svg>
-                            Cetak Agenda Kbu
+                            Cetak Agenda
                         </button>
                     </div>
                 </form>
