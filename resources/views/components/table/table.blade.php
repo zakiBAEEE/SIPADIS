@@ -43,7 +43,8 @@
         </thead>
         <tbody>
             @foreach ($surats as $surat)
-                <tr class="hover:bg-slate-50">
+                <tr onclick="window.location='{{ route('surat.show', ['id' => $surat->id]) }}'"
+                    class="cursor-pointer hover:bg-blue-100">
                     <td class="p-3">
                         <p class="text-sm">{{ $surat->id }}</p>
                     </td>
@@ -66,12 +67,6 @@
                     </td>
                     <td class="p-3">
                         <div class="flex flex-row gap-x-1">
-                            <a href="{{ route('surat.show', ['id' => $surat->id]) }}">
-                                @include('components.base.ikon-mata')
-                            </a>
-                            <a href="{{ route('surat.edit', ['surat' => $surat->id]) }}">
-                                @include('components.base.ikon-edit')
-                            </a>
                             <form method="POST" action="{{ route('surat.destroy', $surat->id) }}"
                                 class="inline-block ml-4"
                                 onsubmit="return confirm('PENTING: Menghapus surat ini akan menghapus seluruh data disposisi terkait. Apakah Anda yakin ingin melanjutkan?');">

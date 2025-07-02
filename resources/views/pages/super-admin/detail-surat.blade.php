@@ -51,6 +51,12 @@
             </div>
             <div class="mt-4 tab-content-container">
                 <div id="tab1-group4" class="tab-content text-slate-800 block">
+                    <div class="flex justify-end">
+                        <button onclick="window.location='{{ route('surat.edit', ['surat' => $surat->id]) }}'"
+                            class="flex border font-medium font-sans text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md p-1 shadow-sm hover:shadow-md  border-orange-400 text-slate-800  bg-orange-300 flex-row items-center gap-1 cursor-pointer">
+                            @include('components.base.ikon-edit') Edit Data Surat
+                        </button>
+                    </div>
                     <div class="p-4">
                         <div class="flex flex-row gap-3">
                             <div class="mb-4 space-y-1.5 w-1/2">
