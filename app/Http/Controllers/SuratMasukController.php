@@ -377,16 +377,45 @@ class SuratMasukController extends Controller
             'file_path' => 'nullable|file|mimes:pdf,doc,docx,jpg,png|max:2048',
         ]);
 
-        if ($request->hasFile('file_path')) {
-            // Hapus file lama jika ada
-            if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
-                Storage::disk('public')->delete($surat->file_path);
-            }
+        // if ($request->hasFile('file_path')) {
+        //     // Hapus file lama jika ada
+        //     if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
+        //         Storage::disk('public')->delete($surat->file_path);
+        //     }
 
-            // Simpan file baru
+        //     // Simpan file baru
+        //     $path = $request->file('file_path')->store('surat', 'public');
+        //     $validated['file_path'] = $path;
+        // }
+
+        if ($request->hasFile('file_path')) {
+            // Hapus file lama dari storage dan public jika ada
+            if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
+                // Hapus dari storage asli
+                Storage::disk('public')->delete($surat->file_path);
+
+                // Jika tidak ada symlink, hapus juga dari public/storage
+                if (!is_link(public_path('storage'))) {
+                    $oldCopiedPath = public_path('storage/' . $surat->file_path);
+                    if (file_exists($oldCopiedPath)) {
+                        \Illuminate\Support\Facades\File::delete($oldCopiedPath);
+                    }
+                }
+            }
+            // Simpan file baru ke storage/app/public/surat
             $path = $request->file('file_path')->store('surat', 'public');
             $validated['file_path'] = $path;
+
+            // Jika tidak ada symlink, copy juga ke public/storage/surat
+            if (!is_link(public_path('storage'))) {
+                $source = storage_path('app/public/' . $path);
+                $destination = public_path('storage/' . $path);
+
+                \Illuminate\Support\Facades\File::ensureDirectoryExists(dirname($destination));
+                \Illuminate\Support\Facades\File::copy($source, $destination);
+            }
         }
+
 
         $surat->update($validated);
 
