@@ -326,8 +326,6 @@ class SuratMasukController extends Controller
         }
     }
 
-
-
     public function show($id)
     {
         $surat = SuratMasuk::with([
@@ -360,7 +358,6 @@ class SuratMasukController extends Controller
 
         return view('pages.super-admin.detail-surat', compact('surat', 'daftarPelakuDisposisi', 'rolesPengirim'));
     }
-
 
     public function edit(SuratMasuk $surat)
     {
@@ -399,8 +396,21 @@ class SuratMasukController extends Controller
     public function destroy(SuratMasuk $surat)
     {
         try {
+            // if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
+            //     Storage::disk('public')->delete($surat->file_path);
+            // }
+
             if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
+                // Hapus file asli
                 Storage::disk('public')->delete($surat->file_path);
+
+                // Hapus file copy-an jika symlink tidak ada
+                if (!is_link(public_path('storage'))) {
+                    $copiedPath = public_path('storage/' . $surat->file_path);
+                    if (file_exists($copiedPath)) {
+                        \Illuminate\Support\Facades\File::delete($copiedPath);
+                    }
+                }
             }
 
             $surat->disposisis()->delete();
