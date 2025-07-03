@@ -261,7 +261,7 @@ class SuratMasukController extends Controller
 
         // dd($request->all());
         $validated = $request->validate([
-            'nomor_surat' => 'required|string',
+            'nomor_surat' => 'required|string|unique:surat_masuk,nomor_surat',
             'pengirim' => 'required|string',
             'tanggal_surat' => 'required|date',
             'tanggal_terima' => 'required|date',
@@ -288,8 +288,6 @@ class SuratMasukController extends Controller
                     \Illuminate\Support\Facades\File::copy($source, $destination);
                 }
             }
-
-
             $tahun = now()->format('Y');
 
             // Ambil ID terakhir yang masih ada untuk tahun ini
