@@ -154,7 +154,6 @@ class SuratMasukController extends Controller
             $query->where('pengirim', 'like', '%' . $request->pengirim . '%');
         }
 
-        // Filter tanggal surat
         if ($request->filled('filter_tanggal_surat')) {
             $range = explode(' to ', $request->filter_tanggal_surat);
             if (count($range) === 2) {
@@ -186,7 +185,6 @@ class SuratMasukController extends Controller
             $query->where('sifat', $request->sifat);
         }
 
-        // Pagination dan kirim data ke view
         $surats = $query->orderBy('created_at', 'desc')
             ->paginate(8)
             ->appends($request->query());
@@ -276,9 +274,21 @@ class SuratMasukController extends Controller
 
         try {
             if ($request->hasFile('file_path')) {
+                // Simpan ke storage/app/public/surat
                 $path = $request->file('file_path')->store('surat', 'public');
                 $validated['file_path'] = $path;
+
+                // Cek apakah public/storage adalah symlink
+                if (!is_link(public_path('storage'))) {
+                    // HANYA copy file kalau symlink tidak ada (di hosting)
+                    $source = storage_path('app/public/' . $path);
+                    $destination = public_path('storage/' . $path);
+
+                    \Illuminate\Support\Facades\File::ensureDirectoryExists(dirname($destination));
+                    \Illuminate\Support\Facades\File::copy($source, $destination);
+                }
             }
+
 
             $tahun = now()->format('Y');
 
